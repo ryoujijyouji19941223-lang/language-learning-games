@@ -1,0 +1,15 @@
+{
+  "name": "english-errands",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:standalone": "node build-standalone.mjs",
+    "start": "node server.mjs",
+    "test": "node --test tests/engine.test.js tests/speech.test.js",
+    "test:browser": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.61.1"
+  }
+}

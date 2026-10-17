@@ -7,11 +7,13 @@
 - 対象フォルダ：games/english-errands/
 - 作品：ことばの小さなおつかい（仮）
 - 仕様：[games/english-errands/SPEC.md](../games/english-errands/SPEC.md)
-- 状態：初期構成と仕様のみ。ゲーム本体は未実装。
+- 状態：遊べる初期試作 v0.1.0 を実装済み。
+- 起動方法：[作品README](../games/english-errands/README.md)
+- 検証結果と未確認点：[TESTING.md](../games/english-errands/TESTING.md)
 
 ## 制作担当へ
 
-ルートのAGENTS.mdとREADME.md、対象作品のREADME.md・SPEC.mdを読み、仕様に沿って最初の遊べる試作を実装する。コードと素材とテストは対象作品内に置く。全作品共通の仕組みを先に作らず、まずこの一本の一連の体験を通す。
+ルートのAGENTS.mdとREADME.md、対象作品のREADME.md・SPEC.md・検証結果を読み、既存の初期試作を起動してから、現在の依頼に沿って改良する。コードと素材とテストは対象作品内に置く。全作品共通の仕組みを先に作らず、まずこの一本の一連の体験を通す。
 
 12語・12依頼、3組・1回6件の配達、音声再聴、物の選択、荷札のタイピング、光るお手本、英語QWERTY画面キーボード、支援を区別した成績、保存と再開を含める。初期段階では外部生成AIやAPIキーを必須にしない。自由会話型シェアハウスや他作品の実装は変更しない。
 
