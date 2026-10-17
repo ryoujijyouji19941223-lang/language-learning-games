@@ -1,0 +1,3108 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7f3e8" />
+    <title>ことばの小さなおつかい</title>
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48ZyBzdHJva2U9IiM1ZTY2NGIiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTM5IDE1NXEtNS00MCAxOS01MWg2NHEyMyAxNCAyMCA1MSIgZmlsbD0iIzc5OWE4MCIvPjxwYXRoIGQ9Ik00NSA2NyAzNCAxOSA3NiA0Nm01OSAyMSAxMS00OC00MiAyNyIgZmlsbD0iI2M4N2M1MSIvPjxwYXRoIGQ9Im00NCAzNCA3IDI1IDEzLTEybTcyLTEzLTcgMjUtMTMtMTIiIGZpbGw9IiNlOWI5OTIiLz48cGF0aCBkPSJNNDEgNjdxMy0zNiA0OS0zMiA0Ni00IDQ5IDMybC03IDM3LTQyIDIyLTQyLTIyWiIgZmlsbD0iI2Q2OGY1YyIvPjxwYXRoIGQ9Im00MyA3NSA0NyAyNCA0Ny0yNC01IDI5LTQyIDIyLTQyLTIyWiIgZmlsbD0iI2ZmZjNkMyIvPjxwYXRoIGQ9Im04MyA5NiA3IDkgNy05WiIgZmlsbD0iIzQ3NTQ0NyIvPjxwYXRoIGQ9Ik02OSA3M3Y2bTQyLTZ2Nm0tMjcgMzFxNiA3IDEyIDAiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxlbGxpcHNlIGN4PSI2MCIgY3k9Ijg4IiByeD0iOSIgcnk9IjQiIGZpbGw9IiNkZWEwN2YiIHN0cm9rZT0ibm9uZSIvPjxlbGxpcHNlIGN4PSIxMjAiIGN5PSI4OCIgcng9IjkiIHJ5PSI0IiBmaWxsPSIjZGVhMDdmIiBzdHJva2U9Im5vbmUiLz48cGF0aCBkPSJNNzggMTI4aDI0bDkgMjdINjlaIiBmaWxsPSIjZjJlOWM5Ii8+PHBhdGggZD0iTTU1IDE1MWgxOG0zNCAwaDE4IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L2c+PC9zdmc+" type="image/svg+xml" />
+    <style>
+@charset "UTF-8";
+:root {
+  --paper: #f7f3e8;
+  --ink: #283c38;
+  --muted: #6d7971;
+  --green: #276354;
+  --line: #dedfd2;
+  --coral: #d06c4f;
+  --cream: #fffdf7;
+  --yellow: #e4b653;
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+  font-synthesis: none;
+  font-size: 16px;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+button,
+input,
+select {
+  font: inherit;
+}
+button,
+a,
+input,
+select,
+summary {
+  touch-action: manipulation;
+}
+button {
+  cursor: pointer;
+  border: 0;
+  color: inherit;
+}
+button:disabled {
+  cursor: default;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--coral);
+  outline-offset: 4px;
+}
+button {
+  transition:
+    background 0.16s,
+    transform 0.16s;
+}
+button:hover {
+  filter: brightness(0.96);
+}
+button:active {
+  transform: translateY(1px);
+}
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+h1,
+h2,
+h3 {
+  font-weight: 700;
+}
+h1 {
+  letter-spacing: 0.03em;
+  line-height: 1.6;
+}
+p {
+  line-height: 1.9;
+}
+img {
+  max-width: 100%;
+}
+[hidden] {
+  display: none !important;
+}
+.site-header,
+main,
+body > footer {
+  max-width: 1180px;
+  margin: auto;
+}
+.site-header {
+  min-height: 112px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  padding: 20px 0;
+  gap: 12px;
+}
+.brand {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 15px;
+  font-weight: bold;
+  letter-spacing: 0.03em;
+}
+.brand-mark {
+  border: 1px solid var(--green);
+  border-radius: 50%;
+  height: 43px;
+  width: 43px;
+  display: grid;
+  place-items: center;
+  color: var(--green);
+  font-size: 23px;
+  font-family: serif;
+}
+.brand small {
+  display: block;
+  font: 9px/2 sans-serif;
+  letter-spacing: 0.22em;
+  color: var(--muted);
+}
+nav {
+  display: flex;
+  gap: 12px;
+}
+nav button {
+  background: transparent;
+  padding: 12px 18px;
+  font-size: 13px;
+  border-radius: 6px;
+}
+nav button:last-child {
+  border: 1px solid #c6cbbd;
+}
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.17em;
+  color: var(--green);
+  font-weight: bold;
+  line-height: 1.8;
+}
+.tiny-line {
+  display: inline-block;
+  vertical-align: middle;
+  width: 24px;
+  height: 1px;
+  background: var(--green);
+  margin-right: 10px;
+}
+.muted,
+.micro {
+  color: var(--muted);
+}
+.muted {
+  font-size: 14px;
+}
+.micro {
+  font-size: 11px;
+  line-height: 1.9;
+}
+.hero {
+  display: grid;
+  grid-template-columns: 1.08fr 1fr;
+  align-items: center;
+  gap: 65px;
+  padding: 70px 25px 68px;
+}
+.hero h1 {
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
+  font-size: 54px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.65;
+  margin: 18px 0 20px;
+}
+.accent {
+  color: var(--green);
+}
+.hero-description {
+  font-size: 14px;
+  line-height: 2.2;
+  color: #58665e;
+}
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 30px 0 13px;
+  flex-wrap: wrap;
+}
+.primary {
+  background: var(--green);
+  color: white;
+  border: 1px solid var(--green);
+  padding: 12px 22px;
+  border-radius: 7px;
+  font-size: 14px;
+  font-weight: bold;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+.large {
+  padding: 17px 24px;
+  min-height: 56px;
+}
+.primary.large span {
+  margin-left: 10px;
+}
+.quiet {
+  background: var(--cream);
+  border: 1px solid #d4d9c9;
+  border-radius: 6px;
+  min-height: 44px;
+  padding: 11px 16px;
+  font-size: 13px;
+}
+.text-button {
+  background: transparent;
+  padding: 11px 2px;
+  min-height: 44px;
+  font-size: 12px;
+}
+.small {
+  font-size: 12px;
+  min-height: 40px;
+  padding: 9px 13px;
+}
+.full {
+  width: 100%;
+  margin: 18px 0 5px;
+}
+.shop-illustration {
+  position: relative;
+  max-width: 450px;
+  transform: rotate(1.4deg);
+  border: 2px solid #456b58;
+  border-radius: 10px 10px 0 0;
+  box-shadow: 12px 14px 0 #e5e6d7;
+}
+.shop-sign {
+  background: var(--green);
+  color: #f7eed1;
+  font:
+    12px Georgia,
+    serif;
+  letter-spacing: 0.22em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-radius: 7px 7px 0 0;
+}
+.shop-sign span {
+  font: 9px sans-serif;
+  letter-spacing: 0.12em;
+  border: 1px solid #c5d3bb;
+  border-radius: 2px;
+  padding: 4px;
+}
+.awning {
+  height: 42px;
+  position: relative;
+  z-index: 2;
+  background: repeating-linear-gradient(
+    90deg,
+    #e4aa76 0 38px,
+    #faf1d8 38px 76px
+  );
+  border-bottom: 2px solid #8e7553;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 88%,
+    95% 100%,
+    87% 88%,
+    79% 100%,
+    71% 88%,
+    63% 100%,
+    55% 88%,
+    47% 100%,
+    39% 88%,
+    31% 100%,
+    23% 88%,
+    15% 100%,
+    7% 88%,
+    0 100%
+  );
+}
+.shop-wall {
+  height: 300px;
+  background: #e9e8ce;
+  position: relative;
+  overflow: hidden;
+  background-image: linear-gradient(
+    90deg,
+    transparent 49.5%,
+    #d7dcc2 50%,
+    transparent 50.5%
+  );
+}
+.shop-wall:before {
+  content: "";
+  position: absolute;
+  inset: 25px;
+  border: 8px solid #d2d8ba;
+  background: #f8f1d6;
+  border-radius: 100px 100px 0 0;
+}
+.sun {
+  position: absolute;
+  top: 43px;
+  left: 56px;
+  color: var(--yellow);
+  font-size: 55px;
+}
+.fox {
+  position: absolute;
+  right: 28px;
+  bottom: 21px;
+  width: 175px;
+  height: 175px;
+}
+.speech-bubble {
+  position: absolute;
+  top: 25px;
+  right: 26px;
+  background: var(--cream);
+  border: 1px solid #bbc7aa;
+  padding: 12px 20px;
+  border-radius: 18px 18px 0 18px;
+  font:
+    italic 24px Georgia,
+    serif;
+  color: var(--green);
+  z-index: 1;
+}
+.speech-bubble span {
+  display: block;
+  font: 9px/2 sans-serif;
+  color: var(--muted);
+}
+.shelf {
+  position: absolute;
+  bottom: 0;
+  left: 15px;
+  right: 15px;
+  border-bottom: 10px solid #b67d50;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  height: 93px;
+}
+.shelf .item-art {
+  width: 87px;
+  height: 90px;
+}
+.counter {
+  background: #d9ad7c;
+  border-top: 2px solid #8e7553;
+  text-align: center;
+  padding: 25px 0;
+  color: #695743;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0 84px,
+    #c99b6c 85px,
+    transparent 86px
+  );
+}
+.shop-stamp {
+  position: absolute;
+  right: -24px;
+  bottom: -24px;
+  display: grid;
+  align-content: center;
+  text-align: center;
+  background: #f6efdb;
+  border: 1px solid #bbc2a9;
+  outline: 5px solid var(--paper);
+  border-radius: 50%;
+  height: 91px;
+  width: 91px;
+  transform: rotate(-11deg);
+  font:
+    10px/1.8 Georgia,
+    serif;
+  color: var(--green);
+  letter-spacing: 0.08em;
+}
+.shop-stamp strong {
+  font: 12px/2 sans-serif;
+}
+.how-to {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 32px 25px;
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr 1fr;
+  gap: 20px;
+  align-items: center;
+}
+.how-intro h2 {
+  font-size: 15px;
+  margin-top: 8px;
+}
+.how-step {
+  display: flex;
+  gap: 13px;
+  align-items: center;
+}
+.how-step > span {
+  font:
+    27px Georgia,
+    serif;
+  color: #b08f60;
+}
+.how-step h3 {
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+.how-step p {
+  font-size: 11px;
+  color: var(--muted);
+}
+.progress-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 32px 25px 40px;
+}
+.progress-strip > div > p {
+  font-size: 14px;
+  margin-top: 5px;
+}
+.progress-strip strong {
+  margin-left: 20px;
+}
+.progress-strip > .muted {
+  font-size: 11px;
+}
+.decorations {
+  color: var(--coral);
+  margin-left: 15px;
+  font-size: 24px;
+  letter-spacing: 0.1em;
+}
+body > footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 0;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+body > footer span {
+  font-size: 9px;
+}
+.view-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  padding: 42px 0 28px;
+}
+.view-head h1 {
+  font-family: serif;
+  font-size: 32px;
+  margin: 8px 0;
+}
+.view-head > .quiet {
+  flex-shrink: 0;
+}
+.intro-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+.word-card {
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 22px;
+  text-align: center;
+}
+.word-card .item-art {
+  height: 125px;
+  width: 140px;
+}
+.word-card h2 {
+  font-size: 15px;
+  margin: 4px 0 13px;
+}
+.word-card > p[lang="en"]:not(.word-en) {
+  font:
+    17px/1.6 Georgia,
+    serif;
+}
+.word-card .muted {
+  font-size: 12px;
+}
+.word-en {
+  font:
+    30px/1.4 Georgia,
+    serif !important;
+  color: var(--green);
+}
+.card-audio {
+  display: flex;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 18px;
+}
+.card-audio button {
+  min-width: 80px;
+}
+.audio-status {
+  font-size: 11px;
+  color: var(--muted);
+  min-height: 21px;
+  margin: 10px 0;
+  overflow-wrap: anywhere;
+}
+.center-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin: 30px 0 50px;
+  flex-wrap: wrap;
+}
+.game-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 0 24px;
+}
+.game-heading h1 {
+  font-size: 22px;
+  margin-top: 4px;
+}
+.delivery-progress strong {
+  font:
+    30px Georgia,
+    serif;
+}
+.delivery-progress small {
+  font: 12px sans-serif;
+  color: var(--muted);
+}
+.progress-dots {
+  display: flex;
+  gap: 6px;
+  margin-top: 12px;
+}
+.progress-dots span {
+  width: 16px;
+  height: 5px;
+  border-radius: 3px;
+  background: #dddccb;
+}
+.progress-dots .done {
+  background: var(--green);
+}
+.progress-dots .current {
+  background: var(--coral);
+}
+.game-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 810px) 1fr;
+  gap: 48px;
+  align-items: start;
+  margin-bottom: 42px;
+}
+.game-panel {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 26px 32px;
+  background: var(--cream);
+}
+.customer {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.customer > img {
+  width: 85px;
+  height: 85px;
+  background: #f4eacf;
+  border-radius: 50%;
+  padding: 4px;
+}
+.request-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 7px;
+}
+.hint-actions {
+  display: flex;
+  gap: 20px;
+}
+.hint-button {
+  background: transparent;
+  border-bottom: 1px dashed #91a38a;
+  color: #516a57;
+  font-size: 12px;
+  min-height: 36px;
+  padding: 4px;
+}
+.request-text {
+  font:
+    26px/1.5 Georgia,
+    serif;
+  margin-top: 12px;
+}
+.meaning-text {
+  font-size: 13px;
+  margin: 5px 0;
+}
+.stage-list {
+  display: flex;
+  list-style: none;
+  margin: 23px 0 20px;
+  padding: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.stage-list li {
+  flex: 1;
+  text-align: center;
+  font-size: 11px;
+  padding: 12px 0;
+  color: #929a8c;
+}
+.stage-list .active {
+  color: var(--green);
+  background: #edf1e7;
+  font-weight: bold;
+  box-shadow: inset 0 -2px var(--green);
+}
+.stage-list .finished {
+  color: var(--green);
+}
+.task-heading {
+  font-size: 17px;
+  margin-bottom: 15px;
+}
+.choices {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+}
+.choice {
+  background: #f5f2e7;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  padding: 12px 9px 9px;
+  min-width: 0;
+}
+.choice:hover {
+  border-color: var(--green);
+  background: #edf1e7;
+  filter: none;
+}
+.choice .item-art {
+  width: 145px;
+  height: 140px;
+  object-fit: contain;
+}
+.choice > span {
+  display: block;
+  font:
+    11px Georgia,
+    serif;
+  letter-spacing: 0.12em;
+  color: #8a917f;
+}
+.feedback {
+  font-size: 13px;
+  margin: 16px 0 6px;
+  color: var(--green);
+  min-height: 24px;
+}
+.shop-note {
+  padding: 25px 8px 15px;
+  position: relative;
+}
+.shop-note h2 {
+  font-family: serif;
+  font-size: 25px;
+  line-height: 1.9;
+  margin: 17px 0;
+}
+.shop-note > p:not(.eyebrow):not(.micro) {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 2.3;
+  margin: 16px 0;
+}
+.note-rule {
+  height: 1px;
+  width: 35px;
+  background: #bdc5b3;
+  margin: 25px 0;
+}
+.note-flower {
+  display: block;
+  font-size: 50px;
+  color: var(--coral);
+  margin: 20px 0;
+}
+.shop-note > .text-button {
+  border-bottom: 1px solid #bdc5b3;
+}
+.shop-note > .micro {
+  margin-top: 10px;
+}
+.parcel {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  background: #f5f1e4;
+  padding: 18px;
+  border-radius: 9px;
+}
+.parcel-art {
+  width: 105px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.parcel-art .item-art {
+  width: 105px;
+  height: 105px;
+}
+.parcel-art > span {
+  font-size: 10px;
+  color: var(--muted);
+  display: block;
+}
+.shipping-label {
+  background: var(--cream);
+  border: 1px dashed #bbc5ae;
+  border-radius: 5px;
+  padding: 16px;
+  flex: 1;
+  min-width: 0;
+}
+.shipping-label h2 {
+  font-size: 14px;
+  margin: 5px 0 12px;
+}
+.word-input {
+  display: block;
+  width: 100%;
+  min-height: 50px;
+  background: white;
+  border: 1px solid #aebfa6;
+  border-radius: 5px;
+  padding: 9px 12px;
+  color: var(--green);
+  font:
+    25px Georgia,
+    serif;
+  letter-spacing: 0.06em;
+}
+.word-input::placeholder {
+  font: 12px sans-serif;
+  letter-spacing: 0;
+  color: #9a9f93;
+}
+.typing-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 13px;
+}
+.typing-actions button {
+  font-size: 12px;
+  gap: 0;
+  padding: 10px;
+}
+.model-guide {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  padding: 10px;
+  background: #f7efd7;
+  border-radius: 5px;
+  overflow-wrap: anywhere;
+}
+.model-label {
+  font-size: 9px;
+  color: #907642;
+}
+.model-word {
+  display: flex;
+  flex-wrap: wrap;
+  font:
+    24px Georgia,
+    serif;
+  letter-spacing: 0.07em;
+}
+.matched {
+  color: #69816a;
+}
+.next-letter {
+  background: #f2d277;
+  outline: 2px solid #d49b29;
+  border-radius: 3px;
+  color: #4b542c;
+}
+.guide-message {
+  font-size: 10px;
+}
+.completed-label {
+  font:
+    30px Georgia,
+    serif;
+  color: var(--green);
+  letter-spacing: 0.06em;
+}
+.completed-label span {
+  font-size: 18px;
+  margin-left: 10px;
+}
+.retry-actions {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+.letter-feedback {
+  font-size: 10px;
+  margin: 9px 0;
+  line-height: 1.8;
+}
+.letter-feedback .letter-ok,
+.letter-feedback .letter-wrong {
+  font: 20px monospace;
+  white-space: pre;
+}
+.letter-ok {
+  color: var(--green);
+}
+.letter-wrong {
+  text-decoration: underline wavy;
+  color: #b65b43;
+}
+.delivered-actions {
+  margin-top: 18px;
+}
+.delivered-actions .micro {
+  margin-top: 6px;
+}
+.copy-box {
+  background: #f4f1e5;
+  border-radius: 7px;
+  padding: 15px;
+  margin-top: 14px;
+}
+.copy-box > label {
+  font-size: 11px;
+  display: block;
+  margin: 10px 0;
+}
+.copy-box > .quiet {
+  margin-top: 10px;
+}
+.copy-model {
+  font:
+    22px/1.5 Georgia,
+    serif;
+}
+.keyboard {
+  margin: 25px -6px -6px;
+  background: #eaece1;
+  border: 1px solid #d5ddca;
+  border-radius: 10px;
+  padding: 12px;
+  user-select: none;
+}
+.keyboard-top {
+  display: flex;
+  justify-content: space-between;
+  font: 9px sans-serif;
+  letter-spacing: 0.08em;
+  color: #788372;
+  margin-bottom: 9px;
+}
+.key-row {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+.key {
+  background: var(--cream);
+  border: 1px solid #cdd4c1;
+  box-shadow: 0 2px 0 #c6cfb8;
+  border-radius: 5px;
+  min-width: 28px;
+  flex: 0 1 47px;
+  height: 42px;
+  font:
+    17px Georgia,
+    serif;
+}
+.row-1 {
+  padding: 0 22px;
+}
+.row-2 {
+  padding: 0 58px;
+}
+.controls .key {
+  flex: 1;
+  font: 12px sans-serif;
+  min-height: 44px;
+}
+.controls .space {
+  flex: 2.5;
+}
+.controls .enter {
+  background: var(--green);
+  color: white;
+  flex: 1.5;
+}
+.key-glow {
+  background: #f7d575 !important;
+  color: #384c35 !important;
+  outline: 2px solid #c89520;
+}
+.results {
+  text-align: center;
+  padding: 45px 0 10px;
+}
+.results h1 {
+  font-family: serif;
+  font-size: 35px;
+  margin: 10px 0 20px;
+}
+.reward-flower {
+  font-size: 95px;
+  color: var(--coral);
+  line-height: 1.5;
+}
+.result-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 30px 0 15px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--cream);
+  padding: 25px 10px;
+}
+.result-stats > div + div {
+  border-left: 1px solid var(--line);
+}
+.result-stats strong {
+  font:
+    36px Georgia,
+    serif;
+  color: var(--green);
+  display: block;
+}
+.result-stats small {
+  font: 12px sans-serif;
+  color: var(--muted);
+}
+.result-stats span {
+  font-size: 11px;
+  display: block;
+  margin-top: 10px;
+}
+.result-details {
+  margin: 25px auto;
+  max-width: 800px;
+}
+.result-details > div {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border-bottom: 1px solid var(--line);
+  padding: 9px 12px;
+  text-align: left;
+}
+.result-details .item-art {
+  width: 45px;
+  height: 45px;
+}
+.result-details strong {
+  min-width: 80px;
+  font:
+    20px Georgia,
+    serif;
+}
+.result-details span {
+  font-size: 11px;
+  flex: 1;
+}
+.dictionary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin: 15px 0 45px;
+}
+.word-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.favorite {
+  font-size: 25px;
+  background: transparent;
+  color: #ad8036;
+  min-height: 44px;
+  min-width: 44px;
+}
+.favorite[aria-pressed="true"] {
+  color: #b98018;
+}
+.two-images {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.two-images .item-art {
+  width: 50%;
+  max-width: 140px;
+}
+.word-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: center;
+  margin-top: 15px;
+}
+.word-status span {
+  border-radius: 3px;
+  background: #eef1e6;
+  padding: 4px 7px;
+  font-size: 9px;
+  color: #597353;
+}
+.settings-card {
+  max-width: 760px;
+  margin: 0 auto 25px;
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 30px;
+}
+.settings-card h2 {
+  font-size: 20px;
+  margin-bottom: 18px;
+}
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 16px 0;
+  border-bottom: 1px solid #ebece1;
+  font-size: 14px;
+}
+.setting-row small {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+.setting-row input[type="checkbox"] {
+  width: 24px;
+  height: 24px;
+  accent-color: var(--green);
+}
+.setting-row select {
+  max-width: 52%;
+  border: 1px solid #c1cbb6;
+  border-radius: 4px;
+  background: var(--paper);
+  padding: 10px;
+  font-size: 12px;
+  min-height: 44px;
+  color: var(--ink);
+}
+.settings-card > .micro {
+  margin-top: 15px;
+}
+.save-actions {
+  display: flex;
+  gap: 15px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+.file-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  overflow: hidden;
+}
+.file-button input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 100%;
+  cursor: pointer;
+}
+.file-button:focus-within {
+  outline: 3px solid var(--coral);
+  outline-offset: 3px;
+}
+#settings-message {
+  font-size: 12px;
+  color: var(--green);
+}
+.delete-area {
+  margin-top: 30px;
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+}
+.delete-area summary {
+  font-size: 12px;
+  cursor: pointer;
+  color: #a25842;
+  padding: 10px 0;
+}
+.delete-area p {
+  font-size: 12px;
+  margin: 12px 0;
+}
+.danger {
+  min-height: 44px;
+  border: 1px solid #ba6e59;
+  color: #9a4a37;
+  background: #fff7f2;
+  border-radius: 5px;
+  font-size: 12px;
+  padding: 12px;
+}
+#storage-notice {
+  background: #fae7bc;
+  padding: 14px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.8;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+html[data-font-size="large"] {
+  font-size: 19px;
+}
+html[data-font-size="large"] .muted,
+html[data-font-size="large"] .feedback,
+html[data-font-size="large"] .hero-description,
+html[data-font-size="large"] .setting-row,
+html[data-font-size="large"] button {
+  font-size: 1rem;
+}
+html[data-font-size="large"] .micro,
+html[data-font-size="large"] .audio-status,
+html[data-font-size="large"] .meaning-text {
+  font-size: 0.8rem;
+}
+html[data-font-size="large"] .key {
+  font-size: 17px;
+}
+html[data-font-size="large"] .controls .key {
+  font-size: 12px;
+}
+@media (min-width: 1500px) {
+  .hero {
+    padding-top: 90px;
+    padding-bottom: 90px;
+  }
+}
+@media (max-width: 1250px) {
+  .site-header,
+  main,
+  body > footer {
+    margin-left: 35px;
+    margin-right: 35px;
+  }
+  .hero {
+    gap: 45px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .hero h1 {
+    font-size: 48px;
+  }
+  .hero-actions {
+    gap: 12px;
+  }
+  .how-to {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .how-to {
+    grid-template-columns: 1.1fr 1fr 1fr 1fr;
+  }
+  .game-layout {
+    gap: 30px;
+    grid-template-columns: minmax(0, 3fr) minmax(180px, 1fr);
+  }
+}
+@media (max-width: 900px) {
+  .hero {
+    gap: 35px;
+  }
+  .hero h1 {
+    font-size: 38px;
+  }
+  .shop-wall {
+    height: 270px;
+  }
+  .shop-sign {
+    font-size: 10px;
+    padding: 15px 10px;
+    letter-spacing: 0.12em;
+  }
+  .shop-stamp {
+    width: 75px;
+    height: 75px;
+    right: -15px;
+  }
+  .hero-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+  }
+  .how-to {
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+  .intro-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dictionary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .game-layout {
+    grid-template-columns: 1fr;
+  }
+  .shop-note {
+    display: none;
+  }
+  .game-panel {
+    padding: 22px 28px;
+  }
+  .settings-card {
+    padding: 25px;
+  }
+}
+@media (max-width: 600px) {
+  .site-header,
+  main,
+  body > footer {
+    margin-left: 18px;
+    margin-right: 18px;
+  }
+  .site-header {
+    min-height: 85px;
+    padding: 15px 0;
+  }
+  .brand {
+    gap: 8px;
+    font-size: 11px;
+    letter-spacing: 0;
+  }
+  .brand-mark {
+    width: 31px;
+    height: 31px;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .brand small {
+    font-size: 7px;
+    letter-spacing: 0.1em;
+  }
+  nav {
+    gap: 0;
+  }
+  nav button {
+    font-size: 11px;
+    padding: 9px 10px;
+    min-height: 40px;
+  }
+  nav button:last-child {
+    border: 0;
+    padding-right: 0;
+  }
+  .hero {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding: 35px 5px 50px;
+    align-items: stretch;
+  }
+  .hero h1 {
+    font-size: 39px;
+    margin: 17px 0;
+  }
+  .hero-description {
+    font-size: 12px;
+  }
+  .hero-actions {
+    align-items: flex-start;
+    margin-top: 24px;
+    flex-direction: row;
+    gap: 12px;
+  }
+  .hero-actions .large {
+    font-size: 12px;
+    padding: 15px 17px;
+    gap: 13px;
+  }
+  .hero-actions .text-button {
+    font-size: 10px;
+  }
+  .hero .micro {
+    font-size: 10px;
+  }
+  .shop-illustration {
+    width: 90%;
+    margin: 0 auto 0 4px;
+    align-self: center;
+  }
+  .shop-sign {
+    font-size: 10px;
+    padding: 13px 15px;
+  }
+  .shop-wall {
+    height: 240px;
+  }
+  .awning {
+    height: 34px;
+  }
+  .counter {
+    padding: 20px 0;
+    font-size: 8px;
+  }
+  .fox {
+    width: 150px;
+    height: 150px;
+    right: 8px;
+    bottom: 18px;
+  }
+  .sun {
+    left: 33px;
+    top: 48px;
+    font-size: 45px;
+  }
+  .speech-bubble {
+    font-size: 21px;
+    padding: 10px 13px;
+    top: 16px;
+    right: 16px;
+  }
+  .shelf {
+    height: 75px;
+  }
+  .shelf .item-art {
+    width: 68px;
+    height: 73px;
+  }
+  .how-to {
+    gap: 26px 14px;
+    padding: 25px 3px;
+  }
+  .how-intro h2 {
+    font-size: 12px;
+  }
+  .how-step {
+    gap: 10px;
+  }
+  .how-step > span {
+    font-size: 23px;
+  }
+  .how-step h3 {
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+  .how-step p {
+    font-size: 9px;
+  }
+  .progress-strip {
+    margin: 25px 0 30px;
+    gap: 15px;
+  }
+  .progress-strip > div > p {
+    font-size: 12px;
+  }
+  .progress-strip strong {
+    margin-left: 7px;
+  }
+  .progress-strip > .muted {
+    display: none;
+  }
+  .decorations {
+    font-size: 20px;
+    overflow-wrap: anywhere;
+  }
+  body > footer {
+    font-size: 8px;
+    padding: 20px 0;
+    letter-spacing: 0;
+  }
+  body > footer span {
+    font-size: 7px;
+  }
+  .view-head {
+    padding: 25px 0 20px;
+    align-items: flex-start;
+  }
+  .view-head h1 {
+    font-size: 25px;
+  }
+  .view-head .muted {
+    font-size: 11px;
+  }
+  .view-head > .quiet {
+    padding: 8px;
+    font-size: 10px;
+  }
+  .intro-grid {
+    gap: 10px;
+  }
+  .word-card {
+    padding: 14px 10px;
+  }
+  .word-card .item-art {
+    width: 110px;
+    height: 100px;
+  }
+  .word-en {
+    font-size: 27px !important;
+  }
+  .word-card h2 {
+    font-size: 12px;
+  }
+  .word-card > p[lang="en"]:not(.word-en) {
+    font-size: 15px;
+  }
+  .word-card .muted {
+    font-size: 10px;
+  }
+  .card-audio {
+    gap: 5px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+  .card-audio button {
+    min-width: 54px;
+    padding: 9px 10px;
+    font-size: 11px;
+  }
+  .center-actions {
+    gap: 10px;
+    margin: 25px 0 35px;
+  }
+  .game-heading {
+    padding: 20px 0 16px;
+    gap: 8px;
+  }
+  .game-heading h1 {
+    font-size: 16px;
+  }
+  .game-heading .eyebrow {
+    font-size: 8px;
+  }
+  .delivery-progress strong {
+    font-size: 25px;
+  }
+  .delivery-progress small {
+    font-size: 10px;
+  }
+  .progress-dots {
+    gap: 4px;
+    margin-top: 8px;
+  }
+  .progress-dots span {
+    width: 12px;
+  }
+  .game-panel {
+    padding: 16px 12px;
+    border-radius: 9px;
+  }
+  .game-layout {
+    margin-bottom: 25px;
+  }
+  .customer {
+    gap: 10px;
+  }
+  .customer > img {
+    width: 57px;
+    height: 57px;
+  }
+  .customer .eyebrow {
+    font-size: 9px;
+  }
+  .request-actions {
+    gap: 7px;
+    margin-top: 5px;
+  }
+  .request-actions .small {
+    font-size: 10px;
+    padding: 8px 10px;
+    gap: 0;
+    min-height: 38px;
+  }
+  .request-actions > .text-button {
+    padding: 7px 0;
+  }
+  .audio-status {
+    font-size: 10px;
+    line-height: 1.65;
+    margin: 8px 0;
+    min-height: 17px;
+  }
+  .hint-actions {
+    gap: 16px;
+  }
+  .hint-button {
+    font-size: 11px;
+    min-height: 34px;
+  }
+  .request-text {
+    font-size: 22px;
+    margin-top: 7px;
+  }
+  .meaning-text {
+    font-size: 11px;
+  }
+  .stage-list {
+    margin: 16px 0;
+  }
+  .stage-list li {
+    font-size: 9px;
+    padding: 10px 0;
+  }
+  .task-heading {
+    font-size: 15px;
+    margin-bottom: 12px;
+  }
+  .choices {
+    gap: 8px;
+  }
+  .choice {
+    padding: 6px 2px;
+  }
+  .choice .item-art {
+    height: 86px;
+    width: 90px;
+  }
+  .choice > span {
+    font-size: 10px;
+  }
+  .feedback {
+    font-size: 11px;
+    line-height: 1.8;
+    margin: 12px 0 3px;
+  }
+  .parcel {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 10px;
+    gap: 7px;
+  }
+  .parcel-art {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    gap: 12px;
+  }
+  .parcel-art .item-art {
+    width: 67px;
+    height: 62px;
+  }
+  .parcel-art > span {
+    font-size: 10px;
+  }
+  .shipping-label {
+    padding: 12px;
+  }
+  .shipping-label h2 {
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+  .shipping-label > .eyebrow {
+    font-size: 8px;
+  }
+  .word-input {
+    min-height: 46px;
+    font-size: 23px;
+  }
+  .typing-actions {
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .typing-actions button {
+    font-size: 11px;
+    padding: 9px 10px;
+  }
+  .model-guide {
+    gap: 8px;
+    padding: 8px;
+    margin-top: 8px;
+  }
+  .model-word {
+    font-size: 23px;
+  }
+  .guide-message {
+    font-size: 9px;
+  }
+  .retry-actions {
+    gap: 12px;
+  }
+  .retry-actions button {
+    font-size: 11px;
+  }
+  .full.large {
+    font-size: 13px;
+    min-height: 50px;
+    padding: 13px;
+  }
+  .completed-label {
+    font-size: 29px;
+  }
+  .keyboard {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    border-radius: 12px 12px 0 0;
+    margin: 0;
+    padding: 10px 8px calc(10px + env(safe-area-inset-bottom));
+    box-shadow: 0 -5px 18px #283c3812;
+  }
+  .keyboard-top {
+    font-size: 8px;
+    max-width: 420px;
+    margin: 0 auto 7px;
+  }
+  .key-row {
+    gap: 4px;
+    margin: 5px auto 0;
+    max-width: 420px;
+  }
+  .key {
+    flex: 1;
+    min-width: 28px;
+    height: 35px;
+    font-size: 16px;
+  }
+  .row-1 {
+    padding: 0 15px;
+  }
+  .row-2 {
+    padding: 0 37px;
+  }
+  .controls .key {
+    height: 42px;
+    font-size: 10px;
+  }
+  .controls .space {
+    flex: 2;
+  }
+  .controls .enter {
+    flex: 1.4;
+  }
+  .has-board {
+    padding-bottom: 228px;
+  }
+  .results {
+    padding: 28px 0 0;
+  }
+  .results h1 {
+    font-size: 26px;
+    margin: 5px 0 17px;
+  }
+  .reward-flower {
+    font-size: 75px;
+  }
+  .results > .muted {
+    font-size: 12px;
+  }
+  .result-stats {
+    grid-template-columns: 1fr 1fr;
+    gap: 25px 0;
+    padding: 22px 6px;
+  }
+  .result-stats > div:nth-child(3) {
+    border: 0;
+  }
+  .result-stats strong {
+    font-size: 32px;
+  }
+  .result-stats span {
+    font-size: 10px;
+  }
+  .result-details > div {
+    display: grid;
+    grid-template-columns: 35px 1fr;
+    gap: 6px 12px;
+    padding: 12px 4px;
+  }
+  .result-details .item-art {
+    height: 35px;
+    width: 35px;
+    grid-row: span 3;
+  }
+  .result-details strong {
+    font-size: 18px;
+  }
+  .result-details span {
+    font-size: 10px;
+  }
+  .dictionary-grid {
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .word-card-top > .eyebrow {
+    font-size: 8px;
+  }
+  .favorite {
+    min-width: 30px;
+    height: 35px;
+    font-size: 22px;
+  }
+  .two-images .item-art {
+    height: 76px;
+    width: 50%;
+  }
+  .word-status span {
+    font-size: 8px;
+  }
+  .word-card .card-audio {
+    flex-wrap: nowrap;
+  }
+  .word-card .card-audio button {
+    font-size: 10px;
+    padding: 8px 6px;
+  }
+  .settings-card {
+    padding: 20px 16px;
+  }
+  .settings-card h2 {
+    font-size: 18px;
+  }
+  .setting-row {
+    font-size: 12px;
+  }
+  .setting-row small {
+    font-size: 9px;
+    max-width: 180px;
+    line-height: 1.7;
+  }
+  .setting-row select {
+    max-width: 48%;
+    font-size: 10px;
+    padding: 9px 6px;
+  }
+  .settings-card .muted {
+    font-size: 12px;
+  }
+  .copy-model {
+    font-size: 20px;
+  }
+  .copy-box {
+    padding: 12px;
+  }
+  .save-actions {
+    gap: 10px;
+  }
+  .save-actions > .quiet {
+    font-size: 11px;
+  }
+  .delete-area p {
+    font-size: 11px;
+  }
+  html[data-font-size="large"] .request-actions .small {
+    font-size: 12px;
+  }
+  html[data-font-size="large"] .game-heading h1 {
+    font-size: 17px;
+  }
+  html[data-font-size="large"] .stage-list li {
+    font-size: 10px;
+  }
+  html[data-font-size="large"] .customer > img {
+    width: 42px;
+    height: 42px;
+  }
+  html[data-font-size="large"] .customer {
+    align-items: flex-start;
+  }
+  html[data-font-size="large"] .word-card .card-audio {
+    flex-wrap: wrap;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}
+
+</style>
+    
+  </head>
+  <body>
+    <div id="storage-notice" role="status" hidden></div>
+    <header class="site-header">
+      <a class="brand" href="#" aria-label="タイトルへ"
+        ><span class="brand-mark">こ</span
+        ><span
+          >ことばの小さなおつかい<small>THE LITTLE WORD SHOP</small></span
+        ></a
+      >
+      <nav aria-label="メイン">
+        <button data-nav="dictionary">図鑑</button
+        ><button data-nav="settings">設定</button>
+      </nav>
+    </header>
+    <main id="app"></main>
+    <footer>
+      ひとつ聞いて、ひとつ届けよう。<span>ENGLISH · はじめての12語</span>
+    </footer>
+    <noscript
+      >このゲームにはJavaScriptが必要です。ブラウザの設定で有効にしてください。</noscript
+    >
+  <script>
+(() => {
+"use strict";
+const assets = {"assets/apple-1.svg":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48ZyBzdHJva2U9IiM1MjZhNWEiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cGF0aCBkPSJNMzAgMTU4cTYwIDggMTIwIDAiIHN0cm9rZT0iI2UzZGRjOSIgc3Ryb2tlLXdpZHRoPSIzIiBmaWxsPSJub25lIi8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCAwKSAiPjxwYXRoIGQ9Ik05MSA1NnEtMzctMjEtNTQgMTItMTYgNDMgMjIgNjkgMTggMTQgMzIgNCAyMiAxMCAzOC05IDMzLTM3IDEyLTY1LTE3LTI1LTUwLTExWiIgZmlsbD0iI2Q4NzU1OSIvPjxwYXRoIGQ9Ik05MCA1NXEtNS0xOSA5LTMyIiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTk5IDQzcTktMzAgMzYtMTYtNCAyNS0zNiAxNiIgZmlsbD0iIzc2OTU2MSIvPjxwYXRoIGQ9Ik01MyA3N3EtMTAgMTctMSAzMSIgc3Ryb2tlPSIjZjZjNGEyIiBzdHJva2Utd2lkdGg9IjYiIGZpbGw9Im5vbmUiLz48L2c+PC9nPjwvc3ZnPgo=","assets/apple-2.svg":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48ZyBzdHJva2U9IiM1MjZhNWEiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cGF0aCBkPSJNMzAgMTU4cTYwIDggMTIwIDAiIHN0cm9rZT0iI2UzZGRjOSIgc3Ryb2tlLXdpZHRoPSIzIiBmaWxsPSJub25lIi8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNSAxKSByb3RhdGUoLTcgOTAgOTApIHRyYW5zbGF0ZSg5IDUpIHNjYWxlKC45IDEuMDQpIj48cGF0aCBkPSJNOTEgNTZxLTM3LTIxLTU0IDEyLTE2IDQzIDIyIDY5IDE4IDE0IDMyIDQgMjIgMTAgMzgtOSAzMy0zNyAxMi02NS0xNy0yNS01MC0xMVoiIGZpbGw9IiM5OGFjNjgiLz48cGF0aCBkPSJNOTAgNTVxLTUtMTkgOS0zMiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik05OSA0M3E5LTMwIDM2LTE2LTQgMjUtMzYgMTYiIGZpbGw9IiM3Njk1NjEiLz48cGF0aCBkPSJNNTMgNzdxLTEwIDE3LTEgMzEiIHN0cm9rZT0iI2Y2YzRhMiIgc3Ryb2tlLXdpZHRoPSI2IiBmaWxsPSJub25lIi8+PC9nPjwvZz48L3N2Zz4K","assets/banana-1.svg":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48ZyBzdHJva2U9IiM1MjZhNWEiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cGF0aCBkPSJNMzAgMTU4cTYwIDggMTIwIDAiIHN0cm9rZT0iI2UzZGRjOSIgc3Ryb2tlLXdpZHRoPSIzIiBmaWxsPSJub25lIi8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCAwKSAiPjxwYXRoIGQ9Ik00NCA0OHExNSA2NyA3OCA2NGwyMy0yMyAxMiA4cS0xNCA2MS03MCA0NVEzMCAxMjggMjkgNTdaIiBmaWxsPSIjZWJjMzU3Ii8+PHBhdGggZD0iTTQzIDYxcTI1IDY4IDkxIDY0IiBzdHJva2U9IiNkNGEyNDMiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNMjkgNTdsLTUtMTggMTItNiA4IDE1bTEwMSA0MSA5LTEyIDggOS01IDExIiBmaWxsPSIjOGU4MDUxIi8+PC9nPjwvZz48L3N2Zz4K","assets/banana-2.svg":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48ZyBzdHJva2U9IiM1MjZhNWEiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cGF0aCBkPSJNMzAgMTU4cTYwIDggMTIwIDAiIHN0cm9rZT0iI2UzZGRjOSIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0zNiAzOHExNyA2NiA3OSA2NmwyNy0yNSAxMCAxMHEtMTMgNTctNjcgNDRUMjQgNDdaIiBmaWxsPSIjZTRiMzRjIi8+PHBhdGggZD0iTTUwIDUxcTIxIDY2IDg0IDU5bDE2LTIwIDExIDhxLTQgNjEtNjMgNDhUMzcgNjBaIiBmaWxsPSIjZjBjZTYzIi8+PHBhdGggZD0iTTUwIDY2cTI1IDY1IDk0IDYwIiBmaWxsPSJub25lIiBzdHJva2U9IiNkNWE4NGEiLz48cGF0aCBkPSJNMzcgNjBsLTQtMTcgMTAtNCA3IDEyIiBmaWxsPSIjOGU4MDUxIi8+PC9nPjwvc3ZnPgo=","assets/bowl-1.svg":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48ZyBzdHJva2U9IiM1MjZhNWEiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cGF0aCBkPSJNMzAgMTU4cTYwIDggMTIwIDAiIHN0cm9rZT0iI2UzZGRjOSIgc3Ryb2tlLXdpZHRoPSIzIiBmaWxsPSJub25lIi8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCAwKSAiPjxwYXRoIGQ9Ik0yOCA3M2gxMjRxLTIgNzAtNjIgNzBUMjggNzNaIiBmaWxsPSIjYmI5YzdhIi8+PGVsbGlwc2UgY3g9IjkwIiBjeT0iNzMiIHJ4PSI2MiIgcnk9IjE3IiBmaWxsPSIjZmZmN2RmIi8+PGVsbGlwc2UgY3g9IjkwIiBjeT0iNzMiIHJ4PSI0NiIgcnk9IjkiIGZpbGw9IiNkYmQ1YjkiIHN0cm9rZT0ibm9uZSIvPjxwYXRoIGQ9Ik00OSAxMDRxNDAgMjggODIgMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZjhmM2Q2IiBzdHJva2Utd2lkdGg9IjUiLz48cGF0aCBkPSJNNzAgMTQ4aDQwIi8+PC9nPjwvZz48L3N2Zz4K","assets/bowl-2.svg":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48ZyBzdHJva2U9IiM1MjZhNWEiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cGF0aCBkPSJNMzAgMTU4cTYwIDggMTIwIDAiIHN0cm9rZT0iI2UzZGRjOSIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0zOSA2MGgxMDJsLTkgNTZxLTUgMjctNDIgMjd0LTQyLTI3WiIgZmlsbD0iIzdlYWFhNCIvPjxlbGxpcHNlIGN4PSI5MCIgY3k9IjYwIiByeD0iNTEiIHJ5PSIxNiIgZmlsbD0iI2ZmZjdkZiIvPjxlbGxpcHNlIGN4PSI5MCIgY3k9IjYwIiByeD0iMzgiIHJ5PSI5IiBmaWxsPSIjZDFkMmI5IiBzdHJva2U9Im5vbmUiLz48cGF0aCBkPSJNNTIgMTA2aDc2IiBzdHJva2U9IiNlZmYxZDkiIHN0cm9rZS13aWR0aD0iNiIvPjxwYXRoIGQ9Ik02OSAxNDdoNDIiLz48L2c+PC9zdmc+Cg==","assets/bread-1.svg":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48ZyBzdHJva2U9IiM1MjZhNWEiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cGF0aCBkPSJNMzAgMTU4cTYwIDggMTIwIDAiIHN0cm9rZT0iI2UzZGRjOSIgc3Ryb2tlLXdpZHRoPSIzIiBmaWxsPSJub25lIi8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCAwKSAiPjxwYXRoIGQ9Ik0zNSA5NnEtMTUtMzAgMTAtNDMgMTAtMjcgMzQtMTcgMjgtMTcgNDMgOSAyOCAwIDI2IDMwbC02IDYxSDQwWiIgZmlsbD0iI2RmYTM2MSIvPjxwYXRoIGQ9Ik01OCA2MXEtNyAxMyAxIDI2bTI0LTMxcS03IDEzIDEgMjdtMjMtMjFxLTcgMTMgMSAyNiIgc3Ryb2tlPSIjZjhkNDlhIiBzdHJva2Utd2lkdGg9IjkiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNNDIgMTE4aDk3IiBzdHJva2U9IiNiZDgyNGMiLz48L2c+PC9nPjwvc3ZnPgo=","assets/bread-2.svg":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48ZyBzdHJva2U9IiM1MjZhNWEiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cGF0aCBkPSJNMzAgMTU4cTYwIDggMTIwIDAiIHN0cm9rZT0iI2UzZGRjOSIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0yOSAxMDBxLTQtNTIgNjEtNTJ0NjEgNTJ2MjRxLTEyIDI1LTYxIDI1dC02MS0yNVoiIGZpbGw9IiNkYmE2NjYiLz48cGF0aCBkPSJNNTEgNzhxMTIgMTIgOSAyN20yMS00M3ExMiAxMiA5IDI3bTIxLTIycTEyIDEyIDkgMjciIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Y2ZDVhMSIgc3Ryb2tlLXdpZHRoPSI5Ii8+PHBhdGggZD0iTTM3IDEyMHE1MSAyMiAxMDYtMSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYjc4MTRiIi8+PC9nPjwvc3ZnPgo=","assets/coffee-1.svg":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48ZyBzdHJva2U9IiM1MjZhNWEiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cGF0aCBkPSJNMzAgMTU4cTYwIDggMTIwIDAiIHN0cm9rZT0iI2UzZGRjOSIgc3Ryb2tlLXdpZHRoPSIzIiBmaWxsPSJub25lIi8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCAwKSAiPjxwYXRoIGQ9Ik00MiA2N2g4M3YzMXEwIDM2LTQxIDM2VDQyIDk4WiIgZmlsbD0iI2I4ODU2MyIvPjxwYXRoIGQ9Ik0xMjYgNzZxMzQtNCAyNyAyMy01IDE4LTI4IDE2IiBmaWxsPSJub25lIi8+PGVsbGlwc2UgY3g9Ijg0IiBjeT0iNjciIHJ4PSI0MSIgcnk9IjkiIGZpbGw9IiM2NDQ3MzciLz48cGF0aCBkPSJNNzYgNDVxLTExLTExIDAtMjNtMjMgMjRxLTEyLTEzIDAtMjMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2E1YjA5MyIvPjxwYXRoIGQ9Ik0zNiAxNDFoMTAxIi8+PHBhdGggZD0iTTYwIDkwdjE1cTEgMTQgMTIgMTciIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2U5YmQ5MSIvPjwvZz48L2c+PC9zdmc+Cg==","assets/coffee-2.svg":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48ZyBzdHJva2U9IiM1MjZhNWEiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cGF0aCBkPSJNMzAgMTU4cTYwIDggMTIwIDAiIHN0cm9rZT0iI2UzZGRjOSIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik00OSA1M2g3MXY4MUg0OVoiIGZpbGw9IiNjNDljN2EiLz48cGF0aCBkPSJNMTIxIDY4cTMxLTUgMzEgMTh0LTMxIDIwIiBmaWxsPSJub25lIi8+PGVsbGlwc2UgY3g9Ijg1IiBjeT0iNTMiIHJ4PSIzNSIgcnk9IjkiIGZpbGw9IiM2MjQ3MzgiLz48cGF0aCBkPSJNNzAgMzRxLTEwLTEwIDAtMTltMjQgMTlxLTEwLTEwIDAtMTkiIHN0cm9rZT0iI2E1YjA5MyIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik01OSA3OHY0MiIgc3Ryb2tlPSIjZWZjZGFhIiBzdHJva2Utd2lkdGg9IjYiLz48ZWxsaXBzZSBjeD0iMTM3IiBjeT0iMTQ1IiByeD0iOSIgcnk9IjYiIGZpbGw9IiM3ODYwNDgiIHRyYW5zZm9ybT0icm90YXRlKC0yNSAxMzcgMTQ1KSIvPjwvZz48L3N2Zz4K","assets/cup-1.svg":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48ZyBzdHJva2U9IiM1MjZhNWEiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cGF0aCBkPSJNMzAgMTU4cTYwIDggMTIwIDAiIHN0cm9rZT0iI2UzZGRjOSIgc3Ryb2tlLXdpZHRoPSIzIiBmaWxsPSJub25lIi8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCAwKSAiPjxwYXRoIGQ9Ik0zOSA2Mmg4OHY0MnEtMSAzNC00NCAzNHQtNDQtMzRaIiBmaWxsPSIjOWJiM2FkIi8+PHBhdGggZD0iTTEyOCA3NHEzNS03IDI4IDIzLTQgMjEtMzAgMTkiIGZpbGw9Im5vbmUiLz48ZWxsaXBzZSBjeD0iODMiIGN5PSI2MiIgcng9IjQ0IiByeT0iMTEiIGZpbGw9IiNmZmZkZjMiLz48cGF0aCBkPSJNNTIgODh2MThxMCAxMyAxMiAxNyIgc3Ryb2tlPSIjZmZmNmQ5IiBzdHJva2Utd2lkdGg9IjUiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNMzYgMTQ1aDEwMyIvPjwvZz48L2c+PC9zdmc+Cg==","assets/cup-2.svg":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48ZyBzdHJva2U9IiM1MjZhNWEiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cGF0aCBkPSJNMzAgMTU4cTYwIDggMTIwIDAiIHN0cm9rZT0iI2UzZGRjOSIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik01MCA1Mmg2OGwtMiA2MHEtMSAzMC0zMiAzMHQtMzItMzBaIiBmaWxsPSIjZDliNzVkIi8+PHBhdGggZD0iTTExOSA2NWgyNXYzOHEwIDE1LTI4IDE2IiBmaWxsPSJub25lIi8+PGVsbGlwc2UgY3g9Ijg0IiBjeT0iNTIiIHJ4PSIzNCIgcnk9IjkiIGZpbGw9IiNmZmZkZjMiLz48cGF0aCBkPSJNNjMgNzh2MzRxMCAxMiA4IDE2IiBzdHJva2U9IiNmZmY1ZDYiIHN0cm9rZS13aWR0aD0iNSIgZmlsbD0ibm9uZSIvPjwvZz48L3N2Zz4K","assets/fox.svg":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48ZyBzdHJva2U9IiM1ZTY2NGIiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTM5IDE1NXEtNS00MCAxOS01MWg2NHEyMyAxNCAyMCA1MSIgZmlsbD0iIzc5OWE4MCIvPjxwYXRoIGQ9Ik00NSA2NyAzNCAxOSA3NiA0Nm01OSAyMSAxMS00OC00MiAyNyIgZmlsbD0iI2M4N2M1MSIvPjxwYXRoIGQ9Im00NCAzNCA3IDI1IDEzLTEybTcyLTEzLTcgMjUtMTMtMTIiIGZpbGw9IiNlOWI5OTIiLz48cGF0aCBkPSJNNDEgNjdxMy0zNiA0OS0zMiA0Ni00IDQ5IDMybC03IDM3LTQyIDIyLTQyLTIyWiIgZmlsbD0iI2Q2OGY1YyIvPjxwYXRoIGQ9Im00MyA3NSA0NyAyNCA0Ny0yNC01IDI5LTQyIDIyLTQyLTIyWiIgZmlsbD0iI2ZmZjNkMyIvPjxwYXRoIGQ9Im04MyA5NiA3IDkgNy05WiIgZmlsbD0iIzQ3NTQ0NyIvPjxwYXRoIGQ9Ik02OSA3M3Y2bTQyLTZ2Nm0tMjcgMzFxNiA3IDEyIDAiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxlbGxpcHNlIGN4PSI2MCIgY3k9Ijg4IiByeD0iOSIgcnk9IjQiIGZpbGw9IiNkZWEwN2YiIHN0cm9rZT0ibm9uZSIvPjxlbGxpcHNlIGN4PSIxMjAiIGN5PSI4OCIgcng9IjkiIHJ5PSI0IiBmaWxsPSIjZGVhMDdmIiBzdHJva2U9Im5vbmUiLz48cGF0aCBkPSJNNzggMTI4aDI0bDkgMjdINjlaIiBmaWxsPSIjZjJlOWM5Ii8+PHBhdGggZD0iTTU1IDE1MWgxOG0zNCAwaDE4IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L2c+PC9zdmc+","assets/milk-1.svg":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48ZyBzdHJva2U9IiM1MjZhNWEiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cGF0aCBkPSJNMzAgMTU4cTYwIDggMTIwIDAiIHN0cm9rZT0iI2UzZGRjOSIgc3Ryb2tlLXdpZHRoPSIzIiBmaWxsPSJub25lIi8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCAwKSAiPjxwYXRoIGQ9Ik01NyA1M2wxNi0yM2gzN2wxNyAyM3Y5MEg1N1oiIGZpbGw9IiNmZmZkZjMiLz48cGF0aCBkPSJNNTcgNTNoNzBNNzMgMzB2MjNoMzdWMzAiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNNTcgODFoNzB2MzlINTdaIiBmaWxsPSIjOGFiOGI0IiBzdHJva2U9Im5vbmUiLz48cGF0aCBkPSJNODIgOThxOS0xNyAxOCAwdC0xOCAwIiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJub25lIi8+PHBhdGggZD0iTTEzOCA5MWgyM2wtMyA0N2gtMTdaIiBmaWxsPSIjZmZmZGYzIi8+PC9nPjwvZz48L3N2Zz4K","assets/milk-2.svg":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48ZyBzdHJva2U9IiM1MjZhNWEiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cGF0aCBkPSJNMzAgMTU4cTYwIDggMTIwIDAiIHN0cm9rZT0iI2UzZGRjOSIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik03NCAzMWgzMXYyMnEyNSAxMSAyNSAzNXY1NEg1MFY4OHEwLTI0IDI0LTM1WiIgZmlsbD0iI2ZmZmRmMyIvPjxwYXRoIGQ9Ik03MiAyM2gzNXYxMkg3MloiIGZpbGw9IiNiNDlkYjQiLz48cGF0aCBkPSJNNTEgODZoNzh2MzVINTFaIiBmaWxsPSIjYjQ5ZGI0IiBzdHJva2U9Im5vbmUiLz48cGF0aCBkPSJNODAgMTAycTEwLTE3IDIwIDB0LTIwIDAiIGZpbGw9IndoaXRlIiBzdHJva2U9Im5vbmUiLz48cGF0aCBkPSJNMTM1IDkxaDIzbC0zIDQ3aC0xN1oiIGZpbGw9IiNmZmZkZjMiLz48L2c+PC9zdmc+Cg==","assets/plate-1.svg":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48ZyBzdHJva2U9IiM1MjZhNWEiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cGF0aCBkPSJNMzAgMTU4cTYwIDggMTIwIDAiIHN0cm9rZT0iI2UzZGRjOSIgc3Ryb2tlLXdpZHRoPSIzIiBmaWxsPSJub25lIi8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCAwKSAiPjxlbGxpcHNlIGN4PSI5MCIgY3k9Ijk0IiByeD0iNjgiIHJ5PSI0NCIgZmlsbD0iIzg1YTlhYiIvPjxlbGxpcHNlIGN4PSI5MCIgY3k9Ijk0IiByeD0iNTAiIHJ5PSIyOSIgZmlsbD0iI2ZmZmRmMyIvPjxlbGxpcHNlIGN4PSI5MCIgY3k9Ijk0IiByeD0iMzgiIHJ5PSIyMCIgZmlsbD0iI2VlZWVkZSIgc3Ryb2tlPSJub25lIi8+PHBhdGggZD0iTTQxIDc4cTE2LTE3IDQzLTE3IiBzdHJva2U9IiNmZmZkZjMiIHN0cm9rZS13aWR0aD0iNCIgZmlsbD0ibm9uZSIvPjwvZz48L2c+PC9zdmc+Cg==","assets/plate-2.svg":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48ZyBzdHJva2U9IiM1MjZhNWEiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cGF0aCBkPSJNMzAgMTU4cTYwIDggMTIwIDAiIHN0cm9rZT0iI2UzZGRjOSIgZmlsbD0ibm9uZSIvPjxyZWN0IHg9IjI5IiB5PSI0OCIgd2lkdGg9IjEyNSIgaGVpZ2h0PSI5NCIgcng9IjI1IiBmaWxsPSIjZDZiNTg1Ii8+PHJlY3QgeD0iNDQiIHk9IjYyIiB3aWR0aD0iOTUiIGhlaWdodD0iNjYiIHJ4PSIyMCIgZmlsbD0iI2ZmZmRmMyIvPjxyZWN0IHg9IjU1IiB5PSI3MiIgd2lkdGg9IjczIiBoZWlnaHQ9IjQ2IiByeD0iMTUiIGZpbGw9IiNlZWVlZGUiIHN0cm9rZT0ibm9uZSIvPjwvZz48L3N2Zz4K","assets/rice-1.svg":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48ZyBzdHJva2U9IiM1MjZhNWEiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cGF0aCBkPSJNMzAgMTU4cTYwIDggMTIwIDAiIHN0cm9rZT0iI2UzZGRjOSIgc3Ryb2tlLXdpZHRoPSIzIiBmaWxsPSJub25lIi8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCAwKSAiPjxwYXRoIGQ9Ik0zNSA5NXE1IDQ2IDU1IDQ2dDU1LTQ2WiIgZmlsbD0iIzgxOWM5OSIvPjxwYXRoIGQ9Ik0zOSA5NHEtNy0yMSAxMi0yNi0zLTE5IDE1LTE5IDQtMjAgMjQtMTAgMTgtMTAgMjUgMTEgMjAgMCAxOCAxOCAxOCA2IDEwIDI2WiIgZmlsbD0iI2ZmZmRmMSIvPjxwYXRoIGQ9Ik01NyA3OGw2LTNtMTUtMTcgNiAybTIxIDEzIDYtM20tMjQgMTcgNi0zbTI1IDUgNSAxIiBzdHJva2U9IiNkNmNlYjUiLz48cGF0aCBkPSJNNzEgMTQ1aDM4Ii8+PC9nPjwvZz48L3N2Zz4K","assets/rice-2.svg":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48ZyBzdHJva2U9IiM1MjZhNWEiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cGF0aCBkPSJNMzAgMTU4cTYwIDggMTIwIDAiIHN0cm9rZT0iI2UzZGRjOSIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0zNCA4OGgxMTNsLTEwIDQzcS00NiAzMC05MyAwWiIgZmlsbD0iI2M2OTU4MCIvPjxwYXRoIGQ9Ik0zNiA4OHEtNy0yMCAxMi0yNiAyLTE4IDIxLTE3IDEzLTIyIDMwLTkgMjItOCAyNSAxNyAyMy0xIDIxIDIxbDEgMTRaIiBmaWxsPSIjZmZmZGYxIi8+PHBhdGggZD0iTTU4IDcwbDYgMm0yMy0xNiA2LTJtMjAgMjEgNiAybS0zOSA0IDYtMiIgc3Ryb2tlPSIjZDZjZWI1Ii8+PHBhdGggZD0iTTUxIDExM3EzOSAxOSA4MCAwIiBzdHJva2U9IiNmMWQ4YmEiIGZpbGw9Im5vbmUiLz48L2c+PC9zdmc+Cg==","assets/spoon-1.svg":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48ZyBzdHJva2U9IiM1MjZhNWEiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cGF0aCBkPSJNMzAgMTU4cTYwIDggMTIwIDAiIHN0cm9rZT0iI2UzZGRjOSIgc3Ryb2tlLXdpZHRoPSIzIiBmaWxsPSJub25lIi8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCAwKSAiPjxwYXRoIGQ9Ik0xMDggMjJxMzMgNCAyMyAzNi03IDIzLTI5IDIzbC0zOCA2M3EtOCAxMS0xNyA0LTktNi0xLTE5bDQzLTU5UTcxIDQ4IDg3IDMwcTgtOSAyMS04WiIgZmlsbD0iI2FhYjhiNiIvPjxwYXRoIGQ9Ik0xMDggMzNxMTkgMyAxMiAyMi00IDEwLTE0IDEzIiBzdHJva2U9IiNmOGZiZWYiIHN0cm9rZS13aWR0aD0iNiIgZmlsbD0ibm9uZSIvPjwvZz48L2c+PC9zdmc+Cg==","assets/spoon-2.svg":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48ZyBzdHJva2U9IiM1MjZhNWEiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cGF0aCBkPSJNMzAgMTU4cTYwIDggMTIwIDAiIHN0cm9rZT0iI2UzZGRjOSIgZmlsbD0ibm9uZSIvPjxlbGxpcHNlIGN4PSIxMDMiIGN5PSI0OSIgcng9IjI1IiByeT0iMzIiIGZpbGw9IiNjN2I1OGMiIHRyYW5zZm9ybT0icm90YXRlKDE4IDEwMyA0OSkiLz48cGF0aCBkPSJtOTQgNzctMjIgNzJxLTMgMTAtMTMgNi04LTMtNS0xM2wyNi02OSIgZmlsbD0iI2M3YjU4YyIvPjxwYXRoIGQ9Ik0xMDggMjlxMTggMTEgNiAzMiIgc3Ryb2tlPSIjZmZmOGU0IiBzdHJva2Utd2lkdGg9IjYiIGZpbGw9Im5vbmUiLz48L2c+PC9zdmc+Cg==","assets/tea-1.svg":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48ZyBzdHJva2U9IiM1MjZhNWEiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cGF0aCBkPSJNMzAgMTU4cTYwIDggMTIwIDAiIHN0cm9rZT0iI2UzZGRjOSIgc3Ryb2tlLXdpZHRoPSIzIiBmaWxsPSJub25lIi8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCAwKSAiPjxwYXRoIGQ9Ik00MiA2OGg4M3YzMHEwIDM3LTQxIDM3VDQyIDk4WiIgZmlsbD0iIzliYWQ3MSIvPjxlbGxpcHNlIGN4PSI4NCIgY3k9IjY4IiByeD0iNDEiIHJ5PSI5IiBmaWxsPSIjYWE4YTQ2Ii8+PHBhdGggZD0iTTEyNiA3NnEzNi01IDI3IDI0LTcgMTctMjggMTUiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNNzAgNDRxLTEwLTEwIDAtMjJtMjYgMjNxLTEwLTEwIDAtMjIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2E1YjA5MyIvPjxwYXRoIGQ9Ik0zNiAxNDFoMTAwIi8+PC9nPjwvZz48L3N2Zz4K","assets/tea-2.svg":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48ZyBzdHJva2U9IiM1MjZhNWEiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cGF0aCBkPSJNMzAgMTU4cTYwIDggMTIwIDAiIHN0cm9rZT0iI2UzZGRjOSIgZmlsbD0ibm9uZSIvPjxlbGxpcHNlIGN4PSI4NSIgY3k9IjE0MyIgcng9IjYzIiByeT0iOSIgZmlsbD0iI2U3ZDRhNSIvPjxwYXRoIGQ9Ik0zOSA2NWg5MWwtNyA0MXEtNCAyNy0zOSAyN1Q0NiAxMDZaIiBmaWxsPSIjYzNhYTcyIi8+PHBhdGggZD0iTTEzMSA3NmgyM3YyMXEwIDE3LTMwIDE4IiBmaWxsPSJub25lIi8+PGVsbGlwc2UgY3g9Ijg1IiBjeT0iNjUiIHJ4PSI0NSIgcnk9IjkiIGZpbGw9IiNhZDkxNDUiLz48cGF0aCBkPSJNODcgNDNxLTEyLTExIDAtMjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2E1YjA5MyIvPjxwYXRoIGQ9Ik0xMDcgNjdxMTItMTAgMTYgMC0xMCA4LTE2IDAiIGZpbGw9IiM3MzhhNTgiIHN0cm9rZT0ibm9uZSIvPjwvZz48L3N2Zz4K","assets/water-1.svg":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48ZyBzdHJva2U9IiM1MjZhNWEiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cGF0aCBkPSJNMzAgMTU4cTYwIDggMTIwIDAiIHN0cm9rZT0iI2UzZGRjOSIgc3Ryb2tlLXdpZHRoPSIzIiBmaWxsPSJub25lIi8+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCAwKSAiPjxwYXRoIGQ9Ik01NyA0Mmg2NmwtOCA5NEg2NVoiIGZpbGw9IiNlYWY3ZjYiLz48cGF0aCBkPSJNNjEgNzdxMjggOSA1OCAwbC01IDU2SDY2WiIgZmlsbD0iIzkwYzZkNSIvPjxwYXRoIGQ9Ik0xMzEgNDhxLTE4IDI0IDAgMjR0MC0yNCIgZmlsbD0iIzY1YWRjYiIvPjxwYXRoIGQ9Ik03MiA1MGw0IDY3IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjUiLz48L2c+PC9nPjwvc3ZnPgo=","assets/water-2.svg":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48ZyBzdHJva2U9IiM1MjZhNWEiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cGF0aCBkPSJNMzAgMTU4cTYwIDggMTIwIDAiIHN0cm9rZT0iI2UzZGRjOSIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik00OSA0OGg3OWwtNCA5MEg1M1oiIGZpbGw9IiNlYWY3ZjYiLz48cGF0aCBkPSJNNTIgODFxMzUtMTAgNzMgMGwtMiA1NEg1NFoiIGZpbGw9IiNhNGQ0ZGEiLz48cGF0aCBkPSJNMTM5IDUzcS0xNSAyMiAwIDIydDAtMjJtMTIgMzNxLTEwIDE1IDAgMTV0MC0xNSIgZmlsbD0iIzcwYWZjYSIvPjxwYXRoIGQ9Ik02MiA1N3Y2MCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSI1Ii8+PC9nPjwvc3ZnPgo="};
+const modules = {};
+modules["src/data.js"] = (() => {
+const rows = [
+  ["water", "水", "Water, please.", "水をお願いします。"],
+  ["tea", "お茶", "Tea, please.", "お茶をお願いします。"],
+  ["coffee", "コーヒー", "Coffee, please.", "コーヒーをお願いします。"],
+  ["milk", "牛乳", "Milk, please.", "牛乳をお願いします。"],
+  ["bread", "パン", "Some bread, please.", "パンをお願いします。"],
+  ["rice", "ご飯", "Some rice, please.", "ご飯をお願いします。"],
+  ["apple", "りんご", "An apple, please.", "りんごを1つお願いします。"],
+  ["banana", "バナナ", "A banana, please.", "バナナを1本お願いします。"],
+  ["cup", "カップ", "A cup, please.", "カップを1つお願いします。"],
+  ["plate", "皿", "A plate, please.", "皿を1枚お願いします。"],
+  ["spoon", "スプーン", "A spoon, please.", "スプーンを1本お願いします。"],
+  ["bowl", "ボウル／深鉢", "A bowl, please.", "ボウルを1つお願いします。"],
+];
+
+const items = rows.map(
+  ([lemma, meaningJa, requestEn, requestJa], index) => ({
+    id: `en${String(index + 1).padStart(3, "0")}`,
+    lemma,
+    meaningJa,
+    requestEn,
+    requestJa,
+    group: Math.floor(index / 4) + 1,
+    imageVariants: [`assets/${lemma}-1.svg`, `assets/${lemma}-2.svg`],
+    // 教材IDから音声ファイルへ差し替えられる参照。現版は端末のTTS。
+    audioWord: { type: "tts", text: lemma, lang: "en" },
+    audioRequest: { type: "tts", text: requestEn, lang: "en" },
+  }),
+);
+const byId = Object.fromEntries(items.map((item) => [item.id, item]));
+const groupNames = {
+  1: "飲みもののおつかい",
+  2: "おいしいおつかい",
+  3: "食卓のおつかい",
+  4: "まぜて、おつかい",
+};
+
+for (const item of items) item.imageVariants = item.imageVariants.map(name => assets[name]);
+return { items, byId, groupNames };
+})();
+modules["src/engine.js"] = (() => {
+const {  items, byId  } = modules["src/data.js"];
+
+const DAY = 24 * 60 * 60 * 1000;
+const GAME = "english-errands";
+const normalizeWord = (value) =>
+  String(value).normalize("NFKC").trim().toLowerCase();
+const normalizeSentence = (value) =>
+  normalizeWord(value)
+    .replaceAll(",", "")
+    .replace(/[.!?。]+$/u, "")
+    .replace(/\s+/gu, " ");
+const matchesWord = (value, item) => normalizeWord(value) === item.lemma;
+const matchesSentence = (value, item) =>
+  normalizeSentence(value) === normalizeSentence(item.requestEn);
+function nextLetter(value, target) {
+  const typed = target.includes(" ")
+    ? String(value)
+        .normalize("NFKC")
+        .trimStart()
+        .toLowerCase()
+        .replaceAll(",", "")
+        .replace(/[.!?。]+$/u, "")
+        .replace(/\s+/gu, " ")
+    : normalizeWord(value);
+  let index = 0;
+  while (index < typed.length && typed[index] === target[index]) index++;
+  return { index, char: target[index] || "", wrong: index < typed.length };
+}
+function freshState() {
+  return {
+    game: GAME,
+    version: 1,
+    completedSessions: 0,
+    seenGroups: [],
+    favorites: [],
+    imageHistory: {},
+    records: [],
+    session: null,
+    settings: {
+      sound: true,
+      autoplay: true,
+      rate: 1,
+      keyboard: true,
+      fontSize: "normal",
+      voiceURI: "",
+    },
+  };
+}
+function shuffle(values, rng = Math.random) {
+  const result = [...values];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+}
+function dueIds(state, now = Date.now()) {
+  return items
+    .filter((item) => {
+      const history = state.records.filter(
+        (r) => r.itemId === item.id && r.taskType === "delivery",
+      );
+      return history.length && now - history.at(-1).timestamp >= DAY;
+    })
+    .map((item) => item.id);
+}
+function startSession(state, now = Date.now(), rng = Math.random) {
+  if (state.session && !state.session.completed) return state.session;
+  const group = Math.min(state.completedSessions + 1, 4);
+  const pool = items
+    .filter((i) => group === 4 || i.group === group)
+    .map((i) => i.id);
+  const due = dueIds(state, now);
+  const ordered = shuffle(pool, rng).sort(
+    (a, b) => Number(due.includes(b)) - Number(due.includes(a)),
+  );
+  state.session = {
+    // LAN上のHTTPなどでも遊べるようにする。認証用IDではない。
+    id:
+      globalThis.crypto?.randomUUID?.() ??
+      `session-${now}-${Math.random().toString(36).slice(2)}`,
+    group,
+    phase: group < 4 && !state.seenGroups.includes(group) ? "intro" : "choice",
+    queue: group < 4 ? ordered : [],
+    attempts: [],
+    current: null,
+    lastPosition: -1,
+    completed: false,
+    rewarded: false,
+  };
+  if (state.session.phase !== "intro") newAttempt(state, now, rng);
+  return state.session;
+}
+function finishIntro(state, now = Date.now(), rng = Math.random) {
+  const session = state.session;
+  if (session.phase !== "intro") return;
+  if (!state.seenGroups.includes(session.group))
+    state.seenGroups.push(session.group);
+  newAttempt(state, now, rng);
+}
+function pickNext(state, now = Date.now(), rng = Math.random) {
+  const s = state.session;
+  if (s.queue.length) return s.queue.shift();
+  const last = s.attempts.at(-1)?.itemId;
+  const candidates = items.filter(
+    (i) =>
+      (s.group === 4 || i.group === s.group) &&
+      i.id !== last &&
+      (s.group !== 4 || s.attempts.filter((a) => a.itemId === i.id).length < 2),
+  );
+  const due = dueIds(state, now);
+  const score = (item) => {
+    const previous = s.attempts.filter((a) => a.itemId === item.id);
+    const errors = previous.reduce(
+      (sum, a) =>
+        sum +
+        a.wrongChoices * 2 +
+        a.spellingErrors +
+        Number(a.textHintOpened) +
+        Number(a.meaningHintOpened) +
+        Number(a.modelOpened) +
+        Number(a.assistedCompletion),
+      0,
+    );
+    const dueBonus = due.includes(item.id) && !previous.length ? 100 : 0;
+    return dueBonus + (s.group === 4 ? 0 : errors * 10) - previous.length;
+  };
+  return shuffle(candidates, rng).sort((a, b) => score(b) - score(a))[0].id;
+}
+function newAttempt(state, now = Date.now(), rng = Math.random) {
+  const s = state.session;
+  const itemId = pickNext(state, now, rng);
+  const pool = items.filter(
+    (i) => i.id !== itemId && i.group <= Math.min(s.group, 3),
+  );
+  let options = shuffle(
+    [
+      itemId,
+      ...shuffle(pool, rng)
+        .slice(0, 2)
+        .map((i) => i.id),
+    ],
+    rng,
+  );
+  if (options.indexOf(itemId) === s.lastPosition) options.push(options.shift());
+  s.lastPosition = options.indexOf(itemId);
+  const images = {};
+  for (const id of options) {
+    const variant =
+      id in state.imageHistory
+        ? 1 - state.imageHistory[id]
+        : Math.floor(rng() * 2);
+    images[id] = variant;
+    state.imageHistory[id] = variant;
+  }
+  s.phase = "choice";
+  s.current = {
+    itemId,
+    timestamp: now,
+    taskType: "delivery",
+    presentationMode: "pending",
+    firstChoiceCorrect: null,
+    wrongChoices: 0,
+    textHintOpened: false,
+    meaningHintOpened: false,
+    modelOpened: false,
+    replayCount: 0,
+    spellingCorrectFirst: null,
+    spellingErrors: 0,
+    assistedCompletion: false,
+    elapsedMs: 0,
+    keyboardMode: "unknown",
+    autoCorrectionState: "unknown",
+    audioHeard: false,
+    audioFailed: false,
+    options,
+    images,
+    input: "",
+    copyInput: "",
+    copyDone: false,
+    showText: false,
+    showMeaning: false,
+    showModel: false,
+    copyOpen: false,
+    choiceFeedback: "",
+    feedback: "",
+    submitted: false,
+  };
+}
+function openHint(state, kind) {
+  const a = state.session.current;
+  const field = {
+    text: "textHintOpened",
+    meaning: "meaningHintOpened",
+    model: "modelOpened",
+  }[kind];
+  if (!field) return;
+  a[field] = true;
+  if (kind === "text" || kind === "meaning") a.presentationMode = "text";
+  const display = {
+    text: "showText",
+    meaning: "showMeaning",
+    model: "showModel",
+  }[kind];
+  a[display] = !a[display];
+}
+function choose(state, itemId) {
+  const s = state.session,
+    a = s.current;
+  if (s.phase !== "choice" || !a.options.includes(itemId)) return;
+  const correct = itemId === a.itemId;
+  if (a.firstChoiceCorrect === null) a.firstChoiceCorrect = correct;
+  if (correct || a.wrongChoices === 1) {
+    // 選択時点の支援と音声を固定。荷札段階で英文を見ても聞き取り記録を後から変えない。
+    a.listeningSuccess =
+      a.firstChoiceCorrect === true &&
+      a.audioHeard &&
+      !a.audioFailed &&
+      !a.textHintOpened &&
+      !a.meaningHintOpened;
+  }
+  if (!correct) {
+    a.wrongChoices++;
+    a.choiceFeedback = "△ もう一度聞いてみよう。選び直せるよ。";
+    if (a.wrongChoices < 2) return;
+    a.textHintOpened = a.showText = a.modelOpened = a.showModel = true;
+    a.assistedCompletion = true;
+    a.feedback = `いっしょに確認しよう。これは ${byId[a.itemId].lemma}。荷札に写してみよう。`;
+  } else a.feedback = "○ 品物を選べたね。今度は名前を荷札に書こう。";
+  a.choiceFeedback = "";
+  s.phase = "typing";
+}
+function submitWord(state, value) {
+  const s = state.session,
+    a = s.current;
+  if (s.phase !== "typing") return;
+  const item = byId[a.itemId];
+  a.input = value;
+  a.submitted = true;
+  const correct = matchesWord(value, item);
+  if (a.spellingCorrectFirst === null) a.spellingCorrectFirst = correct;
+  if (correct) {
+    a.spellingUnaided = spellingSuccess(a);
+    a.feedback = "○ 荷札ができた！ 下のボタンでお客さんに渡そう。";
+    s.phase = "ready";
+  } else {
+    a.spellingErrors++;
+    a.feedback =
+      normalizeWord(value).replace(/^(a|an|some) /u, "") === item.lemma
+        ? `品は合っています。荷札には ${item.lemma} と書こう。`
+        : "△ 綴りをもう一度。お手本を開いても大丈夫。";
+  }
+  return correct;
+}
+function assistWord(state) {
+  const s = state.session,
+    a = s.current;
+  if (s.phase !== "typing") return;
+  a.assistedCompletion = a.modelOpened = a.showModel = true;
+  a.spellingUnaided = false;
+  a.input = byId[a.itemId].lemma;
+  if (a.spellingCorrectFirst === null) a.spellingCorrectFirst = false;
+  a.feedback = "○ 名前を確認できたね。いっしょに渡そう。";
+  s.phase = "ready";
+}
+function hearingSuccess(a) {
+  if (typeof a.listeningSuccess === "boolean") return a.listeningSuccess;
+  return (
+    a.firstChoiceCorrect === true &&
+    a.audioHeard &&
+    !a.audioFailed &&
+    !a.textHintOpened &&
+    !a.meaningHintOpened
+  );
+}
+function spellingSuccess(a) {
+  if (typeof a.spellingUnaided === "boolean") return a.spellingUnaided;
+  return (
+    a.spellingCorrectFirst === true &&
+    !a.textHintOpened &&
+    !a.modelOpened &&
+    !a.assistedCompletion
+  );
+}
+function handover(state, now = Date.now()) {
+  const s = state.session,
+    a = s.current;
+  if (s.phase !== "ready") return false;
+  a.elapsedMs = Math.max(0, now - a.timestamp);
+  s.phase = "delivered";
+  return true;
+}
+function submitCopy(state, value, now = Date.now()) {
+  const s = state.session,
+    a = s.current;
+  if (s.phase !== "delivered" || a.copyDone) return false;
+  a.copyInput = value;
+  a.copyFeedback = matchesSentence(value, byId[a.itemId])
+    ? "○ 文を写せたね。これはお手本を見た転記の記録です。"
+    : "△ お手本と比べてみよう。a / an / some と語順もそのまま写してね。";
+  if (!matchesSentence(value, byId[a.itemId])) return false;
+  a.copyDone = true;
+  state.records.push({
+    itemId: a.itemId,
+    sessionId: s.id,
+    timestamp: now,
+    taskType: "copy",
+    presentationMode: "text",
+    firstChoiceCorrect: null,
+    wrongChoices: 0,
+    textHintOpened: true,
+    meaningHintOpened: true,
+    modelOpened: true,
+    replayCount: 0,
+    spellingCorrectFirst: null,
+    assistedCompletion: true,
+    elapsedMs: 0,
+    keyboardMode: a.keyboardMode,
+    autoCorrectionState: "unknown",
+  });
+  return true;
+}
+function advance(state, now = Date.now(), rng = Math.random) {
+  const s = state.session;
+  if (s.phase !== "delivered" || s.completed) return false;
+  // 入力全文と画面用フィールドは履歴に残さない。
+  const {
+    input,
+    copyInput,
+    options,
+    images,
+    showText,
+    showMeaning,
+    showModel,
+    copyOpen,
+    copyDone,
+    copyFeedback,
+    feedback,
+    choiceFeedback,
+    submitted,
+    ...record
+  } = s.current;
+  record.sessionId = s.id;
+  record.listeningSuccess = hearingSuccess(record);
+  record.spellingUnaided = spellingSuccess(record);
+  s.attempts.push(record);
+  state.records.push(record);
+  if (s.attempts.length === 6) {
+    s.completed = true;
+    s.phase = "results";
+    if (!s.rewarded) {
+      state.completedSessions++;
+      s.rewarded = true;
+    }
+    s.current = null;
+  } else newAttempt(state, now, rng);
+  return true;
+}
+function summary(records) {
+  const deliveries = records.filter((a) => a.taskType === "delivery");
+  return {
+    deliveries: deliveries.length,
+    listening: deliveries.filter(hearingSuccess).length,
+    spelling: deliveries.filter(spellingSuccess).length,
+    assisted: deliveries.filter(
+      (a) =>
+        a.textHintOpened ||
+        a.meaningHintOpened ||
+        a.modelOpened ||
+        a.assistedCompletion,
+    ).length,
+    copy: records.filter((a) => a.taskType === "copy").length,
+  };
+}
+
+return { DAY, GAME, normalizeWord, normalizeSentence, matchesWord, matchesSentence, nextLetter, freshState, shuffle, dueIds, startSession, finishIntro, pickNext, newAttempt, openHint, choose, submitWord, assistWord, hearingSuccess, spellingSuccess, handover, submitCopy, advance, summary };
+})();
+modules["src/storage.js"] = (() => {
+const {  freshState, GAME  } = modules["src/engine.js"];
+const {  byId  } = modules["src/data.js"];
+
+const STORAGE_KEY = "little-word-shop:english-errands:v1";
+const bool = (v) => typeof v === "boolean";
+const number = (v) => Number.isFinite(v) && v >= 0;
+const integer = (v) => Number.isSafeInteger(v) && v >= 0;
+const text = (v) => typeof v === "string" && v.length < 4000;
+const ids = (v) => Array.isArray(v) && v.every((id) => Object.hasOwn(byId, id));
+const unique = (v) => new Set(v).size === v.length;
+const booleanFields = [
+  "textHintOpened",
+  "meaningHintOpened",
+  "modelOpened",
+  "assistedCompletion",
+];
+function validRecord(a) {
+  return (
+    a &&
+    (a.listeningSuccess === undefined || bool(a.listeningSuccess)) &&
+    (a.spellingUnaided === undefined || bool(a.spellingUnaided)) &&
+    (a.sessionId === undefined || text(a.sessionId)) &&
+    Object.hasOwn(byId, a.itemId) &&
+    number(a.timestamp) &&
+    ["delivery", "copy"].includes(a.taskType) &&
+    ["pending", "audio", "text"].includes(a.presentationMode) &&
+    [null, true, false].includes(a.firstChoiceCorrect) &&
+    [null, true, false].includes(a.spellingCorrectFirst) &&
+    booleanFields.every((k) => bool(a[k])) &&
+    integer(a.wrongChoices) &&
+    integer(a.replayCount) &&
+    number(a.elapsedMs) &&
+    ["unknown", "physical", "screen", "mixed"].includes(a.keyboardMode) &&
+    a.autoCorrectionState === "unknown" &&
+    (a.taskType !== "delivery" ||
+      (integer(a.spellingErrors) && bool(a.audioHeard) && bool(a.audioFailed)))
+  );
+}
+function validCurrent(a) {
+  return (
+    validRecord(a) &&
+    a.taskType === "delivery" &&
+    ids(a.options) &&
+    a.options.length === 3 &&
+    unique(a.options) &&
+    a.options.includes(a.itemId) &&
+    a.images &&
+    a.options.every((id) => [0, 1].includes(a.images[id])) &&
+    ["input", "copyInput", "feedback", "choiceFeedback"].every((k) =>
+      text(a[k]),
+    ) &&
+    [
+      "showText",
+      "showMeaning",
+      "showModel",
+      "copyOpen",
+      "copyDone",
+      "submitted",
+    ].every((k) => bool(a[k])) &&
+    (!a.showText || a.textHintOpened) &&
+    (!a.showMeaning || a.meaningHintOpened) &&
+    (!a.showModel || a.modelOpened)
+  );
+}
+function validateState(s) {
+  if (
+    !s ||
+    s.game !== GAME ||
+    s.version !== 1 ||
+    !integer(s.completedSessions) ||
+    !Array.isArray(s.seenGroups) ||
+    !s.seenGroups.every((g) => [1, 2, 3].includes(g)) ||
+    !unique(s.seenGroups) ||
+    !ids(s.favorites) ||
+    !unique(s.favorites) ||
+    !s.imageHistory ||
+    typeof s.imageHistory !== "object" ||
+    !Object.entries(s.imageHistory).every(
+      ([id, n]) => Object.hasOwn(byId, id) && [0, 1].includes(n),
+    ) ||
+    !Array.isArray(s.records) ||
+    s.records.length > 20000 ||
+    !s.records.every(validRecord)
+  )
+    throw new Error("保存データの形式が違います。");
+  const c = s.settings;
+  if (
+    !c ||
+    !["sound", "autoplay", "keyboard"].every((k) => bool(c[k])) ||
+    ![0.8, 1].includes(c.rate) ||
+    !["normal", "large"].includes(c.fontSize) ||
+    !text(c.voiceURI)
+  )
+    throw new Error("設定データが壊れています。");
+  const a = s.session;
+  if (a !== null) {
+    if (
+      !a ||
+      !text(a.id) ||
+      !a.id ||
+      ![1, 2, 3, 4].includes(a.group) ||
+      !["intro", "choice", "typing", "ready", "delivered", "results"].includes(
+        a.phase,
+      ) ||
+      !ids(a.queue) ||
+      a.queue.length > 4 ||
+      !unique(a.queue) ||
+      !Array.isArray(a.attempts) ||
+      a.attempts.length > 6 ||
+      !a.attempts.every((r) => validRecord(r) && r.taskType === "delivery") ||
+      ![-1, 0, 1, 2].includes(a.lastPosition) ||
+      !bool(a.completed) ||
+      !bool(a.rewarded)
+    )
+      throw new Error("途中データが壊れています。");
+    if (a.completed) {
+      if (
+        !a.rewarded ||
+        a.phase !== "results" ||
+        a.attempts.length !== 6 ||
+        a.current !== null ||
+        s.completedSessions < 1
+      )
+        throw new Error("完了データが矛盾しています。");
+    } else if (
+      a.rewarded ||
+      a.phase === "results" ||
+      a.attempts.length > 5 ||
+      (a.phase === "intro" ? a.current !== null : !validCurrent(a.current))
+    )
+      throw new Error("途中データが矛盾しています。");
+  }
+  return s;
+}
+function parseState(raw) {
+  if (typeof raw !== "string" || raw.length > 5_000_000)
+    throw new Error("5MB以内のこの作品のJSONを選んでください。");
+  return validateState(JSON.parse(raw));
+}
+function loadState(storage) {
+  try {
+    const raw = storage.getItem(STORAGE_KEY);
+    return { state: raw ? parseState(raw) : freshState(), warning: "" };
+  } catch {
+    return {
+      state: freshState(),
+      warning:
+        "保存を読み込めませんでした。この回は新しく遊べます。必要なら設定から記録を読み込んでください。",
+    };
+  }
+}
+function saveState(storage, state) {
+  try {
+    storage.setItem(STORAGE_KEY, JSON.stringify(state));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+return { STORAGE_KEY, validateState, parseState, loadState, saveState };
+})();
+modules["src/speech.js"] = (() => {
+class Speaker {
+  constructor(
+    synth = globalThis.speechSynthesis,
+    Utterance = globalThis.SpeechSynthesisUtterance,
+    onVoices = () => {},
+  ) {
+    this.synth = synth;
+    this.Utterance = Utterance;
+    this.generation = 0;
+    this.timer = null;
+    this.onVoices = onVoices;
+    this.refresh = () => {
+      this.voices = (this.synth?.getVoices() || []).filter((v) =>
+        /^en(?:-|_|$)/iu.test(v.lang),
+      );
+      this.onVoices(this.voices);
+    };
+    this.voices = [];
+    this.synth?.addEventListener("voiceschanged", this.refresh);
+    this.refresh();
+  }
+  stop() {
+    this.generation++;
+    clearTimeout(this.timer);
+    this.timer = null;
+    this.synth?.cancel();
+    this.utterance = null;
+  }
+  speak(reference, settings, callback = () => {}) {
+    this.stop();
+    const token = this.generation;
+    this.refresh();
+    const fail = (message) => callback({ status: "error", message });
+    if (!settings.sound) {
+      fail("音声は設定でオフになっています。英文で遊べます。");
+      return;
+    }
+    if (!this.synth || !this.Utterance) {
+      fail("このブラウザは音声合成に対応していません。英文で遊べます。");
+      return;
+    }
+    const voice =
+      this.voices.find((v) => v.voiceURI === settings.voiceURI) ||
+      this.voices[0];
+    if (!voice) {
+      fail(
+        "英語の声がまだ見つかりません。端末に英語音声を追加するか、再試行してください。英文でも遊べます。",
+      );
+      return;
+    }
+    const utterance = new this.Utterance(reference.text);
+    utterance.voice = voice;
+    utterance.lang = voice.lang;
+    utterance.rate = settings.rate;
+    this.utterance = utterance;
+    let finished = false;
+    const finish = (result) => {
+      if (token !== this.generation || finished) return;
+      finished = true;
+      clearTimeout(this.timer);
+      callback(result);
+    };
+    utterance.onend = () =>
+      finish({
+        status: "success",
+        message: "再生しました。もう一度聞くこともできます。",
+      });
+    utterance.onerror = () =>
+      finish({
+        status: "error",
+        message:
+          "音声を再生できませんでした。再試行するか、英文で遊んでください。",
+      });
+    callback({ status: "pending", message: "再生しています…" });
+    this.timer = setTimeout(() => {
+      finish({
+        status: "error",
+        message: "音声の応答がありません。再試行するか、英文で遊んでください。",
+      });
+      this.stop();
+    }, 12000);
+    try {
+      this.synth.speak(utterance);
+    } catch {
+      finish({
+        status: "error",
+        message: "音声を開始できませんでした。再試行できます。",
+      });
+    }
+  }
+}
+
+return { Speaker };
+})();
+modules["src/app.js"] = (() => {
+const {  items, byId, groupNames  } = modules["src/data.js"];
+const { 
+  DAY,
+  freshState,
+  startSession,
+  finishIntro,
+  choose,
+  openHint,
+  submitWord,
+  assistWord,
+  handover,
+  advance,
+  submitCopy,
+  nextLetter,
+  normalizeSentence,
+  summary,
+ } = modules["src/engine.js"];
+const {  STORAGE_KEY, loadState, saveState, parseState  } = modules["src/storage.js"];
+const {  Speaker  } = modules["src/speech.js"];
+
+const app = document.querySelector("#app");
+const notice = document.querySelector("#storage-notice");
+let storage;
+try {
+  storage = window.localStorage;
+} catch {
+  storage = {
+    getItem() {
+      throw new Error();
+    },
+    setItem() {
+      throw new Error();
+    },
+  };
+}
+const loaded = loadState(storage);
+let state = loaded.state;
+let view = "title";
+let shifted = false;
+let audioMessage = "";
+let settingsMessage = "";
+let composing = false;
+const escape = (value) =>
+  String(value).replace(
+    /[&<>"']/gu,
+    (ch) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[
+        ch
+      ],
+  );
+function warn(message) {
+  notice.textContent = message;
+  notice.hidden = !message;
+}
+warn(loaded.warning);
+function persist() {
+  if (!saveState(storage, state))
+    warn(
+      "この端末では保存できません。画面を閉じるまで遊べます。設定の「JSONを書き出す」で記録を残してください。",
+    );
+}
+const speaker = new Speaker(undefined, undefined, () => {
+  if (view === "settings") updateVoices();
+});
+function audioStatus(message) {
+  audioMessage = message;
+  document.querySelectorAll(".audio-status").forEach((el) => {
+    el.textContent = message;
+  });
+}
+function play(reference, attempt = null, replay = false) {
+  if (attempt && replay) attempt.replayCount++;
+  speaker.speak(reference, state.settings, (result) => {
+    audioStatus(result.message);
+    if (
+      attempt &&
+      state.session?.current === attempt &&
+      state.session.phase === "choice"
+    ) {
+      if (result.status === "success") {
+        attempt.audioHeard = true;
+        attempt.presentationMode =
+          attempt.textHintOpened || attempt.meaningHintOpened
+            ? "text"
+            : "audio";
+      }
+      if (result.status === "error") {
+        attempt.audioFailed = true;
+        attempt.presentationMode = "text";
+        attempt.textHintOpened = attempt.showText = true;
+      }
+      persist();
+      if (result.status === "error" && view === "game") render();
+    }
+  });
+}
+function stopAudio() {
+  speaker.stop();
+  audioStatus("");
+}
+function autoPlay() {
+  const s = state.session;
+  if (!s?.current || s.phase !== "choice") return;
+  if (state.settings.autoplay)
+    play(byId[s.current.itemId].audioRequest, s.current);
+  else audioStatus("「依頼を聞く」を押してね。音声なしでも英文で遊べます。");
+}
+const image = (item, variant = 0, alt = item.meaningJa, className = "") =>
+  `<img class="item-art ${className}" src="${item.imageVariants[variant]}" alt="${escape(alt)}" draggable="false">`;
+function button(action, label, className = "", extra = "") {
+  return `<button class="${className}" data-action="${action}" ${extra}>${label}</button>`;
+}
+function viewHead(eyebrow, title, detail) {
+  return `<div class="view-head"><div><p class="eyebrow">${eyebrow}</p><h1>${title}</h1><p class="muted">${detail}</p></div>${button("home", "← タイトル", "quiet")}</div>`;
+}
+function renderTitle() {
+  const resumable = state.session && !state.session.completed;
+  return `<section class="hero">
+    <div class="hero-copy"><p class="eyebrow"><span class="tiny-line"></span> 小さなお店、開店です。</p><h1>きょうは、<br>ことばを<span class="accent">届けに。</span></h1><p class="hero-description">英語のお願いを聞いて、品物をえらぶ。<br>名前を荷札に書いたら、おつかい完了。<br>ゆっくり、あなたのペースでどうぞ。</p>
+      <div class="hero-actions">${button(resumable ? "continue" : "start", resumable ? "つづきから届ける <span>→</span>" : "おつかいをはじめる <span>→</span>", "primary large")}${button("dictionary", "図鑑をのぞく ↗", "text-button")}</div>
+      <p class="micro">1回6件 ・ 時間制限なし ・ お手本つき</p></div>
+    <div class="shop-illustration" aria-label="キツネのお客さんが待つ小さなお店" role="img"><div class="shop-sign">LITTLE WORD SHOP <span>OPEN</span></div><div class="awning"></div><div class="shop-wall"><span class="sun">✳</span><div class="speech-bubble">Hello!<span>おつかい、お願いできる？</span></div><img class="fox" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48ZyBzdHJva2U9IiM1ZTY2NGIiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTM5IDE1NXEtNS00MCAxOS01MWg2NHEyMyAxNCAyMCA1MSIgZmlsbD0iIzc5OWE4MCIvPjxwYXRoIGQ9Ik00NSA2NyAzNCAxOSA3NiA0Nm01OSAyMSAxMS00OC00MiAyNyIgZmlsbD0iI2M4N2M1MSIvPjxwYXRoIGQ9Im00NCAzNCA3IDI1IDEzLTEybTcyLTEzLTcgMjUtMTMtMTIiIGZpbGw9IiNlOWI5OTIiLz48cGF0aCBkPSJNNDEgNjdxMy0zNiA0OS0zMiA0Ni00IDQ5IDMybC03IDM3LTQyIDIyLTQyLTIyWiIgZmlsbD0iI2Q2OGY1YyIvPjxwYXRoIGQ9Im00MyA3NSA0NyAyNCA0Ny0yNC01IDI5LTQyIDIyLTQyLTIyWiIgZmlsbD0iI2ZmZjNkMyIvPjxwYXRoIGQ9Im04MyA5NiA3IDkgNy05WiIgZmlsbD0iIzQ3NTQ0NyIvPjxwYXRoIGQ9Ik02OSA3M3Y2bTQyLTZ2Nm0tMjcgMzFxNiA3IDEyIDAiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxlbGxpcHNlIGN4PSI2MCIgY3k9Ijg4IiByeD0iOSIgcnk9IjQiIGZpbGw9IiNkZWEwN2YiIHN0cm9rZT0ibm9uZSIvPjxlbGxpcHNlIGN4PSIxMjAiIGN5PSI4OCIgcng9IjkiIHJ5PSI0IiBmaWxsPSIjZGVhMDdmIiBzdHJva2U9Im5vbmUiLz48cGF0aCBkPSJNNzggMTI4aDI0bDkgMjdINjlaIiBmaWxsPSIjZjJlOWM5Ii8+PHBhdGggZD0iTTU1IDE1MWgxOG0zNCAwaDE4IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L2c+PC9zdmc+" alt=""><div class="shelf">${image(items[6], 0, "")}${image(items[0], 0, "")}${image(items[4], 0, "")}</div></div><div class="counter"><span>ことばと、ちいさなよろこび。</span></div><div class="shop-stamp">12 WORDS<br><strong>ひとつずつ</strong></div></div>
+  </section>
+  <section class="how-to" aria-label="遊び方"><div class="how-intro"><p class="eyebrow">HOW TO PLAY</p><h2>おつかいは、3つのこと。</h2></div><div class="how-step"><span>01</span><div><h3>耳をすませる</h3><p>英語のお願いを聞こう。</p></div></div><div class="how-step"><span>02</span><div><h3>品物をえらぶ</h3><p>3つの絵から、ぴったりを。</p></div></div><div class="how-step"><span>03</span><div><h3>荷札をかく</h3><p>お手本を使っても大丈夫。</p></div></div></section>
+  <section class="progress-strip"><div><span class="eyebrow">YOUR LITTLE SHOP</span><p>届けたおつかい <strong>${state.completedSessions} 回</strong> <span class="decorations" aria-label="集めた店先の飾り">${"✿".repeat(Math.min(state.completedSessions, 12))}</span></p></div><p class="muted">失敗しても、何度でも。<br>お客さんは待ってくれるよ。</p></section>`;
+}
+function renderIntro() {
+  const s = state.session;
+  return `${viewHead(`GROUP 0${s.group} / 03`, "今日の品物を、ひとつずつ。", "絵・名前・音を確認しよう。カードを見ただけでは成績に数えません。")}
+  <div class="intro-grid">${items
+    .filter((i) => i.group === s.group)
+    .map(
+      (item) =>
+        `<article class="word-card">${image(item)}<p class="word-en" lang="en">${item.lemma}</p><h2>${item.meaningJa}</h2><p lang="en">${item.requestEn}</p><p class="muted">${item.requestJa}</p><div class="card-audio">${button("audio-word", "▷ 単語", "quiet", `data-id="${item.id}"`)}${button("audio-request", "▷ 依頼", "quiet", `data-id="${item.id}"`)}</div></article>`,
+    )
+    .join("")}</div>
+  <p class="audio-status" role="status">${escape(audioMessage)}</p><div class="center-actions">${button("begin", "確認した · お店に立つ →", "primary large")}${button("begin", "知っているのでスキップ", "text-button")}</div>`;
+}
+function guideMarkup(value, target) {
+  const hint = nextLetter(value, target);
+  return `<span class="model-label">お手本</span><span class="model-word" lang="en">${[...target].map((letter, index) => `<span class="${index < hint.index ? "matched" : index === hint.index ? "next-letter" : ""}">${letter === " " ? "␣" : escape(letter)}</span>`).join("")}</span><span class="guide-message">${hint.wrong ? `${hint.index + 1}文字目を直そう` : hint.char ? `次は ${hint.char === " " ? "Space" : hint.char.toUpperCase()}` : "ぜんぶ書けたね"}</span>`;
+}
+function keyboardMarkup(target = "", input = "") {
+  const hint = target ? nextLetter(input, target).char.toLowerCase() : "";
+  return `<div class="keyboard-top"><span>ENGLISH QWERTY</span><span>光るキーが、次の文字</span></div>${["qwertyuiop", "asdfghjkl", "zxcvbnm"].map((row, index) => `<div class="key-row row-${index}">${[...row].map((key) => `<button type="button" data-key="${key}" aria-label="${key}" class="key ${hint === key ? "key-glow" : ""}">${shifted ? key.toUpperCase() : key}</button>`).join("")}</div>`).join("")}<div class="key-row controls"><button type="button" data-key="Shift" aria-pressed="${shifted}" class="key">Shift ↑</button><button type="button" data-key=" " aria-label="Space" class="key space ${hint === " " ? "key-glow" : ""}">Space</button><button type="button" data-key="Backspace" class="key" aria-label="Backspace">⌫</button><button type="button" data-key="Enter" class="key enter">Enter ↵</button></div>`;
+}
+function renderGame() {
+  const s = state.session;
+  if (s.phase === "intro") return renderIntro();
+  if (s.phase === "results") return renderResults();
+  const a = s.current,
+    item = byId[a.itemId];
+  const typing = s.phase === "typing",
+    delivered = s.phase === "delivered",
+    ready = s.phase === "ready";
+  const copying = delivered && a.copyOpen && !a.copyDone;
+  const inputTarget = copying ? normalizeSentence(item.requestEn) : item.lemma;
+  const inputValue = copying ? a.copyInput : a.input;
+  const showBoard = state.settings.keyboard && (typing || copying);
+  return `<div class="game-heading"><div><p class="eyebrow">GROUP ${String(s.group).padStart(2, "0")} · ${groupNames[s.group]}</p><h1>小さなお店のお手伝い</h1></div><div class="delivery-progress"><strong>${s.attempts.length + 1}<small> / 6 件目</small></strong><div class="progress-dots">${Array.from({ length: 6 }, (_, i) => `<span class="${i < s.attempts.length ? "done" : i === s.attempts.length ? "current" : ""}"></span>`).join("")}</div></div></div>
+  <div class="game-layout"><section class="game-panel ${showBoard ? "with-keyboard" : ""}">
+    <div class="customer"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48ZyBzdHJva2U9IiM1ZTY2NGIiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTM5IDE1NXEtNS00MCAxOS01MWg2NHEyMyAxNCAyMCA1MSIgZmlsbD0iIzc5OWE4MCIvPjxwYXRoIGQ9Ik00NSA2NyAzNCAxOSA3NiA0Nm01OSAyMSAxMS00OC00MiAyNyIgZmlsbD0iI2M4N2M1MSIvPjxwYXRoIGQ9Im00NCAzNCA3IDI1IDEzLTEybTcyLTEzLTcgMjUtMTMtMTIiIGZpbGw9IiNlOWI5OTIiLz48cGF0aCBkPSJNNDEgNjdxMy0zNiA0OS0zMiA0Ni00IDQ5IDMybC03IDM3LTQyIDIyLTQyLTIyWiIgZmlsbD0iI2Q2OGY1YyIvPjxwYXRoIGQ9Im00MyA3NSA0NyAyNCA0Ny0yNC01IDI5LTQyIDIyLTQyLTIyWiIgZmlsbD0iI2ZmZjNkMyIvPjxwYXRoIGQ9Im04MyA5NiA3IDkgNy05WiIgZmlsbD0iIzQ3NTQ0NyIvPjxwYXRoIGQ9Ik02OSA3M3Y2bTQyLTZ2Nm0tMjcgMzFxNiA3IDEyIDAiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxlbGxpcHNlIGN4PSI2MCIgY3k9Ijg4IiByeD0iOSIgcnk9IjQiIGZpbGw9IiNkZWEwN2YiIHN0cm9rZT0ibm9uZSIvPjxlbGxpcHNlIGN4PSIxMjAiIGN5PSI4OCIgcng9IjkiIHJ5PSI0IiBmaWxsPSIjZGVhMDdmIiBzdHJva2U9Im5vbmUiLz48cGF0aCBkPSJNNzggMTI4aDI0bDkgMjdINjlaIiBmaWxsPSIjZjJlOWM5Ii8+PHBhdGggZD0iTTU1IDE1MWgxOG0zNCAwaDE4IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L2c+PC9zdmc+" alt="キツネのお客さん"><div><span class="eyebrow">お客さんのお願い</span><div class="request-actions">${button("listen", "▷ 依頼を聞く", "primary small")}${button("slow-listen", "▷ ゆっくり", "quiet small")}${button("stop-audio", "停止", "text-button small")}</div></div></div>
+    <p class="audio-status" role="status">${escape(audioMessage || "依頼は何度でも聞き直せるよ。")}</p>
+    ${!delivered ? `<div class="hint-actions">${button("hint-text", a.showText ? "英文を閉じる" : "英文を見る", "hint-button", `aria-expanded="${a.showText}"`)}${button("hint-meaning", a.showMeaning ? "意味を閉じる" : "意味を見る", "hint-button", `aria-expanded="${a.showMeaning}"`)}</div>` : ""}
+    ${a.showText || delivered ? `<p class="request-text" lang="en">${item.requestEn}</p>` : ""}${a.showMeaning || delivered ? `<p class="meaning-text">${item.requestJa}</p>` : ""}
+    <ol class="stage-list" aria-label="配達の手順"><li class="${s.phase === "choice" ? "active" : "finished"}">1 品物をえらぶ</li><li class="${typing ? "active" : ready || delivered ? "finished" : ""}">2 荷札をかく</li><li class="${ready || delivered ? "active" : ""}">3 お届け</li></ol>
+    ${
+      s.phase === "choice"
+        ? `<h2 class="task-heading">どれを届けよう？</h2><div class="choices">${a.options.map((id, i) => `<button class="choice" data-choice="${id}" aria-label="候補${i + 1}">${image(byId[id], a.images[id], `候補${i + 1}の絵`)}<span>${String(i + 1).padStart(2, "0")}</span></button>`).join("")}</div><p class="feedback" role="status">${escape(a.choiceFeedback || "絵をタップして選んでね。")}</p>`
+        : `<div class="parcel"><div class="parcel-art">${image(item, a.images[item.id], item.meaningJa)}<span>${delivered ? "✓ お届けしました" : "選んだ品物"}</span></div><div class="shipping-label"><span class="eyebrow">${delivered ? "THANK YOU!" : "DELIVERY LABEL"}</span><h2>${delivered ? "ありがとう、また来るね。" : "名前を荷札に書こう。"}</h2>${typing ? `<label class="sr-only" for="word-input">荷札の名前（英語1語）</label><input id="word-input" class="word-input" value="${escape(a.input)}" maxlength="160" lang="en" inputmode="${state.settings.keyboard ? "none" : "text"}" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="英語で、ひとつの名前" aria-describedby="word-feedback"><div id="model-guide" class="model-guide" ${a.showModel ? "" : "hidden"}>${guideMarkup(a.input, item.lemma)}</div><div id="letter-feedback" class="letter-feedback">${a.submitted && a.spellingErrors ? diffMarkup(a.input, item.lemma) : ""}</div><div class="typing-actions">${button("submit-word", "決定 ↵", "primary")}${button("hint-model", a.showModel ? "お手本を閉じる" : "お手本を見る", "quiet")}${button("clear-input", "全消去", "text-button")}</div>` : `<p class="completed-label" lang="en">${item.lemma} <span>✓</span></p>`}</div></div>
+    <p id="word-feedback" class="feedback" role="status">${escape(a.feedback)}</p>
+    ${typing && a.spellingErrors > 0 ? `<div class="retry-actions">${button("retry-word", "再入力する", "quiet")}${button("assist", "今回は確認して渡す", "text-button")}</div>` : ""}
+    ${ready ? button("handover", "お客さんに渡す →", "primary large full") : ""}
+    ${delivered ? `<div class="delivered-actions">${button("copy-open", a.copyOpen ? "文の練習を閉じる" : "この文も打つ（任意）", "quiet")}<p class="micro">文の練習はお手本の「転記」として別に記録します。コンマ・最後の点は省略できます。</p></div>${a.copyOpen ? `<div class="copy-box"><p class="copy-model" lang="en">${item.requestEn}</p><label for="copy-input">お手本どおりに書いてみよう</label><input id="copy-input" class="word-input" value="${escape(a.copyInput)}" maxlength="160" lang="en" inputmode="${state.settings.keyboard ? "none" : "text"}" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" ${a.copyDone ? "readonly" : ""}><div id="model-guide" class="model-guide">${guideMarkup(a.copyInput, normalizeSentence(item.requestEn))}</div>${a.copyDone ? "" : button("submit-copy", "文の転記を確認 ↵", "quiet")}<p class="feedback" role="status">${escape(a.copyFeedback || "")}</p></div>` : ""}${button("next", s.attempts.length === 5 ? "配達を終えて、結果を見る →" : "次のお願いへ →", "primary large full")}` : ""}`
+    }
+    ${showBoard ? `<div class="keyboard" aria-label="英語画面キーボード">${keyboardMarkup(a.showModel || copying ? inputTarget : "", inputValue)}</div>` : ""}
+  </section><aside class="shop-note"><p class="eyebrow">SHOP NOTE</p><h2>あせらなくて、<br>大丈夫。</h2><p>聞き直しても、お手本を<br>見ても、最後まで届けられるよ。</p><div class="note-rule"></div><p>聞いて選んだこと。<br>自分で綴ったこと。<br>助けてもらったこと。</p><p>ひとつずつ、別々に<br>大切に記録します。</p><span class="note-flower">✳</span>${button("home", "いったんお休みする", "text-button")}<p class="micro">進み具合は自動で保存</p></aside></div>`;
+}
+function diffMarkup(value, target) {
+  return `<span>入力の確認：</span>${[...value.normalize("NFKC")].map((ch, i) => `<span class="${ch.toLowerCase() === target[i] ? "letter-ok" : "letter-wrong"}">${escape(ch === " " ? "␣" : ch)}</span>`).join("")}<span>（○ 一致 / 下線は違う文字）</span>`;
+}
+function renderResults() {
+  const s = state.session;
+  const copies = state.records.filter(
+    (r) => r.taskType === "copy" && r.sessionId === s.id,
+  );
+  const stats = summary([...s.attempts, ...copies]);
+  return `<section class="results"><p class="eyebrow">TODAY'S DELIVERIES · おつかい完了</p><div class="reward-flower" aria-label="新しい店先の飾り">✿</div><h1>6つの「ありがとう」が、<br>届きました。</h1><p class="muted">お店に飾りがひとつ増えたよ。いままで ${state.completedSessions} 回のおつかい。</p><div class="result-stats"><div><strong>${stats.listening}<small> / 6</small></strong><span>音だけで選べた</span></div><div><strong>${stats.spelling}<small> / 6</small></strong><span>お手本なし・初回で綴れた</span></div><div><strong>${stats.assisted}<small> 件</small></strong><span>支援を使って届けた</span></div><div><strong>${stats.copy}<small> 件</small></strong><span>お手本の文を転記した</span></div></div><p class="micro">音声なし・英文や意味を見た問題は「音だけ」に数えません。<br>この記録だけで習得や学習効果を判定するものではありません。</p>
+    <div class="result-details">${s.attempts.map((a) => `<div>${image(byId[a.itemId], 0, "")}<strong lang="en">${byId[a.itemId].lemma}</strong><span>${a.listeningSuccess ? "✓ 聞いて選べた" : "聞き取り成功の記録なし"}</span><span>${a.spellingUnaided ? "✓ 自分で綴れた" : "綴りは練習・支援あり"}</span></div>`).join("")}</div><div class="center-actions">${button("start", s.group < 3 ? "次の組のおつかいへ →" : "もう一回、おつかいへ →", "primary large")}${button("dictionary", "図鑑でふりかえる", "quiet")}${button("home", "タイトルへ", "text-button")}</div></section>`;
+}
+function renderDictionary() {
+  return `${viewHead("WORD COLLECTION", "小さなことば図鑑", "12の品物と、そのお願い。好きなことばには星をつけよう。")}
+  <p class="audio-status" role="status">${escape(audioMessage)}</p><div class="dictionary-grid">${items
+    .map((item) => {
+      const records = state.records.filter(
+        (r) => r.itemId === item.id && r.taskType === "delivery",
+      );
+      const later =
+        records.length > 1 &&
+        records.at(-1).timestamp - records[0].timestamp >= DAY;
+      return `<article class="word-card"><div class="word-card-top"><span class="eyebrow">${item.id.toUpperCase()} · 組${item.group}</span><button class="favorite" data-favorite="${item.id}" aria-label="${item.lemma}をお気に入り" aria-pressed="${state.favorites.includes(item.id)}">${state.favorites.includes(item.id) ? "★" : "☆"}</button></div><div class="two-images">${image(item, 0)}${image(item, 1)}</div><p class="word-en" lang="en">${item.lemma}</p><h2>${item.meaningJa}</h2><p lang="en">${item.requestEn}</p><p class="muted">${item.requestJa}</p><div class="card-audio">${button("audio-word", "▷ 単語", "quiet", `data-id="${item.id}"`)}${button("audio-request", "▷ 依頼", "quiet", `data-id="${item.id}"`)}</div><div class="word-status"><span>${state.seenGroups.includes(item.group) ? "確認した" : "未練習"}</span>${records.some((r) => r.listeningSuccess) ? "<span>聞いて選べた</span>" : ""}${records.some((r) => r.spellingUnaided) ? "<span>お手本なしで綴れた</span>" : ""}${later ? "<span>別の日にも確認した</span>" : ""}</div></article>`;
+    })
+    .join("")}</div>`;
+}
+function renderSettings() {
+  const c = state.settings;
+  return `${viewHead("MAKE YOURSELF AT HOME", "あなたのペースで。", "設定を変えても、途中のおつかいはそのままです。")}
+    <section class="settings-card"><h2>音と文字</h2><label class="setting-row"><span>音声を使う<small>端末の英語音声を使います</small></span><input data-setting="sound" type="checkbox" ${c.sound ? "checked" : ""}></label><label class="setting-row"><span>依頼を自動再生<small>新しいお願いが届いたとき</small></span><input data-setting="autoplay" type="checkbox" ${c.autoplay ? "checked" : ""}></label>
+    <label class="setting-row" for="voice-select"><span>英語の声</span><select id="voice-select" data-setting="voiceURI"></select></label><label class="setting-row"><span>音声の速さ</span><select data-setting="rate"><option value="1" ${c.rate === 1 ? "selected" : ""}>通常（1.0）</option><option value="0.8" ${c.rate === 0.8 ? "selected" : ""}>ゆっくり（0.8）</option></select></label>
+    <p class="micro">声の有無・品質は端末とブラウザによります。日本語の声への代替はしません。</p><div class="card-audio">${button("test-audio", "▷ 英語の声を試す", "quiet")}${button("stop-audio", "停止", "quiet")}</div><p class="audio-status" role="status">${escape(audioMessage)}</p>
+    <label class="setting-row"><span>英語の画面キーボード<small>オフにすると端末のキーボードを使います</small></span><input data-setting="keyboard" type="checkbox" ${c.keyboard ? "checked" : ""}></label><label class="setting-row"><span>文字の大きさ</span><select data-setting="fontSize"><option value="normal" ${c.fontSize === "normal" ? "selected" : ""}>ふつう</option><option value="large" ${c.fontSize === "large" ? "selected" : ""}>大きめ</option></select></label></section>
+    <section class="settings-card"><h2>おつかいの記録</h2><p class="muted">このブラウザに保存します。別の端末へ移すときはJSONを使ってください。アカウントや自動同期はありません。</p><div class="save-actions">${button("export", "JSONを書き出す ↓", "quiet")}<label class="file-button quiet">JSONを読み込む ↑<input id="import-file" type="file" accept="application/json,.json"></label></div><p id="settings-message" role="status">${escape(settingsMessage)}</p><p class="micro">読み込みはこの作品の進行・設定・記録を置き換えます。今の記録を先に書き出せます。</p><details class="delete-area"><summary>この作品の記録を削除する</summary><p>進行・お気に入り・設定を削除します。他の作品には触れません。</p>${button("delete", "確認：この作品の記録をすべて削除", "danger")}</details></section>
+    ${state.session && !state.session.completed ? `<div class="center-actions">${button("continue", "おつかいに戻る →", "primary large")}</div>` : ""}`;
+}
+function updateVoices() {
+  const el = document.querySelector("#voice-select");
+  if (!el || !speaker) return;
+  el.innerHTML = `<option value="">${speaker.voices.length ? "英語の声を自動で選ぶ" : "英語の声が見つかりません"}</option>${speaker.voices.map((v) => `<option value="${escape(v.voiceURI)}">${escape(v.name)} (${escape(v.lang)})</option>`).join("")}`;
+  el.value = state.settings.voiceURI;
+}
+function render() {
+  document.documentElement.dataset.fontSize = state.settings.fontSize;
+  document.body.classList.toggle(
+    "has-board",
+    view === "game" &&
+      state.settings.keyboard &&
+      (state.session?.phase === "typing" ||
+        (state.session?.phase === "delivered" &&
+          state.session?.current?.copyOpen &&
+          !state.session.current.copyDone)),
+  );
+  app.innerHTML =
+    view === "title"
+      ? renderTitle()
+      : view === "dictionary"
+        ? renderDictionary()
+        : view === "settings"
+          ? renderSettings()
+          : renderGame();
+  if (view === "settings") updateVoices();
+}
+function navigate(destination) {
+  stopAudio();
+  view = destination;
+  render();
+  window.scrollTo({ top: 0 });
+}
+function focusInput() {
+  requestAnimationFrame(() => {
+    const input = activeInput();
+    input?.focus({ preventScroll: true });
+    input?.scrollIntoView({ block: "center", behavior: "smooth" });
+  });
+}
+function activeInput() {
+  return document.querySelector("#copy-input:not([readonly]), #word-input");
+}
+function inputChanged(input, mode) {
+  const a = state.session.current;
+  if (mode && a.keyboardMode !== mode)
+    a.keyboardMode = a.keyboardMode === "unknown" ? mode : "mixed";
+  if (input.id === "copy-input") a.copyInput = input.value;
+  else a.input = input.value;
+  persist();
+  updateGuide();
+}
+function updateGuide() {
+  const a = state.session?.current;
+  const input = activeInput();
+  if (!a || !input) return;
+  const target =
+    input.id === "copy-input"
+      ? normalizeSentence(byId[a.itemId].requestEn)
+      : byId[a.itemId].lemma;
+  const guide = document.querySelector("#model-guide");
+  if (guide) guide.innerHTML = guideMarkup(input.value, target);
+  const board = document.querySelector(".keyboard");
+  if (board)
+    board.innerHTML = keyboardMarkup(
+      a.showModel || input.id === "copy-input" ? target : "",
+      input.value,
+    );
+}
+function screenKey(key) {
+  const input = activeInput();
+  if (!input) return;
+  if (key === "Shift") {
+    shifted = !shifted;
+    updateGuide();
+    return;
+  }
+  if (key === "Enter") {
+    perform(input.id === "copy-input" ? "submit-copy" : "submit-word");
+    return;
+  }
+  const start = input.selectionStart ?? input.value.length,
+    end = input.selectionEnd ?? start;
+  const pos =
+    key === "Backspace" && start === end ? Math.max(0, start - 1) : start;
+  const replacement =
+    key === "Backspace" ? "" : shifted ? key.toUpperCase() : key;
+  input.value = (
+    input.value.slice(0, pos) +
+    replacement +
+    input.value.slice(end)
+  ).slice(0, 160);
+  input.focus({ preventScroll: true });
+  input.setSelectionRange(pos + replacement.length, pos + replacement.length);
+  inputChanged(input, "screen");
+}
+function perform(action, id) {
+  const s = state.session,
+    a = s?.current;
+  if (["home", "dictionary", "settings"].includes(action)) {
+    navigate(action === "home" ? "title" : action);
+    return;
+  }
+  if (action === "start") {
+    stopAudio();
+    startSession(state);
+    persist();
+    view = "game";
+    render();
+    autoPlay();
+    window.scrollTo({ top: 0 });
+    return;
+  }
+  if (action === "continue") {
+    navigate("game");
+    if (s?.phase === "choice") autoPlay();
+    return;
+  }
+  if (action === "begin") {
+    stopAudio();
+    finishIntro(state);
+    persist();
+    render();
+    autoPlay();
+    window.scrollTo({ top: 0 });
+    return;
+  }
+  if (action === "audio-word" || action === "audio-request") {
+    play(action === "audio-word" ? byId[id].audioWord : byId[id].audioRequest);
+    return;
+  }
+  if (action === "test-audio") {
+    play(items[0].audioRequest);
+    return;
+  }
+  if (action === "stop-audio") {
+    stopAudio();
+    return;
+  }
+  if (action === "listen" || action === "slow-listen") {
+    if (action === "slow-listen") {
+      state.settings.rate = 0.8;
+      persist();
+    }
+    play(byId[a.itemId].audioRequest, a, true);
+    return;
+  }
+  if (action?.startsWith("hint-")) {
+    openHint(state, action.slice(5));
+    persist();
+    render();
+    if (s.phase === "typing") focusInput();
+    return;
+  }
+  if (action === "submit-word") {
+    if (composing) return;
+    submitWord(state, document.querySelector("#word-input").value);
+    persist();
+    render();
+    if (s.phase === "typing") focusInput();
+    return;
+  }
+  if (action === "assist") {
+    assistWord(state);
+    persist();
+    render();
+    return;
+  }
+  if (action === "clear-input" || action === "retry-word") {
+    const input = activeInput();
+    if (input) {
+      input.value = "";
+      inputChanged(input);
+      input.focus();
+    }
+    return;
+  }
+  if (action === "handover") {
+    stopAudio();
+    handover(state);
+    persist();
+    render();
+    return;
+  }
+  if (action === "copy-open") {
+    a.copyOpen = !a.copyOpen;
+    persist();
+    render();
+    if (a.copyOpen) focusInput();
+    return;
+  }
+  if (action === "submit-copy") {
+    if (composing) return;
+    submitCopy(state, document.querySelector("#copy-input").value);
+    persist();
+    render();
+    if (!a.copyDone) focusInput();
+    return;
+  }
+  if (action === "next") {
+    stopAudio();
+    advance(state);
+    persist();
+    render();
+    autoPlay();
+    window.scrollTo({ top: 0 });
+    return;
+  }
+  if (action === "export") {
+    const blob = new Blob([JSON.stringify(state, null, 2)], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(blob),
+      link = document.createElement("a");
+    link.href = url;
+    link.download = `english-errands-${new Date().toISOString().slice(0, 10)}.json`;
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    return;
+  }
+  if (action === "delete") {
+    stopAudio();
+    try {
+      storage.removeItem(STORAGE_KEY);
+      warn("");
+    } catch {
+      warn(
+        "端末の記録を削除できませんでした。ブラウザの保存設定を確認してください。",
+      );
+      return;
+    }
+    state = freshState();
+    settingsMessage = "この作品の記録を削除しました。";
+    render();
+    return;
+  }
+}
+document.addEventListener("click", (event) => {
+  const target = event.target.closest("button, .brand");
+  if (!target) return;
+  if (target.matches(".brand")) {
+    event.preventDefault();
+    navigate("title");
+    return;
+  }
+  if (target.dataset.key !== undefined) {
+    screenKey(target.dataset.key);
+    return;
+  }
+  if (target.dataset.choice) {
+    choose(state, target.dataset.choice);
+    if (state.session.phase === "typing") stopAudio();
+    persist();
+    render();
+    if (state.session.phase === "typing") focusInput();
+    return;
+  }
+  if (target.dataset.favorite) {
+    const id = target.dataset.favorite;
+    state.favorites = state.favorites.includes(id)
+      ? state.favorites.filter((v) => v !== id)
+      : [...state.favorites, id];
+    persist();
+    render();
+    return;
+  }
+  perform(target.dataset.action || target.dataset.nav, target.dataset.id);
+});
+document.addEventListener("pointerdown", (event) => {
+  if (event.target.closest("[data-key]")) event.preventDefault();
+});
+document.addEventListener("input", (event) => {
+  if (
+    event.target.matches("#word-input, #copy-input") &&
+    !event.target.readOnly
+  )
+    inputChanged(event.target, "physical");
+});
+document.addEventListener("compositionstart", () => {
+  composing = true;
+});
+document.addEventListener("compositionend", () => {
+  composing = false;
+});
+document.addEventListener("keydown", (event) => {
+  if (
+    event.target.matches("#word-input, #copy-input") &&
+    event.key === "Enter" &&
+    !event.isComposing &&
+    !composing &&
+    event.keyCode !== 229
+  ) {
+    event.preventDefault();
+    perform(event.target.id === "copy-input" ? "submit-copy" : "submit-word");
+  }
+});
+document.addEventListener("change", async (event) => {
+  const field = event.target.dataset.setting;
+  if (field) {
+    state.settings[field] =
+      event.target.type === "checkbox"
+        ? event.target.checked
+        : field === "rate"
+          ? Number(event.target.value)
+          : event.target.value;
+    stopAudio();
+    persist();
+    render();
+    return;
+  }
+  if (event.target.id === "import-file") {
+    const file = event.target.files[0];
+    if (!file) return;
+    try {
+      if (file.size > 5_000_000)
+        throw new Error("5MB以内のJSONを選んでください。");
+      const imported = parseState(await file.text());
+      stopAudio();
+      state = imported;
+      persist();
+      settingsMessage = "記録を読み込みました。途中のおつかいも再開できます。";
+    } catch {
+      settingsMessage =
+        "読み込めませんでした。この作品の正しい形式のJSONを選んでください。現在の記録は変更していません。";
+    }
+    render();
+  }
+});
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    stopAudio();
+    persist();
+  }
+});
+render();
+
+return {  };
+})();
+})();
+</script>
+</body>
+</html>
