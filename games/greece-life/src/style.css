@@ -82,7 +82,7 @@ button { font: inherit; cursor: pointer; }
 .icon.on, .star.on { color: #e8a600; }
 
 /* HUD */
-.hud { position: absolute; inset: 0; pointer-events: none; }
+.hud { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
 .hud > * { pointer-events: auto; }
 .hud-tl { position: absolute; left: 12px; top: 10px; background: rgba(251, 250, 246, 0.86); border-radius: 12px; padding: 8px 12px; box-shadow: var(--shadow); min-width: 220px; }
 .clock { font-size: 28px; font-weight: 700; color: var(--blue-dark); }
@@ -108,7 +108,7 @@ button { font: inherit; cursor: pointer; }
 .tag-name .role { color: #cfe0f2; font-size: 12px; }
 
 /* panels */
-.panels { position: absolute; inset: 0; pointer-events: none; }
+.panels { position: absolute; inset: 0; pointer-events: none; z-index: 6; }
 .panel { pointer-events: auto; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); background: var(--panel); border-radius: 16px; box-shadow: var(--shadow); padding: 14px 18px; width: min(560px, 94vw); max-height: 90vh; overflow: auto; }
 .panel.wide { width: min(920px, 96vw); }
 .panel.small { width: min(420px, 92vw); z-index: 5; }

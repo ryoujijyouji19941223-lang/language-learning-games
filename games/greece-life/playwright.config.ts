@@ -11,6 +11,7 @@ export default defineConfig({
     ...devices['Desktop Chrome'],
     baseURL: 'http://localhost:4175',
     viewport: { width: 1280, height: 760 },
+    actionTimeout: 20_000,
     launchOptions: { args: ['--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] },
   },
   webServer: {

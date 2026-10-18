@@ -10,6 +10,7 @@ import { dateOf, dateOfDay, nextMorning, MONTH_DAYS, hhmm, dateText } from '../c
 import { isOpen } from '../core/hours';
 import { euro } from '../core/money';
 import { tx } from '../core/state';
+import { dayForecast } from '../core/weather';
 import { h, en, header, button, ask } from './dom';
 import { greekLine, type Ctx } from './ctx';
 
@@ -60,6 +61,7 @@ export function openPhone(ctx: Ctx, tab: 'deliveries' | 'calendar' | 'home' | 'n
       c.append(
         h('h3', null, h('span', { lang: 'el' }, `${MONTHS[d.month].nom}, έτος ${d.year}`), ' ', en(`${MONTHS[d.month].en}, year ${d.year} (game calendar)`, 'en sub')),
         h('p', null, h('span', { lang: 'el' }, tt.el), ' ', en(tt.en, 'en small')),
+        ...[0, 1].map((k) => { const f = dayForecast(d.dayIndex + k); return h('p', { 'data-testid': `forecast-${k}` }, `${f.icon} `, h('span', { lang: 'el' }, `${k ? 'Αύριο' : 'Σήμερα'}: ${f.el}`), ' ', en(`${k ? 'Tomorrow' : 'Today'}: ${f.en}`, 'en small')); }),
         h('div', { class: 'calendar' }, ...cells),
         h('p', { class: 'hint', lang: 'en' }, 'Holiday names only for now; descriptions come after checking sources (M3). Movable feasts are fixed to one date in this game calendar.'),
         h('h4', null, h('span', { lang: 'el' }, 'Ξεκούραση'), ' ', en('rest: skip ahead, wake at 08:00', 'en small')),

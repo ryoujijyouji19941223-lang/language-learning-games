@@ -39,6 +39,7 @@ import { noteWord, type LexKind } from './core/lexicon';
 import { isOpen, hoursToday } from './core/hours';
 import { dateOf, GAME_MINUTES_PER_REAL_SECOND } from './core/calendar';
 import { coastZ, clamp } from './core/geo';
+import { weatherAt, weatherText } from './core/weather';
 import { SHOP_BY_ID, DISTRICTS, OPEN_SIGN } from './data/shops';
 import { HOME_BY_ID } from './data/homes';
 import { NPC_BY_ID } from './data/npcs';
@@ -80,7 +81,7 @@ class Game implements Ctx {
   private npcInteract: Interactable[] = [];
   private nearest: Interactable | null = null;
   private lastSave = 0;
-  private lastVoiceHelp = 0;
+  private lastVoiceHelp = -Infinity;
   private autopilot: { pts: Vec[]; i: number; run: boolean; resolve: (r: { ok: boolean; at: Vec }) => void; lastProgress: number; best: number } | null = null;
   private clockAcc = 0;
   private t = 0;
@@ -137,7 +138,12 @@ class Game implements Ctx {
       clothes: () => openBag(this, 'clothes'),
       interact: () => this.interact(),
     });
+    this.hud.el.classList.add('off');
     this.root.append(this.hud.el);
+    // a calm harbour view behind the title screen
+    this.pos.set(150, 1.2, 40);
+    this.yaw = Math.PI * 0.85;
+    this.rig.yaw = Math.PI * 0.85;
     this.resize();
     window.addEventListener('resize', () => this.resize());
     this.bindInput();
@@ -288,6 +294,7 @@ class Game implements Ctx {
       this.enterArea(p.area, { x: p.x, z: p.z, yaw: p.yaw });
     }
     this.playing = true;
+    this.hud.el.classList.remove('off');
     this.ambient.set(this.state.settings.ambient, this.state.settings.volume);
     if (!this.state.home && !this.state.introDone) {
       showIntro(this, () => { this.mutate((s) => { s.introDone = true; }); openRental(this); }, () => {
@@ -368,7 +375,8 @@ class Game implements Ctx {
       const d = Math.hypot(dx, dz);
       if (d > it.r) continue;
       const facing = d < 0.4 ? 1 : (dx * fx + dz * fz) / d;
-      const score = d - facing * 0.6 + (it.kind === 'npc' ? -0.3 : 0) + (it.kind === 'dest' ? -0.5 : 0);
+      // what you face wins; people a little more than doors
+      const score = d - facing * 1.2 + (it.kind === 'npc' ? -0.4 : 0) + (it.kind === 'dest' ? -0.5 : 0);
       if (score < bestScore) { bestScore = score; best = it; }
     }
     return best;
@@ -468,8 +476,10 @@ class Game implements Ctx {
   }
 
   // ── frame ─────────────────────────────────────────────────────────
-  frame(dt: number) {
+  fps = 0;
+  frame(dt: number, draw = true) {
     this.t += dt;
+    this.fps += (1 / Math.max(dt, 0.001) - this.fps) * 0.05;
     const area = this.areas.get(this.areaId)!;
     const blocked = !this.playing || this.ui.blocking() || this.editing;
     // clock: only while walking around (stops in menus, conversations, editing, hidden tab)
@@ -493,18 +503,21 @@ class Game implements Ctx {
         const dx = target.x - this.pos.x;
         const dz = target.z - this.pos.z;
         const d = Math.hypot(dx, dz);
+        const here = { x: this.pos.x, z: this.pos.z };
         if (d < 0.7) {
+          // reached this waypoint: aim for the next one
           ap.i++;
-          if (ap.i >= ap.pts.length) { this.autopilot = null; ap.resolve({ ok: true, at: { x: this.pos.x, z: this.pos.z } }); }
+          ap.best = Infinity;
+          ap.lastProgress = this.t;
+          if (ap.i >= ap.pts.length) { this.autopilot = null; ap.resolve({ ok: true, at: here }); }
         } else {
           mx = dx / d;
           mz = dz / d;
           run = ap.run;
           if (d < ap.best - 0.3) { ap.best = d; ap.lastProgress = this.t; }
-          if (this.t - ap.lastProgress > 4) { this.autopilot = null; ap.resolve({ ok: false, at: { x: this.pos.x, z: this.pos.z } }); }
+          // no progress for 4 s: something blocks the way
+          if (this.t - ap.lastProgress > 4) { this.autopilot = null; ap.resolve({ ok: false, at: here }); }
         }
-        if (this.autopilot && this.autopilot.i !== ap.i) { /* next point */ }
-        if (this.autopilot === ap && d < 0.7) { ap.best = Infinity; ap.lastProgress = this.t; }
       } else {
         const b = this.rig.basis();
         const f = (this.keys.has('w') || this.keys.has('arrowup') ? 1 : 0) - (this.keys.has('s') || this.keys.has('arrowdown') ? 1 : 0);
@@ -546,7 +559,12 @@ class Game implements Ctx {
     area.update?.(dt, this.t);
     const mod = dateOf(this.state.time).minuteOfDay;
     const inside = area.floorY !== null;
+    const wx = weatherAt(this.state.time);
+    const windy = wx.wind === 'calm' ? 0 : 1;
+    this.sky.setWeather({ clear: 0, partly: 0.3, cloudy: 0.7, rain: 0.95 }[wx.nowSky], wx.raining, dt, windy);
     this.sky.update(mod, this.pos, inside);
+    const seaShader = this.town.seaMaterial.userData.shader as unknown as { uniforms: { uWind?: { value: number } } } | undefined;
+    if (seaShader?.uniforms.uWind) seaShader.uniforms.uWind.value += ((windy ? 2.2 : 1) - seaShader.uniforms.uWind.value) * Math.min(1, dt);
     (this.town.lanterns.material as THREE.MeshStandardMaterial).emissiveIntensity = this.sky.night > 0.3 ? 2.2 : 0;
     this.plateTimer -= dt;
     if (this.plateTimer <= 0) {
@@ -569,7 +587,7 @@ class Game implements Ctx {
     // ambient sound
     const sea = inside ? 0.2 : clamp(1 - (coastZ(this.pos.x) - this.pos.z) / 45, 0, 1);
     const dId = inside ? 'agora' : districtAt(this.pos.x, this.pos.z);
-    this.ambient.mix(sea, inside ? 0 : this.pos.y, dId === 'agora' ? 1 : 0.2, inside);
+    this.ambient.mix(sea, (inside ? 0 : this.pos.y) + windy * 25, dId === 'agora' ? 1 : 0.2, inside);
     // HUD
     const dist = inside ? (() => {
       const id = this.areaId.split(':')[1];
@@ -582,6 +600,7 @@ class Game implements Ctx {
       this.note(DISTRICTS[dId].el, DISTRICTS[dId].en, 'place');
     }
     this.hud.update(this.state, {
+      weather: weatherText(this.state.time),
       district: dist,
       prompt: this.nearest ? this.promptFor(this.nearest) : null,
       atHome: !!this.state.home && this.areaId === `home:${this.state.home}` && !this.ui.blocking(),
@@ -590,13 +609,13 @@ class Game implements Ctx {
     this.updateSign(inside);
     this.updateTags();
     if (this.playing && performance.now() - this.lastSave > 120000) this.save();
-    this.renderer.render(this.scene, this.camera);
+    if (draw) this.renderer.render(this.scene, this.camera);
   }
 
   private bannerCache: { key: string; el: HTMLElement | null } = { key: '', el: null };
   private bannerEl(): HTMLElement | null {
     const job = this.state.jobs.active;
-    const key = `${this.viewing}|${job?.id ?? ''}|${this.editing}`;
+    const key = `${this.viewing}|${job?.id ?? ''}|${this.editing}|${this.ui.has('job')}`;
     if (this.bannerCache.key === key) return this.bannerCache.el;
     let el: HTMLElement | null = null;
     if (this.viewing) {
@@ -615,7 +634,7 @@ class Game implements Ctx {
           if (this.state.home) ask(this.ui, 'Μετακόμιση;', `Move here? Moving costs 20 € and your furniture goes to the storage box.`, 'Ναι', go);
           else go();
         }, { cls: 'btn primary small', enLabel: UIL.takeRoom.en, testid: 'banner-take' }));
-    } else if (job) {
+    } else if (job && !this.ui.has('job')) {
       el = h('div', null, h('span', { lang: 'el' }, JOBS[job.kind].el), en(' — shift paused. Go to the work spot or talk to the boss to continue.', 'en small'),
         button('Συνέχεια', () => openJob(this), { cls: 'btn small', enLabel: 'resume', testid: 'banner-job' }));
     }
@@ -672,6 +691,14 @@ class Game implements Ctx {
       walk: (pts: [number, number][], run = true) => new Promise<{ ok: boolean; at: Vec }>((resolve) => {
         this.autopilot = { pts: pts.map(([x, z]) => ({ x, z })), i: 0, run, resolve, lastProgress: this.t, best: Infinity };
       }),
+      /** Same movement and collisions as play, but stepped without drawing (fast in tests). */
+      walkFast: (pts: [number, number][], run = true, maxSeconds = 900) => {
+        let result: { ok: boolean; at: Vec } | null = null;
+        this.autopilot = { pts: pts.map(([x, z]) => ({ x, z })), i: 0, run, resolve: (r) => { result = r; }, lastProgress: this.t, best: Infinity };
+        for (let i = 0; i < maxSeconds * 20 && !result; i++) this.frame(0.05, false);
+        this.autopilot = null;
+        return result ?? { ok: false, at: { x: this.pos.x, z: this.pos.z } };
+      },
       cameraInside: () => this.rig.insideSomething(this.areas.get(this.areaId)!, this.npcShapes),
       cameraYaw: (y: number) => { this.rig.yaw = y; },
       nearest: () => (this.nearest ? { ...this.nearest } : null),
@@ -681,6 +708,10 @@ class Game implements Ctx {
       insideBuilding: () => getLayout().lots.some((l) => pointInShape({ kind: 'box', x: l.x, z: l.z, hw: l.w / 2, hd: l.d / 2, rot: l.rot, top: 10 }, this.pos.x, this.pos.z)),
       panels: () => this.ui.stack.map((p) => p.id),
       areaIds: () => [...this.areas.keys()],
+      interactables: () => this.available().map((i) => ({ ...i })),
+      allDest: () => this.town.area.interactables.filter((i) => i.kind === 'dest').map((i) => ({ ...i })),
+      fps: () => this.fps,
+      roads: () => getLayout().roads.map((r) => ({ id: r.id, pts: r.pts })),
     };
   }
 }

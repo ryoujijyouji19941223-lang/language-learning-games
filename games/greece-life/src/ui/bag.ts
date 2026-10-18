@@ -4,7 +4,9 @@ import { ITEM_BY_ID } from '../data/items';
 import { RECIPE_BY_ID } from '../data/recipes';
 import { CLOTHES, CLOTHES_BY_ID, SLOT_LABEL, type Slot } from '../data/clothes';
 import { FURNITURE_BY_ID } from '../data/furniture';
-import { eat } from '../core/shop';
+import { eat, isFull } from '../core/shop';
+import { DRINKS } from '../data/items';
+import { hhmm } from '../core/calendar';
 import { wear, takeOffAccessory } from '../core/wardrobe';
 import { parcelLabel } from '../core/delivery';
 import { h, en, header, button } from './dom';
@@ -20,6 +22,9 @@ export function openBag(ctx: Ctx, tab: 'food' | 'clothes' | 'furniture' | 'parce
     const content = h('div', { class: 'tab-body' });
     if (t === 'food') {
       const entries = Object.entries(s.inventory).sort();
+      content.append(h('p', { class: 'hint' }, isFull(s)
+        ? [h('span', { lang: 'el' }, `🍽 Έχεις φάει. Ξανά από τις ${hhmm(s.fullUntil! % 1440)}.`), ' ', en('You are full until the next switch between day and night (06:00 / 18:00). Drinks are always fine; give food as gifts any time.', 'en small')]
+        : [h('span', { lang: 'el' }, '🍽 Μπορείς να φας.'), ' ', en('You can eat. One meal keeps you full until the next 06:00 or 18:00. Being hungry has no penalty.', 'en small')]));
       content.append(entries.length ? h('div', { class: 'catalog small' }, ...entries.map(([id, n]) => {
         const def = id.startsWith('dish:') ? RECIPE_BY_ID[id.slice(5)] : ITEM_BY_ID[id];
         const edible = id.startsWith('dish:') || id.startsWith('food:');
@@ -28,7 +33,7 @@ export function openBag(ctx: Ctx, tab: 'food' | 'clothes' | 'furniture' | 'parce
           h('div', { class: 'item-name', lang: 'el' }, def?.el ?? id, h('button', { class: 'icon', onclick: () => ctx.say(def?.el ?? id, { lexEl: def?.el, lexEn: def?.en, cat: 'food' }) }, '🔊')),
           en(def?.en ?? '', 'en small'),
           h('div', { class: 'qty' }, `× ${n}`),
-          edible ? button('Φάε', () => { ctx.commit(eat(ctx.state, id), { save: true }); render(t); }, { enLabel: 'Eat', testid: `eat-${id}` }) : null);
+          edible ? button(DRINKS.has(id) ? 'Πιες' : 'Φάε', () => { ctx.commit(eat(ctx.state, id), { save: true }); render(t); }, { enLabel: DRINKS.has(id) ? 'Drink' : 'Eat', testid: `eat-${id}`, disabled: !DRINKS.has(id) && isFull(ctx.state) }) : null);
       })) : h('p', { class: 'hint', lang: 'en' }, 'Your bag is empty.'));
     } else if (t === 'clothes') {
       for (const slot of ['top', 'bottom', 'shoes', 'acc'] as Slot[]) {

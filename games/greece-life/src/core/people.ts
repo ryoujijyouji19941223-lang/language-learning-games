@@ -4,7 +4,11 @@ import { NPC_BY_ID, NPCS, type NpcDef } from '../data/npcs';
 import { SHOP_BY_ID } from '../data/shops';
 import { dateOf } from './calendar';
 import { isOpen, isSiesta } from './hours';
+import { weatherAt } from './weather';
 import { tx, fail, addInventory, type GameState } from './state';
+
+/** Outdoor spots people leave when it rains. */
+const OPEN_AIR = new Set(['beach', 'lookout', 'breakwater', 'hill_path', 'lighthouse_path', 'windmill', 'chapel', 'geitonia_garden']);
 
 export type Whereabouts = { kind: 'work'; shop: string } | { kind: 'zone'; zone: string } | { kind: 'home' };
 
@@ -15,7 +19,9 @@ export function whereIs(npc: NpcDef, minutes: number): Whereabouts {
   const night = m >= 22 * 60 || m < 7 * 60;
   if (night) return npc.night ? { kind: 'zone', zone: npc.night } : { kind: 'home' };
   if (isSiesta(m)) return { kind: 'home' };
-  return { kind: 'zone', zone: m < 14 * 60 + 30 ? npc.am : npc.pm };
+  const zone = m < 14 * 60 + 30 ? npc.am : npc.pm;
+  if (OPEN_AIR.has(zone) && weatherAt(minutes).raining) return { kind: 'home' };
+  return { kind: 'zone', zone };
 }
 
 export function memory(s: GameState, id: string) {

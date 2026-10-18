@@ -2,7 +2,7 @@
 // the sign translation card and active deliveries. It never covers the town.
 
 import { h, en } from './dom';
-import { clockText, dateText, dateOf, seasonOf } from '../core/calendar';
+import { clockText, dateText, dateOf, seasonOf, hhmm } from '../core/calendar';
 import { SEASONS } from '../data/phrases';
 import { euro } from '../core/money';
 import { parcelLabel } from '../core/delivery';
@@ -17,6 +17,8 @@ export class Hud {
   private date = h('div', { class: 'date' });
   private money = h('div', { class: 'money', 'data-testid': 'money' });
   private district = h('div', { class: 'district' });
+  private meal = h('div', { class: 'meal small', 'data-testid': 'meal' });
+  private weather = h('div', { class: 'weather small', 'data-testid': 'weather' });
   private prompt = h('button', { class: 'prompt', 'data-testid': 'prompt', hidden: true });
   private sign = h('div', { class: 'sign-card', hidden: true, 'data-testid': 'sign-card' });
   private deliveries = h('div', { class: 'hud-deliveries' });
@@ -32,7 +34,7 @@ export class Hud {
         h('span', { class: 'ico' }, icon), h('span', { lang: 'el' }, el), h('kbd', null, key));
     this.prompt.addEventListener('click', () => on.interact());
     this.el = h('div', { class: 'hud' },
-      h('div', { class: 'hud-tl' }, this.clock, this.date, this.money, this.district),
+      h('div', { class: 'hud-tl' }, this.clock, this.date, this.weather, this.money, this.meal, this.district),
       h('div', { class: 'hud-tr' },
         btn('🗺', 'Χάρτης', 'Map', 'M', on.map, 'btn-map'),
         btn('🎒', 'Τσάντα', 'Bag', 'Tab', on.bag, 'btn-bag'),
@@ -53,13 +55,18 @@ export class Hud {
     el.replaceChildren(...build());
   }
 
-  update(s: GameState, info: { district: { el: string; en: string }; prompt: { el: string; en: string } | null; atHome: boolean; banner: HTMLElement | null }) {
+  update(s: GameState, info: { weather: { icon: string; el: string; en: string }; district: { el: string; en: string }; prompt: { el: string; en: string } | null; atHome: boolean; banner: HTMLElement | null }) {
     const d = dateOf(s.time);
     const dt = dateText(s.time);
     this.set(this.clock, 'clock', clockText(s.time), () => [clockText(s.time)]);
     this.set(this.date, 'date', dt.el, () => [h('span', { lang: 'el' }, dt.el), ' · ', h('span', { lang: 'el' }, SEASONS[seasonOf(d.month)].el), en(` ${dt.en}`, 'en small')]);
     this.set(this.money, 'money', `${s.money}:${s.rent.owed}`, () => [`💶 ${euro(s.money)}`, s.rent.owed ? en(` (owe ${euro(s.rent.owed)})`, 'en small warn') : '']);
     this.set(this.district, 'district', info.district.el, () => [h('span', { lang: 'el' }, info.district.el), en(` ${info.district.en}`, 'en small')]);
+    const full = s.fullUntil !== null && s.time < s.fullUntil;
+    this.set(this.meal, 'meal', full ? String(s.fullUntil) : 'hungry', () => (full
+      ? ['🍽 ', h('span', { lang: 'el' }, `Έφαγες · ως ${hhmm(s.fullUntil! % 1440)}`), en(' full', 'en small')]
+      : ['🍽 ', h('span', { lang: 'el' }, 'Μπορείς να φας'), en(' you can eat', 'en small')]));
+    this.set(this.weather, 'weather', info.weather.el, () => [`${info.weather.icon} `, h('span', { lang: 'el' }, info.weather.el), en(` ${info.weather.en}`, 'en small')]);
     const pkey = info.prompt ? info.prompt.el : '';
     this.prompt.hidden = !info.prompt;
     this.set(this.prompt, 'prompt', pkey, () => (info.prompt ? [h('kbd', null, 'E'), ' ', h('span', { lang: 'el' }, info.prompt.el), en(` ${info.prompt.en}`, 'en small')] : []));

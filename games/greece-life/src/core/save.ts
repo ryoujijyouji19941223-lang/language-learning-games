@@ -99,6 +99,7 @@ export function parse(text: string): ParseResult {
   st.stats = { cooked: 0, shifts: 0, delivered: 0, listened: 0, noVoicePlays: 0, ...(st.stats as object) };
   st.log = Array.isArray(st.log) ? st.log : [];
   st.viewed = Array.isArray(st.viewed) ? st.viewed : [];
+  st.fullUntil = typeof st.fullUntil === 'number' ? st.fullUntil : null;
   const problems = validate(st);
   if (problems.length) return { ok: false, reason: 'invalid', detail: problems.slice(0, 8).join(', ') };
   return { ok: true, state: st as unknown as GameState, migrated };

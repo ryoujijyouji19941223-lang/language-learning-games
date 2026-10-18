@@ -2,7 +2,8 @@
 // one transaction; if anything is missing nothing is taken.
 
 import { SHOP_BY_ID, LAIKI_DISCOUNT, type CatalogKind } from '../data/shops';
-import { ITEM_BY_ID } from '../data/items';
+import { ITEM_BY_ID, DRINKS, MEAL_SWITCHES } from '../data/items';
+import { hhmm } from './calendar';
 import { FURNITURE_BY_ID } from '../data/furniture';
 import { CLOTHES_BY_ID } from '../data/clothes';
 import { isOpen } from './hours';
@@ -90,11 +91,25 @@ export function sell(state: GameState, shopId: string, items: { kind: 'furniture
   });
 }
 
+/** Next switch between day and night (06:00 / 18:00) strictly after the given time. */
+export function nextMealSwitch(t: number): number {
+  const day = Math.floor(t / 1440) * 1440;
+  for (const m of [...MEAL_SWITCHES, MEAL_SWITCHES[0] + 1440]) if (day + m > t) return day + m;
+  return day + 1440 + MEAL_SWITCHES[0];
+}
+
+export const isFull = (s: GameState) => s.fullUntil !== null && s.time < s.fullUntil;
+
+/** Eat (or drink). A meal fills you up until the next day/night switch; drinks never do. */
 export function eat(state: GameState, itemId: string) {
   return tx(state, (s) => {
     if (!(s.inventory[itemId] > 0)) fail('Δεν το έχεις.', 'You do not have that.');
     if (!itemId.startsWith('food:') && !itemId.startsWith('dish:')) fail('Αυτό δεν τρώγεται έτσι.', 'That is an ingredient — cook it first.');
+    const drink = DRINKS.has(itemId);
+    if (!drink && isFull(s)) fail(`Έχεις φάει ήδη. Δεν πεινάς ως τις ${hhmm(s.fullUntil! % 1440)}.`, `You have already eaten. You will be hungry again at ${hhmm(s.fullUntil! % 1440)} (the next switch between day and night). Drinks are fine.`);
     addInventory(s, itemId, -1);
-    return { el: 'Νόστιμο!', en: 'Delicious!' };
+    if (drink) return { el: 'Ωραίο!', en: 'Nice! (Drinks do not fill you up.)' };
+    s.fullUntil = nextMealSwitch(s.time);
+    return { el: `Νόστιμο! Χόρτασες ως τις ${hhmm(s.fullUntil % 1440)}.`, en: `Delicious! You are full until ${hhmm(s.fullUntil % 1440)}.` };
   });
 }

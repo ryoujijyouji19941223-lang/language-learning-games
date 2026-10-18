@@ -88,7 +88,16 @@ export function speakGreek(text, { rate = 1.0 } = {}) {
 | X03 | Noto Sans 本体がギリシャ文字を含む。Google Fonts に「Noto Sans Greek」という別ファミリーはない | [Noto docs：Use](https://notofonts.github.io/noto-docs/website/use/) |
 | X04 | Claude Code の進め方（検証手段を渡す、調べる→計画→実装、CLAUDE.md を短く） | [Anthropic：Claude Code best practices](https://www.anthropic.com/engineering/claude-code-best-practices) |
 
-## 4. 残る不足
+## 4. 天気（2026-10-19 追加、制作担当が確認）
+
+| ID | 内容 | 出典 | 状態 |
+|---|---|---|---|
+| W01 | ナクソス島（Chora観測所）の月別の雨の日数（2010–2020平均：1月10.2、2月7.4、3月6.5、4月2.0、5月1.5、6月0.8、7月0.2、8月0.0、9月0.1、10月2.4、11月4.0、12月6.0）と月別日照時間（1955–1993：1月4h/日 … 6・7月13h/日 … 12月3h/日） | [azalas.de：The climate data of Naxos](https://azalas.de/en/naxos-climate-data/) | 2026-10-19 にページを開いて数値を確認。個人サイトの観測値転載で、公式統計の原典は未確認 |
+| W02 | メルテミは5月末～10月末、7・8月が最も強い。1回2～4日続くことが多い。日中に強く、日没後に弱まる | [aegeanislands.gr：climate](https://www.aegeanislands.gr/aegean-place/climate/)（検索結果の要約） | 月あたりの日数は見つからず。ゲームでは「3日単位で吹く確率」を7・8月40%、6・9月15%と推定値で置いた |
+
+ゲームでの使い方：雨の確率＝雨の日数÷その月の日数。曇りは「日照時間÷昼の長さ」で足りない分から割り振る。冬（12～2月）の強風の頻度も推定値。実際の天気予報や特定の年の再現ではない。
+
+## 5. 残る不足
 
 - ギリシャ語の会話・看板・品名のネイティブ確認（全部未確認）。
 - 行事（8月15日の πανηγύρι、10月28日、クリスマス・新年、Καθαρά Δευτέρα、Πάσχα）の出典確認と説明文。

@@ -93,6 +93,8 @@ export interface GameState {
   settings: Settings;
   player: { area: string; x: number; z: number; yaw: number };
   stats: { cooked: number; shifts: number; delivered: number; listened: number; noVoicePlays: number };
+  /** After a meal: not hungry until this game minute (null = can eat). */
+  fullUntil: number | null;
   log: { at: number; el: string; en: string }[];
 }
 
@@ -122,6 +124,7 @@ export function newGame(settings: Settings = DEFAULT_SETTINGS, now = Date.now())
     player: { area: 'town', x: 0, z: 0, yaw: 0 },
     stats: { cooked: 0, shifts: 0, delivered: 0, listened: 0, noVoicePlays: 0 },
     log: [],
+    fullUntil: null,
   };
 }
 

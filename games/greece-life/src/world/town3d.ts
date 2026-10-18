@@ -11,6 +11,7 @@ import { PLAZAS, LANDMARKS, ZONES, type RoadKind } from '../data/town';
 import { SHOP_BY_ID, OPEN_SIGN } from '../data/shops';
 import { DESTINATIONS } from '../data/deliveries';
 import { destPoint } from '../core/delivery';
+import { NPC_BY_ID } from '../data/npcs';
 import type { Area, Interactable, SignInfo, DynamicShape } from './types';
 
 export interface TownWorld {
@@ -50,12 +51,13 @@ export function buildTown(): TownWorld {
   const seaMaterial = new THREE.MeshStandardMaterial({ color: '#1f78b4', roughness: 0.22, metalness: 0.15, transparent: true, opacity: 0.86 }) as TownWorld['seaMaterial'];
   seaMaterial.onBeforeCompile = (shader) => {
     shader.uniforms.uTime = { value: 0 };
+    shader.uniforms.uWind = { value: 1 };
     shader.vertexShader = shader.vertexShader
-      .replace('#include <common>', '#include <common>\nuniform float uTime;')
+      .replace('#include <common>', '#include <common>\nuniform float uTime;\nuniform float uWind;')
       .replace('#include <begin_vertex>', `#include <begin_vertex>
         float w1 = sin(position.x * 0.09 + uTime * 0.9) * 0.08;
         float w2 = sin(position.z * 0.13 + uTime * 1.3 + position.x * 0.03) * 0.06;
-        transformed.y += w1 + w2;`);
+        transformed.y += (w1 + w2) * uWind;`);
     seaMaterial.userData.shader = shader as unknown as { uniforms: { uTime: { value: number } } };
   };
   const sea = new THREE.Mesh(seaGeo, seaMaterial);
@@ -138,8 +140,11 @@ export function buildTown(): TownWorld {
   const numberGeos: THREE.BufferGeometry[] = [];
   const openTex = { open: signTexture(signCase(OPEN_SIGN.open.el), { bg: '#2e7d32', fg: '#ffffff', font: 120 }, 512, 192), closed: signTexture(signCase(OPEN_SIGN.closed.el), { bg: '#b23a2a', fg: '#ffffff', font: 120 }, 512, 192) };
 
+  const residentOf = new Map(Object.entries(lay.npcHome).map(([npc, l]) => [l.id, npc]));
   for (const lot of lay.lots) {
     const top = addBuilding(b, lot);
+    const resident = residentOf.get(lot.id);
+    if (resident) addResidentHome(b, group, signs, lot, resident);
     shapes.push({ kind: 'box', x: lot.x, z: lot.z, hw: lot.w / 2, hd: lot.d / 2, rot: lot.rot, top, id: lot.id });
     // house number tile
     if (lot.addressNo && lot.kind !== 'shop') {
@@ -541,6 +546,53 @@ function addBuilding(b: StaticBuilder, lot: Lot): number {
   }
   b.pop();
   return lot.base + roofTop + 0.5;
+}
+
+/**
+ * A resident's home is outside-only (not enterable). It gets a name plate, a wall
+ * lamp, a mailbox and a small object that hints at who lives there.
+ */
+function addResidentHome(b: StaticBuilder, group: THREE.Group, signs: SignInfo[], lot: Lot, npcId: string) {
+  const npc = NPC_BY_ID[npcId];
+  const fg = Math.max(0.3, heightAt(lot.door.x, lot.door.z) - lot.base);
+  const fz = lot.d / 2;
+  b.push(lot.x, lot.base, lot.z, lot.rot);
+  b.box(-0.95, fg + 2.25, fz + 0.02, 0.2, 0.28, 0.16, '#2b2b2b'); // wall lamp
+  b.box(-0.95, fg + 2.3, fz + 0.12, 0.14, 0.18, 0.12, '#fff2c4');
+  b.box(1.0, fg + 1.05, fz + 0.06, 0.34, 0.26, 0.12, '#c9a227'); // mailbox
+  b.box(1.0, fg + 1.21, fz + 0.06, 0.36, 0.04, 0.14, '#8a6d16');
+  const role = npc.role.en;
+  const x = -1.6;
+  if (/fisher|net/.test(role)) {
+    for (let i = 0; i < 4; i++) b.ball(x + (i % 2) * 0.3, fg + 0.15, fz + 0.55 + Math.floor(i / 2) * 0.25, 0.22, i % 2 ? '#3f7f6f' : '#c94f3a', 0, 0.45);
+    b.box(x + 0.6, fg, fz + 0.3, 0.06, 1.8, 0.06, '#8b6a45', 0, 0.25);
+  } else if (/cyclist/.test(role)) {
+    for (const dx of [-0.4, 0.4]) b.cylinder(x + dx, fg + 0.32, fz + 0.4, 0.32, 0.04, '#2b2b2b', 12, 1, Math.PI / 2);
+    b.box(x, fg + 0.5, fz + 0.4, 0.8, 0.05, 0.05, '#d6452f');
+  } else if (/cat/.test(role)) {
+    b.cylinder(x, fg, fz + 0.4, 0.12, 0.06, '#1f5fa8', 8);
+    b.box(x + 0.4, fg + 0.12, fz + 0.45, 0.18, 0.18, 0.4, '#d9822b');
+  } else if (/garden|geranium|florist|plant/.test(role)) {
+    for (let i = 0; i < 4; i++) { b.cylinder(x + i * 0.35 - 0.3, fg, fz + 0.45, 0.14, 0.28, '#b5653e', 7); b.ball(x + i * 0.35 - 0.3, fg + 0.4, fz + 0.45, 0.18, i % 2 ? '#e03131' : '#3f8f3f'); }
+  } else if (/bee/.test(role)) {
+    b.box(x, fg, fz + 0.5, 0.5, 0.5, 0.4, '#f2c230');
+    b.box(x, fg + 0.5, fz + 0.5, 0.56, 0.06, 0.46, '#8b6a45');
+  } else if (/cook/.test(role)) {
+    b.box(x, fg, fz + 0.45, 0.5, 0.75, 0.4, '#a0784e');
+    b.cylinder(x, fg + 0.75, fz + 0.45, 0.16, 0.18, '#9aa3ab', 10);
+  } else {
+    b.box(x, fg + 0.42, fz + 0.4, 0.9, 0.06, 0.32, '#8b6a45');
+    b.box(x - 0.38, fg, fz + 0.4, 0.08, 0.42, 0.3, '#f4f2ec');
+    b.box(x + 0.38, fg, fz + 0.4, 0.08, 0.42, 0.3, '#f4f2ec');
+  }
+  b.pop();
+  const plate = new THREE.Mesh(new THREE.PlaneGeometry(0.7, 0.24), new THREE.MeshLambertMaterial({ map: signTexture(npc.name, { bg: '#fbf8f0', fg: '#1f4f8f', border: '#1f4f8f', font: 110 }, 512, 176) }));
+  const p = toWorld(lot, 0.95, lot.d / 2 + 0.05);
+  plate.position.set(p.x, lot.base + fg + 1.75, p.z);
+  plate.rotation.y = lot.rot;
+  group.add(plate);
+  const addr = addressOf(lot);
+  signs.push({ area: 'town', x: p.x, y: lot.base + fg + 1.75, z: p.z, el: addr ? `${npc.name} · ${addr.el}` : npc.name, en: `${npc.name}'s home (${npc.role.en}) — you can't go in${addr ? `; ${addr.en}` : ''}`, sign: npc.name });
 }
 
 function addWindow(b: StaticBuilder, x: number, y: number, z: number, st: Lot['style'], rot = 0) {

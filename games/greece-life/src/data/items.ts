@@ -78,4 +78,13 @@ export const ITEM_BY_ID: Record<string, ItemDef> = Object.fromEntries(ALL_ITEMS.
 /** Sugar is always in the kitchen (not an inventory item). Water and ice too. */
 export const KITCHEN_STAPLES = { el: 'ζάχαρη, νερό, παγάκια', en: 'sugar, water, ice cubes' };
 
+/** Drinks never fill you up (water, coffee). Ids of food items and cooked dishes. */
+export const DRINKS = new Set(['food:water', 'food:freddo', 'food:elliniko', 'dish:r04']);
+
+/**
+ * Fullness: after a meal you are not hungry until the next switch between day and
+ * night (06:00 and 18:00, game simplification). There is no penalty for hunger.
+ */
+export const MEAL_SWITCHES = [6 * 60, 18 * 60];
+
 export const START_INVENTORY: Record<string, number> = { salt: 3, olive_oil: 3, oregano: 1, coffee_greek: 1 };
