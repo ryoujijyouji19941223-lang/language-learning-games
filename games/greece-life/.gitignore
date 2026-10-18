@@ -1,0 +1,5 @@
+# The root .gitignore ignores every dist/. Keep only the playable single file.
+!dist/
+dist/*
+!dist/greece-life.html
+tests/artifacts/*.webm

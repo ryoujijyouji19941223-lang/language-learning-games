@@ -1,0 +1,25 @@
+{
+  "name": "greece-life",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "Ασπρόγιαλος — a 3D Greek island life sim (Greek in game, English help).",
+  "scripts": {
+    "start": "node scripts/start.mjs",
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "build:standalone": "node scripts/build-standalone.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "@types/node": "24.19.1",
+    "@types/three": "0.186.0",
+    "three": "0.186.0",
+    "typescript": "6.0.3",
+    "vite": "8.2.2",
+    "vitest": "5.0.1"
+  }
+}
