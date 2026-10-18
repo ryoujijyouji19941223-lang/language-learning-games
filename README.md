@@ -19,6 +19,7 @@
 | 制作担当への指示 | [AGENTS.md](AGENTS.md) |
 | 作品一覧・候補 | [docs/GAMES.md](docs/GAMES.md) |
 | 調査資料の参照 | [docs/RESEARCH.md](docs/RESEARCH.md) |
+| 地域の生活ゲーム：賃貸・暮らし・会話・季節の設計 | [docs/REGIONAL_LIFE_SIM_DESIGN.md](docs/REGIONAL_LIFE_SIM_DESIGN.md) |
 | 一作目案 | [games/english-errands/README.md](games/english-errands/README.md) |
 | 一作目の制作仕様 | [games/english-errands/SPEC.md](games/english-errands/SPEC.md) |
 
@@ -28,3 +29,5 @@
 
 コード、素材、起動手順、検証結果は作品ごとに保存する。実装で使う技術・起動方法は作品のREADMEを参照する。
 
+
+2026-10-18：地域の生活シミュレーションの[設計方針v0.1](docs/REGIONAL_LIFE_SIM_DESIGN.md)を作成。賃貸一室・単一住居と引っ越し、家具・壁飾り、固定の街並み、仕事と料理、短い選択会話、時間と季節を整理。対象の国・言語・町・正式SPEC・実装は未確定。旧12語の試作をこの完成形とは扱わない。
