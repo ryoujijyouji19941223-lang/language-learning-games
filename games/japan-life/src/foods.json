@@ -1,0 +1,114 @@
+[
+  {
+    "id": "rice",
+    "name": "米",
+    "price": 120,
+    "store": "market_grocery",
+    "kind": "food"
+  },
+  {
+    "id": "nori",
+    "name": "のり",
+    "price": 60,
+    "store": "market_grocery",
+    "kind": "food"
+  },
+  {
+    "id": "salt",
+    "name": "塩",
+    "price": 20,
+    "store": "market_grocery",
+    "kind": "food"
+  },
+  {
+    "id": "miso",
+    "name": "味噌",
+    "price": 50,
+    "store": "market_grocery",
+    "kind": "food"
+  },
+  {
+    "id": "dashi",
+    "name": "だし",
+    "price": 40,
+    "store": "market_grocery",
+    "kind": "food"
+  },
+  {
+    "id": "tofu",
+    "name": "豆腐",
+    "price": 100,
+    "store": "market_grocery",
+    "kind": "food"
+  },
+  {
+    "id": "wakame",
+    "name": "わかめ",
+    "price": 50,
+    "store": "market_grocery",
+    "kind": "food"
+  },
+  {
+    "id": "egg",
+    "name": "卵",
+    "price": 80,
+    "store": "market_grocery",
+    "kind": "food"
+  },
+  {
+    "id": "soy",
+    "name": "しょうゆ",
+    "price": 40,
+    "store": "market_grocery",
+    "kind": "food"
+  },
+  {
+    "id": "mirin",
+    "name": "みりん",
+    "price": 40,
+    "store": "market_grocery",
+    "kind": "food"
+  },
+  {
+    "id": "sake_cook",
+    "name": "料理酒",
+    "price": 40,
+    "store": "market_grocery",
+    "kind": "food"
+  },
+  {
+    "id": "wheat",
+    "name": "小麦粉",
+    "price": 100,
+    "store": "market_grocery",
+    "kind": "food"
+  },
+  {
+    "id": "jinko",
+    "name": "じん粉（浮き粉）",
+    "price": 120,
+    "store": "market_grocery",
+    "kind": "food"
+  },
+  {
+    "id": "tako_boiled",
+    "name": "ゆでだこ",
+    "price": 220,
+    "store": "port_fish",
+    "kind": "food"
+  },
+  {
+    "id": "negi",
+    "name": "ねぎ",
+    "price": 60,
+    "store": "market_grocery",
+    "kind": "food"
+  },
+  {
+    "id": "ginger",
+    "name": "しょうが",
+    "price": 60,
+    "store": "market_grocery",
+    "kind": "food"
+  }
+]
