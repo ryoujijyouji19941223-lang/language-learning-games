@@ -3,7 +3,7 @@
 調査・語学全体の継続記録は共通資料庫を参照する。ここには各ゲームの制作仕様と実装を保存する。
 
 - [共通資料庫](https://github.com/ryoujijyouji19941223-lang/totomaru-knowledge-base)
-- [学習ゲーム研究 v0.4](https://github.com/ryoujijyouji19941223-lang/totomaru-knowledge-base/blob/main/research/language-learning/LANGUAGE_GAME_REMAKING_RESEARCH_v01.md)
+- [学習ゲーム研究 v0.5](https://github.com/ryoujijyouji19941223-lang/totomaru-knowledge-base/blob/main/research/language-learning/LANGUAGE_GAME_REMAKING_RESEARCH_v01.md)
 - [継続研究記録](https://github.com/ryoujijyouji19941223-lang/totomaru-knowledge-base/blob/main/research/language-learning/RESEARCH_STATE.md)
 
 2026-10-17時点で研究は、既存作の学習上の役割、教材データと攻略、各言語への再設計、タイピング8種類、学習研究と評価まで。原作全編の実プレイ・内部式全取得・新作の学習効果確認は未完了。
@@ -20,3 +20,9 @@
 参考の役割：Delivery Simulator（2020）はスマホ受注・複数注文・期限、Parcel Corpsは移動と経路、Noun Townは街と語彙、Wagotabiは現地の地理と文化、Lake等は配達と住民との関わり。すべてを満たす既発売作品は今回の公開資料では確認できていない。Fluent Townの予告を実装確認済み機能と混同しない。
 
 この更新は調査結果と現在の希望の記録。街を探索する版の正式SPEC・コードの改訂は未実施。既存の固定画面試作は現在のREADMEで実装済みと確認したが、今回その実行やテストの独立検証はしていない。
+
+## 配達を含む、地域の生活シミュレーション（2026-10-18追加）
+
+現在の希望は「最近のポケモンのように主人公を動かして町を歩き、地域の景色・町並み・人を見て、買い物・会話・簡単な仕事をする生活」。配達は選べる仕事の一つ。言語ごとに独立作品でよく、一作品へ詰め込むために対応言語を減らさない。
+
+[研究v0.5・§32–35](https://github.com/ryoujijyouji19941223-lang/totomaru-knowledge-base/blob/main/research/language-learning/LANGUAGE_GAME_REMAKING_RESEARCH_v01.md)でシェンムー、どうぶつの森、Dinkum、SunnySide、inZOI、Little Sim Worldを追加比較。3Dは有力候補という解釈で、正確な視点・端末・地域・対象言語は未確定。旧12語の固定画面試作を、この希望に対する完成形とは扱わない。今回の更新は調査記録であり、正式SPEC・コードは変更していない。
