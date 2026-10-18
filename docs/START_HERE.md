@@ -7,7 +7,7 @@
 - 対象フォルダ：[games/japan-life/](../games/japan-life/README.md)
 - 作品：日本の暮らし（仮）
 - 本人の選択：日本を最初に作り、暮らし・日本語を本人が検証する。料理は国と地域の特色を生かす。
-- 状態：試作v0.2.0と配布ZIPあり。本人の初回プレイで体験の不足を確認し、SPEC v0.3・PLAYTEST_REDESIGNへ改修条件を保存。改修コードは未実装。
+- 状態：試作v0.2.0と配布ZIPあり。本人の初回プレイで体験の不足を確認し、SPEC v0.4・PLAYTEST_REDESIGNへ改修条件を保存。改修コードは未実装。
 - [制作仕様](../games/japan-life/SPEC.md)
 - [食材・料理・家具・住民の初期内容](../games/japan-life/CONTENT_PLAN.md)
 - [出典と残る不足](../games/japan-life/RESEARCH.md)
@@ -15,7 +15,7 @@
 
 町名「汐待町」、明石周辺を参考にすること、技術・価格・時計・人数等は変更可能な初期設定。実在の明石の忠実な再現や、完成済みの外国人初心者向け日本語教材とは扱わない。
 
-- **継続制作の最優先**：[初回プレイ後の改修仕様](../games/japan-life/PLAYTEST_REDESIGN.md)。旧M3の内容追加より、街・生活・文字・カフェ作業を作り直す。
+- **継続制作の最優先**：[初回プレイ後の改修仕様](../games/japan-life/PLAYTEST_REDESIGN.md)。旧M3の内容追加より、街・生活・文字・カフェ作業を作り直す。見た目はFarthest Frontier、聞いて進む会話はStardew Valley／ポケモン、物を扱う仕事はThe Boba Teashopを本人の参考指定として使う。最初に歩ける一街区の美術を確認する。
 
 ## Codexへ渡す短い依頼文
 
