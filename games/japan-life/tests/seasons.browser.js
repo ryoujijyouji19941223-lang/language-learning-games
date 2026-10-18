@@ -10,4 +10,9 @@ test('同じ海岸の四季の基礎差分を実画面で比較する（桜・�
     await expect(page.locator('.date')).toContainText(label);await page.waitForTimeout(1500);
     await page.screenshot({path:`evidence/art/season-${name}.png`});
   }
+  const detail=E.fresh(new Date(2026,9,19));E.chooseHome(detail,'home01');detail.scene='town';detail.pos={x:-41,z:-16};detail.yaw=.4;detail.clock+=6*60;
+  await page.locator('.tools [data-action="settings"]').click();
+  await page.locator('#import').setInputFiles({name:'garden-view.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(detail))});
+  await page.locator('[data-action="close"]').first().click();await page.waitForTimeout(1800);
+  await page.screenshot({path:'evidence/art/garden-house-detail.png'});
 });

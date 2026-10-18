@@ -37,23 +37,36 @@ async function walk(page, x, z) {
     for (let n = 0; n < 100; n++) {
       const s = await read(page),
         delta = target - s.pos[axis];
-      if (Math.abs(delta) < (s.scene === "town" ? 0.55 : 0.15)) break;
+      if (Math.abs(delta) < (s.scene === "town" ? 0.75 : 0.15)) break;
       const key = delta > 0 ? positive : negative,
+        running=s.scene === "town"&&Math.abs(delta)>6,
         duration = Math.max(
           250,
           Math.min(
             1000,
-            (Math.abs(delta) / (s.scene === "town" ? 4.5 : 1.2)) * 1000,
+            (Math.abs(delta) / (s.scene === "town" ? (running?4.5:1.35) : 1.2)) * 1000,
           ),
         );
-      await page.keyboard.down("Shift");
+      if(running)await page.keyboard.down("Shift");
       await page.keyboard.down(key);
-      await page.waitForTimeout(duration);
+      await page.waitForTimeout(s.scene==="town"&&!running?Math.min(250,duration):duration);
+      // A short tap can fall entirely between software-GPU frames. Wait for an actual simulation frame.
+      if(s.scene==="town")await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>resolve())));
       await page.keyboard.up(key);
-      await page.keyboard.up("Shift");
+      if(running)await page.keyboard.up("Shift");
       const after = await read(page);
       if (Math.abs(after.pos[axis] - s.pos[axis]) < 0.015) stuck++;
       else stuck = 0;
+      if(stuck===3&&s.scene==='town'){
+        const now=await read(page),neighbor=residents.map(p=>residentPosition(p,now.clock)).find(p=>p.scene==='town'&&Math.hypot(p.x-now.pos.x,p.z-now.pos.z)<1.6);
+        if(neighbor){
+          // Physically step around a pedestrian; collision remains enabled.
+          const side=axis==='z'?(neighbor.x>now.pos.x?'a':'d'):(neighbor.z>now.pos.z?'w':'s');
+          await page.keyboard.down(side);
+          await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>resolve())));
+          await page.keyboard.up(side);stuck=0;
+        }
+      }
       if (stuck >= 6)
         throw Error(
           `Walk blocked in ${s.scene} at ${JSON.stringify(s.pos)}, target ${x},${z}`,
@@ -95,6 +108,7 @@ async function fixture(page, state) {
 test("実際に歩き、三室内見→買い物→勤務→二件配達→部屋と料理→睡眠・再開を一巡", async ({
   page,
 }) => {
+  test.setTimeout(600000); // Full physical errands plus four hands-on customers on software rendering.
   const errors = [];
   page.on("pageerror", (e) => errors.push(e.message));
   await begin(page);
@@ -140,14 +154,16 @@ test("実際に歩き、三室内見→買い物→勤務→二件配達→部�
   await page.locator('[data-action="pickup"][data-id="d01"]').click();
   await leaveShop(page);
   await walk(page, 0, -4.4);
-  await walk(page, 0, 38.7);
+  await walk(page, 0, 43);
+  await walk(page, -24, 43);
   await walk(page, -24, 38.7);
   await shop(page, "port_fish");
   await buy(page, "tako_boiled");
   await page.locator('[data-action="pickup"][data-id="d02"]').click();
   await leaveShop(page);
+  await walk(page,-24,43);
   await page.screenshot({ path: "evidence/07-harbour-parcel.png" });
-  await walk(page, 0, 38.7);
+  await walk(page, 0, 43);
   // Approach the south-facing door from the public lane, not through the house.
   await walk(page, 0, -3.4);
   await walk(page, -61, -3.4);
@@ -383,7 +399,7 @@ test("60人の話を、各人の生活時間と場所から聞いて進める", 
     await page.locator('.tools [data-action="settings"]').click();
     await page.locator("#import").setInputFiles({name:"resident.json",mimeType:"application/json",buffer:Buffer.from(JSON.stringify(s))});
     await close(page);await expect(page.locator("#context")).toContainText(p.role);await page.keyboard.press("e");
-    const script=conversationFor(p.id);
+    const script=conversationFor(p.id,s.clock);
     await expect(page.locator(".dialogue-line")).toContainText(script.lines[0].text);
     await expect(page.locator('[data-action="reply"]')).toHaveCount(0);
     for(let i=0;i<script.lines.length;i++)await page.locator('[data-action="dialogue-next"]').click();

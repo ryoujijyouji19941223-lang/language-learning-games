@@ -76,3 +76,11 @@ test("屋外の生活経路は建物の外周を通る",()=>{
     assert.ok(!parcels.some(b=>Math.abs(point.x-b.x)<b.w/2+.25&&Math.abs(point.z-b.z)<b.d/2+.25),`${p.id} at ${minute}: ${JSON.stringify(point)}`);
   }
 });
+
+test('近所の掛け合いを夕方の二人の時間だけ使い、他は固有の話を保持する',async()=>{
+  const {conversationFor}=await import('../src/dialogue.js');
+  for(const id of ['p33','p34']){
+    assert.equal(conversationFor(id,291*1440+12*60).lines[0].text,residents.find(p=>p.id===id).line);
+    assert.equal(conversationFor(id,291*1440+17.5*60).kind,'neighbors');
+  }
+});

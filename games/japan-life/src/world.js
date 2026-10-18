@@ -934,6 +934,16 @@ export class World {
   }
   frame(s, dt, blocked) {
     this.sync(s);
+    const frameAt=performance.now();
+    if(this.software&&blocked){
+      // The clock and people are paused in menus. Retain the actual rendered scene,
+      // and redraw on changes or once per second instead of saturating a software GPU.
+      const key=JSON.stringify([this.lastKey,this.wearKey,this.activityKey,s.clock,s.pos,s.yaw,this.pitch,s.settings.shadows,this.ghost?.uuid,innerWidth,innerHeight]);
+      if(this.panelFrameKey===key&&frameAt-(this.panelFrameAt||0)<1000)return;
+      this.panelFrameKey=key;this.panelFrameAt=frameAt;
+      dt=Math.min(1,(frameAt-(this.actualFrameAt??frameAt-1000))/1000);
+    }else this.panelFrameKey='';
+    this.actualFrameAt=frameAt;
     this.yaw = s.yaw;
     const before = { ...s.pos };
     if (!blocked) {

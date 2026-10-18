@@ -118,7 +118,7 @@ function open(kind, id = null) {
   clearTimeout(dialogueTimer);
   if (kind === "npc")
     dialogue = {
-      ...conversationFor(id),
+      ...conversationFor(id,state.clock),
       cursor: 0,
       auto: false,
       reply: null,

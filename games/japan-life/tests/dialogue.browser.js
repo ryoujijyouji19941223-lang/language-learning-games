@@ -121,3 +121,17 @@ test("勤務の意思決定ははい・いいえで、閉じる・自動送り�
   await expect(page.locator('[data-action="dialogue-auto"]')).toHaveText('自動送り',{timeout:12000});
   expect((await read(page)).cafe).toBeNull();
 });
+
+test('隣人二人は一緒にいる夕方だけ掛け合い、単独時は本人の話を聞く',async({page})=>{
+  const s=state();await page.goto('/');
+  for(const id of ['p33','p34']){
+    const p=residents.find(p=>p.id===id);
+    for(let m=360;m<1020;m+=15){const pos=residentPosition(p,291*1440+m);if(pos.scene==='town'){s.clock=291*1440+m;s.scene='town';s.pos={x:pos.x,z:pos.z+.8};break;}}
+    await page.locator('.tools [data-action="settings"]').click();
+    await page.locator('#import').setInputFiles({name:'single-neighbor.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(s))});
+    await page.locator('[data-action="close"]').first().click();await page.keyboard.press('e');
+    await expect(page.locator('.dialogue-line')).toContainText(p.line);
+    await page.locator('[data-action="dialogue-next"]').click();
+    expect((await read(page)).history[id].mode).toBe('read');
+  }
+});

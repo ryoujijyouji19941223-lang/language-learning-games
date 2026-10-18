@@ -1,8 +1,8 @@
 import { residents } from "./data.js";
 // Original short scripts. The seed line remains attached to its original speaker.
-export function conversationFor(id) {
+export function conversationFor(id,clock=0) {
   const p = residents.find((p) => p.id === id);
-  if (["p33", "p34"].includes(id))
+  if (["p33", "p34"].includes(id) && (clock%1440)/60>=17 && (clock%1440)/60<19)
     return {
       kind: "neighbors",
       lines: [
