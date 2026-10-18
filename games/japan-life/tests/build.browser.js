@@ -67,7 +67,7 @@ test("配布HTMLだけで3Dと歩行が起動し、外部通信なし・保存�
 });
 
 test("建物の衝突と壁際の視点、壊れたセーブからの復旧案内", async ({ page }) => {
-  const s = E.fresh(new Date(2026,3,1));
+  const s = E.fresh(new Date(2026, 3, 1));
   E.chooseHome(s, "home01");
   s.scene = "town";
   s.pos = { x: 17, z: -4.4 };

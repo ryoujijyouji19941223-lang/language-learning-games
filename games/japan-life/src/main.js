@@ -1,6 +1,7 @@
 import "./style.css";
-import {configureSurfaces} from './art/materials.js';
-import {textureSources} from './art/texture-sources.js';
+import { conversationFor, speakerLabel } from "./dialogue.js";
+import { configureSurfaces } from "./art/materials.js";
+import { textureSources } from "./art/texture-sources.js";
 configureSurfaces(textureSources);
 import { World } from "./world.js";
 import { AudioSupport } from "./audio.js";
@@ -98,6 +99,8 @@ function toast(text) {
   clearTimeout(toast.timer);
   toast.timer = setTimeout(() => el.classList.remove("show"), 3300);
 }
+let dialogue = null,
+  dialogueTimer = null;
 let world;
 try {
   world = new World(document.querySelector("#world"), warn);
@@ -111,6 +114,16 @@ try {
   throw error;
 }
 function open(kind, id = null) {
+  clearTimeout(dialogueTimer);
+  if (kind === "npc")
+    dialogue = {
+      ...conversationFor(id),
+      cursor: 0,
+      auto: false,
+      reply: null,
+      choose: false,
+    };
+  else dialogue = null;
   audio.stop();
   music.preview = null;
   music.setPaused(document.hidden || kind === "welcome");
@@ -122,6 +135,8 @@ function open(kind, id = null) {
   render();
 }
 function close() {
+  clearTimeout(dialogueTimer);
+  dialogue = null;
   audio.stop();
   music.preview = null;
   music.setPaused(document.hidden);
@@ -155,17 +170,23 @@ function renderHud() {
       : state.scene.startsWith("preview:")
         ? "部屋の内見"
         : placeById[state.scene]?.name || "町";
-  const markup = `<header class="topbar"><div class="brand"><span class="brand-icon">汐</span><div>汐待町<small>SHIOMACHI · 暮らしの試作</small></div></div><div class="date"><strong>${d.month}月${d.day}日 ${["月", "火", "水", "木", "金", "土", "日"][d.weekday]}曜日</strong><span>${d.season} · ${String(d.hour).padStart(2, "0")}:${String(d.minute).padStart(2, "0")}${panel ? "　時間停止中" : ""}</span></div><div class="wallet">${yen(state.money)}<small>${state.debt ? "未払い " + yen(state.debt) : "家賃はゲーム内の月初に処理"}</small></div></header><nav class="tools" aria-label="暮らしのメニュー">${b("map", "地図 M")}${b("phone", "スマホ・配達")}${b("journal", "暮らしの手帳")}${b("settings", "設定")}${music.blocked ? b("start-audio", "音を再生する") : ""}</nav><div class="where"><span class="eyebrow">${scene === "港と海岸" ? "SEASIDE" : scene === "商店街" ? "MARKET STREET" : scene === "住宅地" ? "NEIGHBOURHOOD" : "SHIOMACHI"}</span><strong>${esc(scene)}</strong><span>${esc(home)}</span>${world.route ? `<p class="route">◇ ${esc(world.route.name)}<br>${state.scene === "town" ? Math.ceil(Math.hypot(state.pos.x - world.route.x, state.pos.z - world.route.z)) + "m 先 · 地図の印へ歩こう" : "まず入口から外へ"}</p>` : ""}</div><div class="help">WASD / 矢印：歩く　Shift：走る　右ドラッグ：視点　E：調べる　Esc：戻る</div>`;
-  if(!hud.firstElementChild)hud.innerHTML=markup;
+  const markup = `<header class="topbar"><div class="brand"><span class="brand-icon">汐</span><div>汐待町<small>SHIOMACHI</small></div></div><div class="date"><strong>${d.month}月${d.day}日 ${["月", "火", "水", "木", "金", "土", "日"][d.weekday]}曜日</strong><span>${d.season} · ${String(d.hour).padStart(2, "0")}:${String(d.minute).padStart(2, "0")}</span></div><div class="wallet">${yen(state.money)}<small>${state.debt ? "未払い " + yen(state.debt) : ""}</small></div></header><nav class="tools" aria-label="暮らしのメニュー">${b("map", "地図 M")}${b("phone", "スマホ・配達")}${b("journal", "暮らしの手帳")}${b("settings", "設定")}${music.blocked ? b("start-audio", "音を再生する") : ""}</nav><div class="where"><span class="eyebrow">${scene === "港と海岸" ? "SEASIDE" : scene === "商店街" ? "MARKET STREET" : scene === "住宅地" ? "NEIGHBOURHOOD" : "SHIOMACHI"}</span><strong>${esc(scene)}</strong><span>${esc(home)}</span>${world.route ? `<p class="route">◇ ${esc(world.route.name)}<br>${state.scene === "town" ? Math.ceil(Math.hypot(state.pos.x - world.route.x, state.pos.z - world.route.z)) + "m 先 · 地図の印へ歩こう" : "まず入口から外へ"}</p>` : ""}</div><div class="help">WASD / 矢印：歩く　Shift：走る　右ドラッグ：視点　E：調べる　Esc：戻る</div>`;
+  if (!hud.firstElementChild) hud.innerHTML = markup;
   else {
-    const next=document.createElement('div');next.innerHTML=markup;
-    for(const selector of ['.date','.wallet','.where','.help']){
-      const current=hud.querySelector(selector),replacement=next.querySelector(selector);
-      if(current&&replacement&&current.innerHTML!==replacement.innerHTML)current.innerHTML=replacement.innerHTML;
+    const next = document.createElement("div");
+    next.innerHTML = markup;
+    for (const selector of [".date", ".wallet", ".where", ".help"]) {
+      const current = hud.querySelector(selector),
+        replacement = next.querySelector(selector);
+      if (current && replacement && current.innerHTML !== replacement.innerHTML)
+        current.innerHTML = replacement.innerHTML;
     }
-    const retry=hud.querySelector('.tools [data-action="start-audio"]');
-    if(music.blocked&&!retry)hud.querySelector('.tools').insertAdjacentHTML('beforeend',b('start-audio','音を再生する'));
-    if(!music.blocked&&retry)retry.remove();
+    const retry = hud.querySelector('.tools [data-action="start-audio"]');
+    if (music.blocked && !retry)
+      hud
+        .querySelector(".tools")
+        .insertAdjacentHTML("beforeend", b("start-audio", "音を再生する"));
+    if (!music.blocked && retry) retry.remove();
   }
 }
 function housing() {
@@ -180,7 +201,7 @@ function shopPanel(id) {
       j.status === "accepted" &&
       deliveries.find((d) => d.id === j.id).pickup === id,
   );
-  return `${title(p.name, "お店のカウンター")}<p>${p.open}:00〜${p.close}:00 ${p.closedDay === 2 ? "· 水曜休み" : ""}。見る間は時間停止。買い物の確定で2分進みます。</p>${p.kind === "cafe" ? `${b("cafe", state.cafe && !state.cafe.done ? "勤務の続きをする" : "短時間勤務を見る", null, "primary wide")}<p class="small">4客の注文を準備して渡す仕事。2時間・2,000円。誤提供は作り直せます。</p>` : ""}${jobs.map((j) => `<article class="list-row"><span>${j.id} · ${deliveries.find((d) => d.id === j.id).item}</span>${b("pickup", "この荷物を受け取る", j.id)}</article>`).join("")}<div class="product-list">${goods.map((g) => `<article class="product" data-product="${g.id}"><div><span class="eyebrow">${g.kind === "food" ? "食材" : g.kind === "furniture" ? `${g.zone === "floor" ? "床" : g.zone === "wall" ? "壁" : g.zone === "window" ? "窓" : "机上"} ${g.w}×${g.d}` : g.kind === "clothes" ? "着替え" : "道具"}</span><h2>${g.name}</h2><span>${yen(g.price)} · 店の在庫 ${state.stock[g.id]}</span></div><div class="buy-controls"><label class="sr-only" for="qty-${g.id}">${g.name}の数量</label><input id="qty-${g.id}" type="number" min="1" max="99" value="1" aria-label="${g.name}の数量">${b("buy", "買う", g.id)}</div></article>`).join("")}</div>${goods.length ? "" : "<p>配達の受付と町の案内をしています。</p>"}`;
+  return `${title(p.name, "お店のカウンター")}<p>${p.open === 0 && p.close === 24 ? "ご案内の窓口です。" : `${p.open}:00〜${p.close}:00 ${p.closedDay === 2 ? "· 水曜休み" : ""}`}</p>${p.kind === "cafe" ? `${b("cafe", state.cafe && !state.cafe.done ? "勤務の続きをする" : "短時間勤務を見る", null, "primary wide")}<p class="small">4客の注文を準備して渡す仕事。2時間・2,000円。誤提供は作り直せます。</p>` : ""}${jobs.map((j) => `<article class="list-row"><span>${j.id} · ${deliveries.find((d) => d.id === j.id).item}</span>${b("pickup", "この荷物を受け取る", j.id)}</article>`).join("")}<div class="product-list">${goods.map((g) => `<article class="product" data-product="${g.id}"><div><span class="eyebrow">${g.kind === "food" ? "食材" : g.kind === "furniture" ? `${g.zone === "floor" ? "床" : g.zone === "wall" ? "壁" : g.zone === "window" ? "窓" : "机上"} ${g.w}×${g.d}` : g.kind === "clothes" ? "着替え" : "道具"}</span><h2>${g.name}</h2><span>${yen(g.price)} · 店の在庫 ${state.stock[g.id]}</span></div><div class="buy-controls"><label class="sr-only" for="qty-${g.id}">${g.name}の数量</label><input id="qty-${g.id}" type="number" min="1" max="99" value="1" aria-label="${g.name}の数量">${b("buy", "買う", g.id)}</div></article>`).join("")}</div>${goods.length ? "" : "<p>配達の受付と町の案内をしています。</p>"}`;
 }
 function cafePanel() {
   const j = state.cafe;
@@ -276,9 +297,36 @@ function mapPanel() {
 function support(text, reading) {
   return `<div class="support"><details><summary>読み・やさしい意味・任意入力</summary><p>${esc(reading)}</p><p>確認や入力は生活の条件ではありません。選択・転記・再聴は別の記録です。</p>${b("practice", "ことばを写してみる", reading.split("／")[0])}</details><div class="button-row">${b("speak", "再聴", text)}${b("slow", "ゆっくり", text)}${b("stop-speech", "停止")}</div><p id="speech-status" role="status"></p></div>`;
 }
+function scheduleDialogue() {
+  clearTimeout(dialogueTimer);
+  if (
+    panel === "npc" &&
+    dialogue?.auto &&
+    !dialogue.choose &&
+    !dialogue.reply
+  ) {
+    const text = dialogue.lines[dialogue.cursor].text;
+    dialogueTimer = setTimeout(
+      () => {
+        if (panel !== "npc" || !dialogue?.auto) return;
+        if (dialogue.cursor < dialogue.lines.length - 1) {
+          dialogue.cursor++;
+          renderPanel();
+          scheduleDialogue();
+        } else {
+          dialogue.auto = false;
+          renderPanel();
+        }
+      },
+      Math.max(state.settings.autoDelay * 1000, text.length * 100),
+    );
+  }
+}
 function npcPanel() {
-  const p = residents.find((p) => p.id === detail);
-  return `${title(p.name + "さん", p.role + " · " + p.area)}<blockquote>${esc(p.line)}</blockquote>${support(p.audioText, p.reading + "。" + p.meaning)}<div class="replies">${p.replies.map((r, i) => b("reply", esc(r.text), String(i))).join("")}</div>${state.history[p.id] ? '<p class="small">この人と話した記録があります。好みの返事を採点しません。</p>' : ""}${b("bookmark", "この話題を手帳に残す", p.id)}`;
+  const p = residents.find((p) => p.id === detail),
+    line = dialogue.lines[dialogue.cursor],
+    last = dialogue.cursor === dialogue.lines.length - 1;
+  return `${title(speakerLabel(line.speaker), "町のひとと、ひと休み")}${!dialogue.reply ? `<blockquote class="dialogue-line">${esc(line.text)}</blockquote>` : ""}${dialogue.reply ? `<div class="dialogue-exchange"><p><span>あなた</span>${esc(dialogue.reply.text)}</p><p><span>${speakerLabel(detail)}</span>${esc(dialogue.reply.reaction)}</p></div>` : ""}${dialogue.choose ? `<div class="dialogue-choices">${p.replies.map((r, i) => b("reply", esc(r.text), String(i))).join("")}</div>` : ""}${last && dialogue.kind === "work" ? `<p>2時間 · 2,000円。今から働きますか？</p><div class="button-row">${b("work-yes", "はい")}${b("work-no", "今はやめておく")}</div>` : ""}<div class="dialogue-controls">${dialogue.cursor > 0 ? b("dialogue-back", "前の話") : ""}${b("dialogue-next", last ? "会話を終える" : "次へ →", null, "primary")}${b("dialogue-auto", dialogue.auto ? "自動送りを止める" : "自動送り")}${last && dialogue.kind === "optional" && !dialogue.reply ? b("dialogue-choose", "ひとこと返す") : ""}</div>${support(dialogue.reply?.reaction || line.text, p.reading + "。" + p.meaning)}`;
 }
 function wardrobe() {
   return `${title("今日は、どんな服で。", "着替え")}<p>服は買っただけでは変わりません。「着る」で主人公に反映されます。</p>${[
@@ -337,7 +385,7 @@ function journal() {
 }
 function settings() {
   audio.refresh();
-  return `${title("設定と、記録。")}${musicSettings()}<label class="setting">日本語音声<input id="sound" type="checkbox" ${state.settings.sound ? "checked" : ""}></label><label class="setting">日本語の声<select id="voice"><option value="">${audio.voices.length ? "自動で選ぶ" : "日本語の声なし・文字で遊べます"}</option>${audio.voices.map((v) => `<option value="${esc(v.voiceURI)}" ${state.settings.voice === v.voiceURI ? "selected" : ""}>${esc(v.name)}</option>`).join("")}</select></label><label class="setting">仮の波音・足音<input id="ambient" type="checkbox" ${state.settings.ambient ? "checked" : ""}></label><label class="setting">環境音・足音の音量<input id="volume" type="range" min="0" max="1" step="0.05" value="${state.settings.volume}"></label><label class="setting">影を描く<input id="shadows" type="checkbox" ${state.settings.shadows ? "checked" : ""}></label><p>3Dが重い場合は影をオフにできます。音声や保存が使えない場合も、この画面内の暮らしは続けられます。</p><div class="button-row">${b("export", "JSONを書き出す")}<label class="file-button">JSONを読み込む<input type="file" id="import" accept="application/json,.json"></label></div><p>読み込みはこの作品の進行を置き換えます。不正なデータなら現在の記録を保ちます。</p><details><summary>この作品の記録を削除</summary><p>住居・所持品・お金・会話記録を消します。英語試作の保存には触れません。</p>${b("delete", "確認：日本の暮らしの記録を削除", null, "danger")}</details><p class="small">独自の簡易モデル・作成中の会話です。文化・日本語の本人確認、実機スマホ、学習効果は未確認です。</p>`;
+  return `${title("設定と、記録。")}<label class="setting">文字の大きさ<select id="textScale">${[100, 125, 150].map((v) => `<option value="${v}" ${state.settings.textScale === v ? "selected" : ""}>${v}%</option>`).join("")}</select></label><label class="setting">自動送りの待ち時間<select id="autoDelay">${[4, 6, 10, 15].map((v) => `<option value="${v}" ${state.settings.autoDelay === v ? "selected" : ""}>${v}秒以上</option>`).join("")}</select></label><details><summary>季節を今日に合わせる</summary><p>保存した日付のまま続けることもできます。変更すると所持品と配達の残り時間を保ち、今日の月日へ移ります。過去の家賃は発生しません。</p>${b("align-calendar", "今日の季節へ移る")}</details>${musicSettings()}<label class="setting">日本語音声<input id="sound" type="checkbox" ${state.settings.sound ? "checked" : ""}></label><label class="setting">日本語の声<select id="voice"><option value="">${audio.voices.length ? "自動で選ぶ" : "日本語の声なし・文字で遊べます"}</option>${audio.voices.map((v) => `<option value="${esc(v.voiceURI)}" ${state.settings.voice === v.voiceURI ? "selected" : ""}>${esc(v.name)}</option>`).join("")}</select></label><label class="setting">仮の波音・足音<input id="ambient" type="checkbox" ${state.settings.ambient ? "checked" : ""}></label><label class="setting">環境音・足音の音量<input id="volume" type="range" min="0" max="1" step="0.05" value="${state.settings.volume}"></label><label class="setting">影を描く<input id="shadows" type="checkbox" ${state.settings.shadows ? "checked" : ""}></label><p>3Dが重い場合は影をオフにできます。音声や保存が使えない場合も、この画面内の暮らしは続けられます。</p><div class="button-row">${b("export", "JSONを書き出す")}<label class="file-button">JSONを読み込む<input type="file" id="import" accept="application/json,.json"></label></div><p>読み込みはこの作品の進行を置き換えます。不正なデータなら現在の記録を保ちます。</p><details><summary>この作品の記録を削除</summary><p>住居・所持品・お金・会話記録を消します。英語試作の保存には触れません。</p>${b("delete", "確認：日本の暮らしの記録を削除", null, "danger")}</details><p class="small">独自の簡易モデル・作成中の会話です。文化・日本語の本人確認、実機スマホ、学習効果は未確認です。</p>`;
 }
 function musicSettings() {
   return `<h2>音楽と聞き取り</h2><p>収録曲は独自の仮ループです。完成曲の監修・実聴は未確認。</p><label class="setting">音楽を消音<input id="musicMuted" type="checkbox" ${state.settings.musicMuted ? "checked" : ""}></label><label class="setting">音楽の音量<input id="musicVolume" type="range" min="0" max="1" step="0.05" value="${state.settings.musicVolume}"></label><label class="setting">声の音量<input id="voiceVolume" type="range" min="0" max="1" step="0.05" value="${state.settings.voiceVolume}"></label><p id="music-status" role="status"></p><div class="button-row">${b("start-audio", "音を再生する")}${b("radio", "自宅のラジオ")}</div>`;
@@ -381,7 +429,7 @@ function renderPanel() {
     overlay.className = "";
     return;
   }
-  overlay.className = `visible ${panel === "welcome" ? "welcome" : ""}`;
+  overlay.className = `visible ${panel === "welcome" ? "welcome" : panel === "npc" ? "dialogue" : ""}`;
   let content =
     panel === "welcome"
       ? `<div class="welcome-mark">汐</div><span class="eyebrow">SHIOMACHI · A LITTLE LIFE IN JAPAN</span><h1>海風の町で、<br>暮らしをひとつずつ。</h1><p>お店へ寄って、人と話して。<br>働いた日も、ただ歩いた日も、あなたの一日。</p><div class="welcome-actions">${b("begin", state.home ? "暮らしの続きを歩く" : "窓のある部屋を探す", null, "primary wide")}${b("settings", "設定・記録を読み込む", null, "wide")}</div><p class="small">架空の港町・M1/M2初期試作<br>簡易モデルとDRAFT会話。外部AI・APIキー不要。</p>`
@@ -433,11 +481,15 @@ function renderPanel() {
                                         "<p>この場所宛ての受注はありません。</p>"
                                       }`
                                     : "";
-  overlay.innerHTML = `<section class="panel" aria-label="${panel}" role="dialog">${content}${feedback ? `<p class="feedback" role="status">${esc(feedback)}</p>` : ""}</section>`;
+  overlay.innerHTML = `<section class="panel ${panel === "npc" ? "dialogue-panel" : ""}" aria-label="${panel}" role="dialog">${content}${feedback ? `<p class="feedback" role="status">${esc(feedback)}</p>` : ""}</section>`;
   if (panel === "furnish" && draft)
     world.setGhost?.(state, draft.uid, draft.at);
 }
 function render() {
+  document.documentElement.style.setProperty(
+    "--text-scale",
+    String(state.settings.textScale / 100),
+  );
   renderHud();
   renderPanel();
   document.body.classList.toggle("modal-open", !!panel);
@@ -487,6 +539,66 @@ function interact() {
   }
 }
 function runAction(action, id, button) {
+  if (action === "align-calendar") {
+    E.alignCalendar(state);
+    world.lastKey = "";
+    persist();
+    render();
+    return;
+  }
+  if (action === "dialogue-next") {
+    audio.stop();
+    if (dialogue.cursor < dialogue.lines.length - 1) {
+      dialogue.cursor++;
+      dialogue.choose = false;
+      dialogue.reply = null;
+      renderPanel();
+      scheduleDialogue();
+    } else {
+      if (!dialogue.reply) E.recordReading(state, detail);
+      close();
+    }
+    return;
+  }
+  if (action === "dialogue-back") {
+    dialogue.cursor = Math.max(0, dialogue.cursor - 1);
+    dialogue.choose = false;
+    dialogue.reply = null;
+    audio.stop();
+    renderPanel();
+    scheduleDialogue();
+    return;
+  }
+  if (action === "dialogue-auto") {
+    dialogue.auto = !dialogue.auto;
+    renderPanel();
+    scheduleDialogue();
+    return;
+  }
+  if (action === "dialogue-choose") {
+    dialogue.auto = false;
+    clearTimeout(dialogueTimer);
+    dialogue.choose = true;
+    renderPanel();
+    return;
+  }
+  if (action === "work-yes") {
+    E.recordReading(state, detail);
+    persist();
+    open("cafe");
+    return;
+  }
+  if (action === "work-no") {
+    dialogue.lines.push({
+      speaker: detail,
+      text: "また気が向いたら声をかけてね。",
+    });
+    dialogue.cursor++;
+    dialogue.kind = "listen";
+    renderPanel();
+    return;
+  }
+
   if (action === "start-audio") {
     void music.unlock();
     return;
@@ -656,7 +768,16 @@ function runAction(action, id, button) {
     toast("服を着替えました。主人公の見た目に反映しています。");
   }
   if (action === "reply") {
-    feedback = E.talk(state, detail, Number(id));
+    const reaction = E.talk(state, detail, Number(id));
+    if (dialogue) {
+      dialogue.reply = {
+        text: residents.find((p) => p.id === detail).replies[Number(id)].text,
+        reaction,
+      };
+      dialogue.choose = false;
+      dialogue.auto = false;
+      clearTimeout(dialogueTimer);
+    } else feedback = reaction;
   }
   if (action === "bookmark") {
     if (!state.notes.includes(id)) state.notes.push(id);
@@ -667,6 +788,10 @@ function runAction(action, id, button) {
     return;
   }
   if (action === "speak" || action === "slow") {
+    if (dialogue) {
+      dialogue.auto = false;
+      clearTimeout(dialogueTimer);
+    }
     audio.speak(id, state.settings, action === "slow", (ok, message) => {
       document
         .querySelector("#speech-status")
@@ -795,16 +920,28 @@ document.addEventListener("change", async (e) => {
         "voiceVolume",
         "musicVolume",
         "musicMuted",
+        "textScale",
+        "autoDelay",
       ].includes(el.id)
     ) {
       state.settings[el.id] =
         el.type === "checkbox"
           ? el.checked
-          : ["volume", "voiceVolume", "musicVolume"].includes(el.id)
+          : [
+                "volume",
+                "voiceVolume",
+                "musicVolume",
+                "textScale",
+                "autoDelay",
+              ].includes(el.id)
             ? Number(el.value)
             : el.value;
       audio.ambient(state.settings.ambient, state.settings.volume);
       music.sync(state);
+      document.documentElement.style.setProperty(
+        "--text-scale",
+        String(state.settings.textScale / 100),
+      );
       persist();
     }
     if (panel === "furnish" && draft) {
@@ -917,7 +1054,7 @@ window.addEventListener("focus", () =>
   music.setPaused(document.hidden || panel === "welcome"),
 );
 document.addEventListener("visibilitychange", () => {
-  frameTime=performance.now();
+  frameTime = performance.now();
   music.setPaused(document.hidden || panel === "welcome");
   world.keys.clear();
   audio.stop();

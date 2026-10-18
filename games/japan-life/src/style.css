@@ -1122,3 +1122,143 @@ details p {
     scroll-behavior: auto !important;
   }
 }
+
+/* R2: readable conversation belongs below the scene, with stable controls. */
+:root {
+  --text-scale: 1;
+}
+.panel p,
+.panel .small,
+.panel label,
+.panel .list-row,
+.panel .product span {
+  font-size: calc(16px * var(--text-scale));
+}
+.panel h2,
+.panel .product h2 {
+  font-size: calc(20px * var(--text-scale));
+}
+.panel button,
+.panel input,
+.panel select,
+.panel summary {
+  font-size: calc(17px * var(--text-scale));
+  min-height: 44px;
+}
+.panel {
+  width: min(540px, calc(100vw - 32px));
+}
+.panel .eyebrow {
+  font-size: calc(13px * var(--text-scale));
+}
+#overlay.dialogue {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 20px;
+  background: transparent;
+  pointer-events: none;
+}
+#overlay.dialogue .dialogue-panel {
+  position: relative;
+  top: auto;
+  bottom: auto;
+  left: auto;
+  right: auto;
+  transform: none;
+  width: min(940px, calc(100vw - 40px));
+  max-height: 55vh;
+  margin: 0;
+  padding: 22px 30px;
+  background: rgba(255, 251, 238, 0.98);
+  border: 2px solid #8c856c;
+  border-radius: 10px;
+  box-shadow: 0 10px 45px #172a2b55;
+  pointer-events: auto;
+}
+.dialogue-panel .panel-head {
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+}
+.dialogue-panel h1 {
+  font-size: calc(20px * var(--text-scale));
+}
+.dialogue-panel .dialogue-line {
+  margin: 12px 0 18px;
+  border: 0;
+  padding: 0;
+  color: #263c36;
+  font-size: calc(24px * var(--text-scale));
+  line-height: 1.65;
+  font-weight: 500;
+}
+.dialogue-controls,
+.dialogue-choices {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+.dialogue-controls button,
+.dialogue-choices button {
+  font-size: calc(18px * var(--text-scale));
+}
+.dialogue-panel .support {
+  margin-top: 12px;
+}
+.dialogue-panel .support .button-row {
+  display: inline-flex;
+  margin: 0 0 0 12px;
+}
+.dialogue-panel .support details {
+  display: inline-block;
+}
+.dialogue-panel .support p:empty {
+  display: none;
+}
+.dialogue-exchange p {
+  color: #263c36;
+  font-size: calc(23px * var(--text-scale));
+  margin: 10px 0;
+  line-height: 1.65;
+}
+.dialogue-exchange span {
+  display: inline-block;
+  margin-right: 14px;
+  color: #66744f;
+  font-size: calc(17px * var(--text-scale));
+}
+.dialogue-choices {
+  margin: 8px 0 14px;
+}
+.dialogue-choices button {
+  flex: 1 1 220px;
+  text-align: left;
+}
+.tools button {
+  font-size: 15px;
+}
+@media (max-width: 600px) {
+  #overlay.dialogue {
+    padding: 8px;
+  }
+  #overlay.dialogue .dialogue-panel {
+    width: calc(100vw - 16px);
+    max-height: 63vh;
+    padding: 16px;
+  }
+  .dialogue-panel .dialogue-line {
+    font-size: calc(22px * var(--text-scale));
+  }
+  .dialogue-exchange p {
+    font-size: calc(21px * var(--text-scale));
+  }
+  .dialogue-panel .support .button-row {
+    margin: 8px 0 0;
+  }
+  .panel {
+    width: calc(100vw - 20px);
+  }
+  .tools button {
+    font-size: 13px;
+  }
+}

@@ -8,7 +8,7 @@ import { MusicPlayer } from "../src/music.js";
 import { AudioSupport } from "../src/audio.js";
 
 function freshHome() {
-  const s = E.fresh(new Date(2026,3,1));
+  const s = E.fresh(new Date(2026, 3, 1));
   E.chooseHome(s, "home01");
   return s;
 }

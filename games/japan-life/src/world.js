@@ -11,9 +11,9 @@ import {
   destinations,
 } from "./data.js";
 import { floorSize } from "./engine.js";
-import { person, posePerson } from './art/characters.js';
-import { buildDistrict, stateSeason } from './art/district.js';
-import { groundHeight } from './art/height.js';
+import { person, posePerson } from "./art/characters.js";
+import { buildDistrict, stateSeason } from "./art/district.js";
+import { groundHeight } from "./art/height.js";
 
 const materials = new Map();
 function mat(color) {
@@ -47,9 +47,10 @@ function cylinder(g, x, y, z, r1, r2, h, c, sides = 8) {
 }
 function optimize(group) {
   group.updateMatrixWorld(true);
-  const meshes = new Map(),kept=[];
+  const meshes = new Map(),
+    kept = [];
   group.traverse((o) => {
-    if(o.isMesh&&o.userData.keep)kept.push(o);
+    if (o.isMesh && o.userData.keep) kept.push(o);
     if (o.isMesh && !o.userData.keep) {
       let geo = o.geometry.index
         ? o.geometry.toNonIndexed()
@@ -70,7 +71,11 @@ function optimize(group) {
     output.add(mesh);
     geos.forEach((g) => g.dispose());
   }
-  for(const o of kept){o.matrixWorld.decompose(o.position,o.quaternion,o.scale);o.removeFromParent();output.add(o);}
+  for (const o of kept) {
+    o.matrixWorld.decompose(o.position, o.quaternion, o.scale);
+    o.removeFromParent();
+    output.add(o);
+  }
   return output;
 }
 const signs = new Map();
@@ -331,21 +336,34 @@ export class World {
       antialias: true,
       powerPreference: "low-power",
     });
-    const gl=this.renderer.getContext(),debug=gl.getExtension('WEBGL_debug_renderer_info');
-    this.software=/swiftshader|llvmpipe|software/i.test(debug?gl.getParameter(debug.UNMASKED_RENDERER_WEBGL):'');
-    this.renderer.setPixelRatio(this.software?.8:Math.min(devicePixelRatio,1.4));
+    const gl = this.renderer.getContext(),
+      debug = gl.getExtension("WEBGL_debug_renderer_info");
+    this.software = /swiftshader|llvmpipe|software/i.test(
+      debug ? gl.getParameter(debug.UNMASKED_RENDERER_WEBGL) : "",
+    );
+    this.renderer.setPixelRatio(
+      this.software ? 0.8 : Math.min(devicePixelRatio, 1.4),
+    );
     this.renderer.shadowMap.enabled = true;
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    this.renderer.shadowMap.autoUpdate=false;this.renderer.shadowMap.needsUpdate=true;
+    this.renderer.shadowMap.type = this.software
+      ? THREE.BasicShadowMap
+      : THREE.PCFSoftShadowMap;
+    this.renderer.shadowMap.autoUpdate = false;
+    this.renderer.shadowMap.needsUpdate = true;
     this.renderer.setClearColor("#c2d8db");
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
-    this.renderer.toneMapping=THREE.ACESFilmicToneMapping;this.renderer.toneMappingExposure=1.12;
+    this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    this.renderer.toneMappingExposure = 1.12;
     container.append(this.renderer.domElement);
-    this.skyLight=new THREE.HemisphereLight("#dce9ea", "#7c795b", 1.45);this.scene.add(this.skyLight);
+    this.skyLight = new THREE.HemisphereLight("#dce9ea", "#7c795b", 1.45);
+    this.scene.add(this.skyLight);
     this.sun = new THREE.DirectionalLight("#fff2d5", 2.7);
     this.sun.position.set(-30, 60, 25);
     this.sun.castShadow = true;
-    this.sun.shadow.mapSize.set(this.software?1024:2048, this.software?1024:2048);
+    this.sun.shadow.mapSize.set(
+      this.software ? 1024 : 2048,
+      this.software ? 1024 : 2048,
+    );
     this.sun.shadow.camera.left = -25;
     this.sun.shadow.camera.right = 25;
     this.sun.shadow.camera.top = 25;
@@ -406,7 +424,9 @@ export class World {
     this.obstacles.push({ x, z, w, d });
     if (mesh) this.rayMeshes.push(mesh);
   }
-  buildTown(s) { this.art=buildDistrict(this,s,optimize); }
+  buildTown(s) {
+    this.art = buildDistrict(this, s, optimize);
+  }
   buildRoom(s) {
     const preview = s.scene.startsWith("preview:"),
       home = homeById[preview ? s.scene.slice(8) : s.scene],
@@ -653,10 +673,12 @@ export class World {
   }
   sync(s) {
     const roomKey =
-      s.scene + stateSeason(s) + JSON.stringify(s.furniture.map((i) => [i.uid, i.at]));
+      s.scene +
+      stateSeason(s) +
+      JSON.stringify(s.furniture.map((i) => [i.uid, i.at]));
     if (this.lastKey !== roomKey) {
       this.clear();
-      this.renderer.shadowMap.needsUpdate=true;
+      this.renderer.shadowMap.needsUpdate = true;
       if (s.scene === "town") this.buildTown(s);
       else this.buildRoom(s);
       this.lastKey = roomKey;
@@ -673,7 +695,8 @@ export class World {
           { shirt: "#eee4ca", hair: "#443b31", height: 1.65, body: 0.92 },
           Object.fromEntries(
             Object.entries(s.wear).map(([k, v]) => [k, productById[v]]),
-          ),stateSeason(s),
+          ),
+          stateSeason(s),
         ),
       );
       if (carrying) {
@@ -845,7 +868,8 @@ export class World {
     const r = s.scene === "town" ? 0.26 : 0.18;
     if (s.scene === "town") {
       if (Math.abs(x) > 71 || z > 65 || z < -64) return false;
-      if (Math.abs(groundHeight(x,z)-groundHeight(s.pos.x,s.pos.z))>.3) return false;
+      if (Math.abs(groundHeight(x, z) - groundHeight(s.pos.x, s.pos.z)) > 0.3)
+        return false;
     } else {
       const { w, d, home } = this.room;
       if (home) {
@@ -904,7 +928,7 @@ export class World {
   frame(s, dt, blocked) {
     this.sync(s);
     this.yaw = s.yaw;
-    const before={...s.pos};
+    const before = { ...s.pos };
     if (!blocked) {
       const ix =
           (this.keys.has("d") || this.keys.has("ArrowRight") ? 1 : 0) -
@@ -938,31 +962,39 @@ export class World {
         this.player.rotation.y = Math.atan2(dx, dz);
       }
     }
-    const floorY=s.scene==='town'?groundHeight(s.pos.x,s.pos.z):0;
-    this.player.position.set(s.pos.x, floorY+.025, s.pos.z);
-    const moved=Math.hypot(s.pos.x-before.x,s.pos.z-before.z);
-    if(this.player.children[0])posePerson(this.player.children[0],moved,this.keys.has('Shift'),dt);
-    this.renderer.domElement.dataset.height=floorY.toFixed(3);
-    this.renderer.domElement.dataset.gait=moved>.0005?(this.keys.has('Shift')?'run':'walk'):'idle';
+    const floorY = s.scene === "town" ? groundHeight(s.pos.x, s.pos.z) : 0;
+    this.player.position.set(s.pos.x, floorY + 0.025, s.pos.z);
+    const moved = Math.hypot(s.pos.x - before.x, s.pos.z - before.z);
+    if (this.player.children[0])
+      posePerson(this.player.children[0], moved, this.keys.has("Shift"), dt);
+    this.renderer.domElement.dataset.height = floorY.toFixed(3);
+    this.renderer.domElement.dataset.gait =
+      moved > 0.0005 ? (this.keys.has("Shift") ? "run" : "walk") : "idle";
     for (const n of this.npcs) {
       const p = residentPosition(n.data, s.clock);
-      const old=n.mesh.position.clone();
-      n.mesh.position.set(p.x, groundHeight(p.x,p.z)+.025, p.z);
-      const step=n.lastClock!==undefined&&Math.abs(s.clock-n.lastClock)<2?Math.hypot(p.x-old.x,p.z-old.z):0;
-      if(step>.001)n.mesh.rotation.y=Math.atan2(p.x-old.x,p.z-old.z);
-      posePerson(n.mesh,step,false,dt);n.lastClock=s.clock;
+      const old = n.mesh.position.clone();
+      n.mesh.position.set(p.x, groundHeight(p.x, p.z) + 0.025, p.z);
+      const step =
+        n.lastClock !== undefined && Math.abs(s.clock - n.lastClock) < 2
+          ? Math.hypot(p.x - old.x, p.z - old.z)
+          : 0;
+      if (step > 0.001)
+        n.mesh.rotation.y = Math.atan2(p.x - old.x, p.z - old.z);
+      posePerson(n.mesh, step, false, dt);
+      n.lastClock = s.clock;
       n.inTown = p.scene === "town";
       n.mesh.visible =
         n.inTown && Math.hypot(p.x - s.pos.x, p.z - s.pos.z) < 28;
     }
-    const target = new THREE.Vector3(s.pos.x, floorY+1.2, s.pos.z),
+    const target = new THREE.Vector3(s.pos.x, floorY + 1.2, s.pos.z),
       distance = s.scene === "town" ? 8.2 : 3.3;
     const desired = new THREE.Vector3(
       s.pos.x + Math.sin(s.yaw) * distance,
-      floorY+1.2 + distance * this.pitch,
+      floorY + 1.2 + distance * this.pitch,
       s.pos.z + Math.cos(s.yaw) * distance,
     );
-    if(s.scene==='town')desired.y=Math.max(desired.y,groundHeight(desired.x,desired.z)+.5);
+    if (s.scene === "town")
+      desired.y = Math.max(desired.y, groundHeight(desired.x, desired.z) + 0.5);
     this.root.updateMatrixWorld(true);
     this.dynamic.updateMatrixWorld(true);
     const dir = desired.clone().sub(target).normalize();
@@ -983,28 +1015,51 @@ export class World {
     this.player.visible = desired.distanceTo(target) > 0.75;
     this.camera.position.lerp(desired, Math.min(1, dt * 12));
     this.camera.lookAt(target);
-    this.sun.position.set(s.pos.x - 26, floorY+40, s.pos.z + 24);
+    this.sun.position.set(s.pos.x - 26, floorY + 40, s.pos.z + 24);
     this.sun.target.position.set(s.pos.x, floorY, s.pos.z);
     if (this.route && s.scene === "town") {
       this.marker.visible = true;
-      this.marker.position.set(this.route.x, groundHeight(this.route.x,this.route.z)+.15, this.route.z);
+      this.marker.position.set(
+        this.route.x,
+        groundHeight(this.route.x, this.route.z) + 0.15,
+        this.route.z,
+      );
     } else this.marker.visible = false;
     const hour = (s.clock % 1440) / 60;
-    const day=Math.max(0,Math.sin((hour-6)/12*Math.PI));
-    const warmth=Math.max(0,1-Math.abs(hour-17.4)/2.4);
-    this.sun.intensity=.25+day*2.7;
-    this.sun.color.set('#fff5df').lerp(new THREE.Color('#f3b077'),warmth*.7);
-    this.sun.position.y=floorY+12+day*38;
-    this.skyLight.intensity=.45+day*.95;
-    this.scene.background.set('#354d61').lerp(new THREE.Color('#c6d5d6'),Math.min(1,day*1.7)).lerp(new THREE.Color('#bea48d'),warmth*.38);
+    const day = Math.max(0, Math.sin(((hour - 6) / 12) * Math.PI));
+    const warmth = Math.max(0, 1 - Math.abs(hour - 17.4) / 2.4);
+    this.sun.intensity = 0.25 + day * 2.7;
+    this.sun.color
+      .set("#fff5df")
+      .lerp(new THREE.Color("#f3b077"), warmth * 0.7);
+    this.sun.position.y = floorY + 12 + day * 38;
+    this.skyLight.intensity = 0.45 + day * 0.95;
+    this.scene.background
+      .set("#354d61")
+      .lerp(new THREE.Color("#c6d5d6"), Math.min(1, day * 1.7))
+      .lerp(new THREE.Color("#bea48d"), warmth * 0.38);
     this.scene.fog.color.copy(this.scene.background);
-    if(this.art&&s.scene==='town') {
-      this.art.ocean.time.value=performance.now()/1000;
-      for(const l of this.art.lights)l.mesh.visible=l.lamp?(hour>=17.5||hour<6.5):(hour>=17.5+l.offset*.16||hour<6-l.offset*.1);
+    if (this.art && s.scene === "town") {
+      this.art.ocean.time.value = performance.now() / 1000;
+      for (const l of this.art.lights)
+        l.mesh.visible = l.lamp
+          ? hour >= 17.5 || hour < 6.5
+          : hour >= 17.5 + l.offset * 0.16 || hour < 6 - l.offset * 0.1;
     }
-    if(!this.shadowAt||Math.hypot(s.pos.x-this.shadowAt.x,s.pos.z-this.shadowAt.z)>1||Math.abs(s.clock-this.shadowAt.clock)>1.5){this.renderer.shadowMap.needsUpdate=true;this.shadowAt={...s.pos,clock:s.clock};}
+    if (
+      !this.shadowAt ||
+      Math.hypot(s.pos.x - this.shadowAt.x, s.pos.z - this.shadowAt.z) > 1 ||
+      Math.abs(s.clock - this.shadowAt.clock) > 1.5
+    ) {
+      this.renderer.shadowMap.needsUpdate = true;
+      this.shadowAt = { ...s.pos, clock: s.clock };
+    }
     this.renderer.render(this.scene, this.camera);
-    this.renderer.domElement.dataset.drawCalls=String(this.renderer.info.render.calls);
-    this.renderer.domElement.dataset.triangles=String(this.renderer.info.render.triangles);
+    this.renderer.domElement.dataset.drawCalls = String(
+      this.renderer.info.render.calls,
+    );
+    this.renderer.domElement.dataset.triangles = String(
+      this.renderer.info.render.triangles,
+    );
   }
 }

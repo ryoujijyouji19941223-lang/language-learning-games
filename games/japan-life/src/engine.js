@@ -50,9 +50,10 @@ export function calendar(minutes) {
             : "冬",
   };
 }
-export function fresh(date=new Date()) {
-  const month=date.getMonth(),day=Math.min(date.getDate(),months[month]);
-  const startDay=months.slice(0,month).reduce((a,b)=>a+b,0)+day-1;
+export function fresh(date = new Date()) {
+  const month = date.getMonth(),
+    day = Math.min(date.getDate(), months[month]);
+  const startDay = months.slice(0, month).reduce((a, b) => a + b, 0) + day - 1;
   return {
     version: 1,
     game: "japan-life",
@@ -60,7 +61,7 @@ export function fresh(date=new Date()) {
     money: 20000,
     debt: 0,
     rentThrough: month,
-    worldVersion:2,
+    worldVersion: 2,
     home: null,
     scene: "preview:home01",
     pos: { x: 1.75, z: 3.25 },
@@ -73,8 +74,19 @@ export function fresh(date=new Date()) {
       { uid: "starter-chair", kind: "f03", at: null },
       { uid: "starter-curtain", kind: "f19", at: null },
     ],
-    wardrobe: ["c01", "c05", "c09", ...(month>=8||month<=1?[month>=11||month<=1?"c04":"c03"]:[])],
-    wear: { top:month>=11||month<=1?"c04":month>=8?"c03":"c01", bottom: "c05", shoes: "c09" },
+    wardrobe: [
+      "c01",
+      "c05",
+      "c09",
+      ...(month >= 8 || month <= 1
+        ? [month >= 11 || month <= 1 ? "c04" : "c03"]
+        : []),
+    ],
+    wear: {
+      top: month >= 11 || month <= 1 ? "c04" : month >= 8 ? "c03" : "c01",
+      bottom: "c05",
+      shoes: "c09",
+    },
     stock: Object.fromEntries(
       products.map((p) => [p.id, p.kind === "food" ? 50 : 5]),
     ),
@@ -94,6 +106,8 @@ export function fresh(date=new Date()) {
       voiceVolume: 0.85,
       musicVolume: 0.28,
       musicMuted: false,
+      textScale: 100,
+      autoDelay: 6,
     },
     music: { homeTrack: "jp_home_default", homeStopped: false },
     serial: 0,
@@ -701,6 +715,46 @@ export function talk(s, id, choice) {
   s.stats.talked++;
   return p.replies[choice].reaction;
 }
+export function recordReading(s, id) {
+  requireThat(
+    residents.some((p) => p.id === id),
+    "その人は見つかりません。",
+  );
+  s.history[id] = {
+    count: (s.history[id]?.count || 0) + 1,
+    last: s.clock,
+    choice: null,
+    mode: "read",
+  };
+  s.stats.talked++;
+}
+export function alignCalendar(s, date = new Date()) {
+  const old = calendar(s.clock),
+    month = date.getMonth(),
+    day = Math.min(months[month], date.getDate());
+  let clock =
+    ((old.year - 1) * 365 +
+      months.slice(0, month).reduce((a, b) => a + b, 0) +
+      day -
+      1) *
+      DAY +
+    (s.clock % DAY);
+  let delta = clock - s.clock;
+  while (s.jobs.some((j) => j.accepted + delta < 0 || j.deadline + delta < 0)) {
+    clock += 365 * DAY;
+    delta = clock - s.clock;
+  }
+  s.jobs.forEach((j) => {
+    j.accepted += delta;
+    j.deadline += delta;
+  });
+  s.clock = clock;
+  s.rentThrough = calendar(clock).monthSerial;
+  note(
+    s,
+    "季節を今日の月日に合わせました。配達の残り時間と所持品はそのままです。",
+  );
+}
 export function sleep(s) {
   requireThat(
     s.home === s.scene &&
@@ -870,7 +924,7 @@ export function validate(s) {
           residents.some((p) => p.id === id) &&
           int(h.count) &&
           Number.isFinite(h.last) &&
-          int(h.choice, 0, 2),
+          (int(h.choice, 0, 2) || (h.mode === "read" && h.choice === null)),
       ) &&
       Array.isArray(s.notes) &&
       s.notes.length < 2000 &&
@@ -908,6 +962,11 @@ export function validate(s) {
       ),
     "支援の記録が壊れています。",
   );
+  requireThat(
+    [100, 125, 150].includes(s.settings.textScale) &&
+      int(s.settings.autoDelay, 4, 15),
+    "文字と会話の設定が壊れています。",
+  );
   return s;
 }
 export function parse(raw) {
@@ -918,7 +977,16 @@ export function parse(raw) {
   const s = JSON.parse(raw);
   // 公開済みv0.1.0の保存へ追加項目だけを補完し、他の不正データは受け入れない。
   if (s?.game === "japan-life" && s.version === 1) {
-    if(s.worldVersion===undefined){if(s.scene==='town'&&s.pos&&Number.isFinite(s.pos.x)&&Number.isFinite(s.pos.z))s.pos=safeTownPosition(s.pos);s.worldVersion=2;}
+    if (s.worldVersion === undefined) {
+      if (
+        s.scene === "town" &&
+        s.pos &&
+        Number.isFinite(s.pos.x) &&
+        Number.isFinite(s.pos.z)
+      )
+        s.pos = safeTownPosition(s.pos);
+      s.worldVersion = 2;
+    }
     if (s.music === undefined)
       s.music = { homeTrack: "jp_home_default", homeStopped: false };
     if (s.settings && typeof s.settings === "object") {
@@ -926,6 +994,8 @@ export function parse(raw) {
         voiceVolume: 0.85,
         musicVolume: 0.28,
         musicMuted: false,
+        textScale: 100,
+        autoDelay: 6,
       }))
         if (s.settings[k] === undefined) s.settings[k] = v;
     }

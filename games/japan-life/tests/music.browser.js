@@ -4,7 +4,7 @@ import * as E from "../src/engine.js";
 const read = (page) =>
   page.evaluate(() => JSON.parse(localStorage.getItem("japan-life:v1")));
 const home = () => {
-  const s = E.fresh(new Date(2026,3,1));
+  const s = E.fresh(new Date(2026, 3, 1));
   E.chooseHome(s, "home01");
   s.settings.shadows = false;
   return s;

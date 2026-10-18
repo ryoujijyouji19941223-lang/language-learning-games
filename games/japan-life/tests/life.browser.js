@@ -306,7 +306,7 @@ test("実際に歩き、三室内見→買い物→勤務→二件配達→部�
 test("公園まで実歩行し、NPC会話と音声なし、会話中の移動停止・IME・地図の案内", async ({
   page,
 }) => {
-  const s = E.fresh(new Date(2026,3,1));
+  const s = E.fresh(new Date(2026, 3, 1));
   E.chooseHome(s, "home01");
   s.scene = "town";
   s.pos = { x: 0, z: -20 };
@@ -364,7 +364,7 @@ test("60人の固有話題・返答と読みをブラウザで一往復できる
   // 各ケースはUIのJSON読み込みで接近位置を復元する。60人を徒歩で連続巡回した証拠とはしない。
   await page.goto("/");
   for (const p of residents) {
-    const s = E.fresh(new Date(2026,3,1));
+    const s = E.fresh(new Date(2026, 3, 1));
     E.chooseHome(s, "home01");
     s.scene = "town";
     s.settings.shadows = false;
