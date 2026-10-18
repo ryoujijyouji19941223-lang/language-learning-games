@@ -13,6 +13,7 @@ import {
   cafeOrders,
   residents,
 } from "./data.js";
+import { trackById } from "./music-data.js";
 export const SAVE_KEY = "japan-life:v1";
 export const DAY = 1440;
 const months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -86,7 +87,11 @@ export function fresh() {
       shadows: true,
       voice: "",
       volume: 0.2,
+      voiceVolume: 0.85,
+      musicVolume: 0.28,
+      musicMuted: false,
     },
+    music: { homeTrack: "jp_home_default", homeStopped: false },
     serial: 0,
     events: [],
     stats: {
@@ -175,6 +180,23 @@ export function buy(s, id, qty) {
   s.stats.bought++;
   advanceTime(s, 2);
   note(s, `${p.name}を${qty}個買いました。`);
+}
+export function ownsRadio(s) {
+  return s.furniture.some((i) => i.kind === "f25");
+}
+export function chooseHomeTrack(s, id) {
+  requireThat(s.scene === s.home, "自宅で曲を選んでください。");
+  requireThat(trackById[id], "収録された曲を選んでください。");
+  requireThat(
+    ownsRadio(s) || id === "jp_home_default",
+    "家具店でラジオを取得すると選曲できます。",
+  );
+  s.music.homeTrack = id;
+  s.music.homeStopped = false;
+}
+export function stopHomeMusic(s) {
+  requireThat(s.scene === s.home, "自宅で曲を停止してください。");
+  s.music.homeStopped = true;
 }
 export function preview(s, id) {
   requireThat(homeById[id], "その部屋はありません。");
@@ -814,7 +836,7 @@ export function validate(s) {
   );
   requireThat(
     s.settings &&
-      ["sound", "ambient", "shadows"].every(
+      ["sound", "ambient", "shadows", "musicMuted"].every(
         (k) => typeof s.settings[k] === "boolean",
       ) &&
       typeof s.settings.voice === "string" &&
@@ -822,6 +844,19 @@ export function validate(s) {
       s.settings.volume >= 0 &&
       s.settings.volume <= 1,
     "設定が壊れています。",
+  );
+  requireThat(
+    ["musicVolume", "voiceVolume"].every(
+      (k) =>
+        Number.isFinite(s.settings[k]) &&
+        s.settings[k] >= 0 &&
+        s.settings[k] <= 1,
+    ) &&
+      s.music &&
+      typeof s.music.homeTrack === "string" &&
+      s.music.homeTrack.length < 100 &&
+      typeof s.music.homeStopped === "boolean",
+    "音楽の設定が壊れています。",
   );
   requireThat(
     s.history &&
@@ -876,7 +911,23 @@ export function parse(raw) {
     typeof raw === "string" && raw.length < 5e6,
     "5MB以内のJSONを選んでください。",
   );
-  return validate(JSON.parse(raw));
+  const s = JSON.parse(raw);
+  // 公開済みv0.1.0の保存へ追加項目だけを補完し、他の不正データは受け入れない。
+  if (s?.game === "japan-life" && s.version === 1) {
+    if (s.music === undefined)
+      s.music = { homeTrack: "jp_home_default", homeStopped: false };
+    if (s.settings && typeof s.settings === "object") {
+      for (const [k, v] of Object.entries({
+        voiceVolume: 0.85,
+        musicVolume: 0.28,
+        musicMuted: false,
+      }))
+        if (s.settings[k] === undefined) s.settings[k] = v;
+    }
+    if (s.stock && typeof s.stock === "object" && s.stock.f25 === undefined)
+      s.stock.f25 = 5;
+  }
+  return validate(s);
 }
 export function load(storage) {
   try {

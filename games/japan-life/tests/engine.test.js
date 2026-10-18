@@ -34,7 +34,7 @@ function finishCafe(s) {
     E.serveOrder(s);
   }
 }
-test("24家具すべてに空でない3D形状があり、最大室で床・壁・窓・机上に置ける", () => {
+test("25家具すべてに空でない3D形状があり、最大室で床・壁・窓・机上に置ける", () => {
   for (const item of furniture) {
     const model = furnitureModel(item);
     let meshes = 0;
@@ -65,10 +65,10 @@ test("24家具すべてに空でない3D形状があり、最大室で床・壁�
     E.validate(s);
   }
 });
-test("SPECの16食材・6料理・24家具・12服・60人を持ち、会話と参照が固有", () => {
+test("SPECの16食材・6料理・25家具・12服・60人を持ち、会話と参照が固有", () => {
   assert.equal(products.filter((p) => p.kind === "food").length, 16);
   assert.equal(recipes.length, 6);
-  assert.equal(furniture.length, 24);
+  assert.equal(furniture.length, 25);
   assert.equal(clothes.length, 12);
   assert.equal(residents.length, 60);
   assert.equal(new Set(residents.map((p) => p.id)).size, 60);

@@ -201,6 +201,7 @@ const furnitureRows = [
   ["マグカップ", 1, 1, 400, "anchor", 0.15, "mug"],
   ["卓上ランプ", 1, 1, 1100, "anchor", 0.35, "lamp"],
 ];
+furnitureRows.push(["卓上ラジオ", 1, 1, 1800, "anchor", 0.3, "radio"]);
 export const furniture = furnitureRows.map(
   ([name, w, d, price, zone, height, shape], i) => ({
     id: `f${String(i + 1).padStart(2, "0")}`,

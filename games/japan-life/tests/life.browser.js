@@ -167,7 +167,7 @@ test("実際に歩き、三室内見→買い物→勤務→二件配達→部�
   await walk(page, 0, -26.6);
   await walk(page, 17, -26.6);
   await shop(page, "market_furniture");
-  for (const id of ["f13", "f09", "f23"]) await buy(page, id);
+  for (const id of ["f13", "f09", "f23", "f25"]) await buy(page, id);
   await leaveShop(page);
   await walk(page, 35, -26.6);
   await shop(page, "market_clothes");
@@ -250,6 +250,26 @@ test("実際に歩き、三室内見→買い物→勤務→二件配達→部�
     .click();
   await page.locator('[data-action="confirm-furniture"]').click();
   await page.screenshot({ path: "evidence/10-furniture.png" });
+  await page
+    .locator(`[data-action="store-furniture"][data-id="${mug}"]`)
+    .click();
+  const radio = (await read(page)).furniture.find((i) => i.kind === "f25").uid;
+  await page
+    .locator(`[data-action="edit-furniture"][data-id="${radio}"]`)
+    .click();
+  await page.locator('[data-action="confirm-furniture"]').click();
+
+  await close(page);
+  await page.locator('.tools [data-action="journal"]').click();
+  await page.locator('[data-action="rest"]').click();
+  await close(page);
+  await page.locator('.tools [data-action="journal"]').click();
+  await page.locator('[data-action="radio"]').click();
+  await page
+    .locator('[data-action="choose-track"][data-id="jp_shop_calm"]')
+    .click();
+  expect((await read(page)).music.homeTrack).toBe("jp_shop_calm");
+  await page.screenshot({ path: "evidence/16-home-radio.png" });
   await close(page);
   await page.locator('.tools [data-action="journal"]').click();
   await page.locator('[data-action="rest"]').click();
@@ -264,6 +284,7 @@ test("実際に歩き、三室内見→買い物→勤務→二件配達→部�
   expect(resumed.money).toBe(slept.money);
   expect(resumed.furniture).toEqual(slept.furniture);
   expect(resumed.jobs).toEqual(slept.jobs);
+  expect(resumed.music).toEqual(slept.music);
   // 転居しても所有は一住居、家具を失わない。
   await page.locator('.tools [data-action="journal"]').click();
   await page.locator('[data-action="housing"]').click();
@@ -271,6 +292,7 @@ test("実際に歩き、三室内見→買い物→勤務→二件配達→部�
   await page.locator('[data-action="contract"]').click();
   const moved = await read(page);
   expect(moved.home).toBe("home02");
+  expect(moved.music.homeTrack).toBe("jp_shop_calm");
   expect(moved.furniture.map((i) => i.uid)).toEqual(
     slept.furniture.map((i) => i.uid),
   );
@@ -323,13 +345,11 @@ test("公園まで実歩行し、NPC会話と音声なし、会話中の移動�
   await page.locator('[data-action="practice"]').click();
   await page.locator("#practice-input").fill("案内");
   await page.locator("#practice-input").dispatchEvent("compositionstart");
-  await page
-    .locator("#practice-input")
-    .dispatchEvent("keydown", {
-      key: "Enter",
-      isComposing: true,
-      bubbles: true,
-    });
+  await page.locator("#practice-input").dispatchEvent("keydown", {
+    key: "Enter",
+    isComposing: true,
+    bubbles: true,
+  });
   expect(
     (await read(page)).supportLog.filter((r) => r.type === "copy"),
   ).toHaveLength(0);
@@ -352,13 +372,11 @@ test("60人の固有話題・返答と読みをブラウザで一往復できる
     s.scene = position.scene;
     s.pos = { x: position.x, z: position.z + 1 };
     await page.locator('.tools [data-action="settings"]').click();
-    await page
-      .locator("#import")
-      .setInputFiles({
-        name: "resident.json",
-        mimeType: "application/json",
-        buffer: Buffer.from(JSON.stringify(s)),
-      });
+    await page.locator("#import").setInputFiles({
+      name: "resident.json",
+      mimeType: "application/json",
+      buffer: Buffer.from(JSON.stringify(s)),
+    });
     await close(page);
     await expect(page.locator("#context")).toContainText(p.name);
     await page.keyboard.press("e");
@@ -426,13 +444,11 @@ test("タッチの歩行・視点、保存不能、JSONの入出力・不正デ�
   const download = await downloadPromise,
     path = await download.path();
   const current = await read(page);
-  await page
-    .locator("#import")
-    .setInputFiles({
-      name: "bad.json",
-      mimeType: "application/json",
-      buffer: Buffer.from("{}"),
-    });
+  await page.locator("#import").setInputFiles({
+    name: "bad.json",
+    mimeType: "application/json",
+    buffer: Buffer.from("{}"),
+  });
   await expect(page.locator(".feedback")).toContainText("現在の記録はそのまま");
   expect((await read(page)).home).toBe(current.home);
   await page.locator("#import").setInputFiles(path);

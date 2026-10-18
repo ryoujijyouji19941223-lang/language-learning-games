@@ -1,6 +1,9 @@
 import "./style.css";
 import { World } from "./world.js";
 import { AudioSupport } from "./audio.js";
+import { MusicPlayer } from "./music.js";
+import { tracks, trackById } from "./music-data.js";
+import { musicSources } from "./music-sources.js";
 import * as E from "./engine.js";
 import {
   places,
@@ -49,6 +52,18 @@ let panel = null,
   saveTimer = 0,
   footstep = 0;
 const audio = new AudioSupport();
+const music = new MusicPlayer(musicSources);
+audio.onSpeaking = (active) => music.duck(active);
+function activateAudio() {
+  if (
+    !music.context ||
+    music.blocked ||
+    (music.context.state === "suspended" && !music.paused)
+  )
+    void music.unlock();
+}
+document.addEventListener("pointerdown", activateAudio, { capture: true });
+document.addEventListener("keydown", activateAudio, { capture: true });
 const esc = (v) =>
   String(v ?? "").replace(
     /[&<>"']/g,
@@ -94,6 +109,8 @@ try {
 }
 function open(kind, id = null) {
   audio.stop();
+  music.preview = null;
+  music.setPaused(document.hidden || kind === "welcome");
   world.keys.clear();
   world.touch = { x: 0, z: 0 };
   panel = kind;
@@ -103,6 +120,8 @@ function open(kind, id = null) {
 }
 function close() {
   audio.stop();
+  music.preview = null;
+  music.setPaused(document.hidden);
   panel = null;
   detail = null;
   draft = null;
@@ -133,7 +152,7 @@ function renderHud() {
       : state.scene.startsWith("preview:")
         ? "部屋の内見"
         : placeById[state.scene]?.name || "町";
-  hud.innerHTML = `<header class="topbar"><div class="brand"><span class="brand-icon">汐</span><div>汐待町<small>SHIOMACHI · 暮らしの試作</small></div></div><div class="date"><strong>${d.month}月${d.day}日 ${["月", "火", "水", "木", "金", "土", "日"][d.weekday]}曜日</strong><span>${d.season} · ${String(d.hour).padStart(2, "0")}:${String(d.minute).padStart(2, "0")}${panel ? "　時間停止中" : ""}</span></div><div class="wallet">${yen(state.money)}<small>${state.debt ? "未払い " + yen(state.debt) : "家賃はゲーム内の月初に処理"}</small></div></header><nav class="tools" aria-label="暮らしのメニュー">${b("map", "地図 M")}${b("phone", "スマホ・配達")}${b("journal", "暮らしの手帳")}${b("settings", "設定")}</nav><div class="where"><span class="eyebrow">${scene === "港と海岸" ? "SEASIDE" : scene === "商店街" ? "MARKET STREET" : scene === "住宅地" ? "NEIGHBOURHOOD" : "SHIOMACHI"}</span><strong>${esc(scene)}</strong><span>${esc(home)}</span>${world.route ? `<p class="route">◇ ${esc(world.route.name)}<br>${state.scene === "town" ? Math.ceil(Math.hypot(state.pos.x - world.route.x, state.pos.z - world.route.z)) + "m 先 · 地図の印へ歩こう" : "まず入口から外へ"}</p>` : ""}</div><div class="help">WASD / 矢印：歩く　Shift：走る　右ドラッグ：視点　E：調べる　Esc：戻る</div>`;
+  hud.innerHTML = `<header class="topbar"><div class="brand"><span class="brand-icon">汐</span><div>汐待町<small>SHIOMACHI · 暮らしの試作</small></div></div><div class="date"><strong>${d.month}月${d.day}日 ${["月", "火", "水", "木", "金", "土", "日"][d.weekday]}曜日</strong><span>${d.season} · ${String(d.hour).padStart(2, "0")}:${String(d.minute).padStart(2, "0")}${panel ? "　時間停止中" : ""}</span></div><div class="wallet">${yen(state.money)}<small>${state.debt ? "未払い " + yen(state.debt) : "家賃はゲーム内の月初に処理"}</small></div></header><nav class="tools" aria-label="暮らしのメニュー">${b("map", "地図 M")}${b("phone", "スマホ・配達")}${b("journal", "暮らしの手帳")}${b("settings", "設定")}${music.blocked ? b("start-audio", "音を再生する") : ""}</nav><div class="where"><span class="eyebrow">${scene === "港と海岸" ? "SEASIDE" : scene === "商店街" ? "MARKET STREET" : scene === "住宅地" ? "NEIGHBOURHOOD" : "SHIOMACHI"}</span><strong>${esc(scene)}</strong><span>${esc(home)}</span>${world.route ? `<p class="route">◇ ${esc(world.route.name)}<br>${state.scene === "town" ? Math.ceil(Math.hypot(state.pos.x - world.route.x, state.pos.z - world.route.z)) + "m 先 · 地図の印へ歩こう" : "まず入口から外へ"}</p>` : ""}</div><div class="help">WASD / 矢印：歩く　Shift：走る　右ドラッグ：視点　E：調べる　Esc：戻る</div>`;
 }
 function housing() {
   return `${title("窓から、どんな暮らしを。", "住まいの案内")}<p>三つの部屋を内見して、一室を選べます。初月は支払済み、所持金20,000円から。転居は1,000円、家具はすべて保管箱へ。</p><div class="room-list">${homes.map((h) => `<article class="room-card ${state.scene.endsWith(h.id) ? "selected" : ""}"><div><span class="eyebrow">${h.w} × ${h.d} マス · ${state.inspected.includes(h.id) ? "内見した" : "まだ内見していない"}</span><h2>${h.name}</h2><p>${h.note}</p><strong>月 ${yen(h.rent)}</strong></div>${b("preview", "中を歩いて見る", h.id)}</article>`).join("")}</div>${state.scene.startsWith("preview:") ? `<div class="callout">いま映っているのは ${homeById[state.scene.slice(8)].name}。${state.inspected.length < 3 ? "ほかの部屋の窓も見てみませんか。" : "三つの部屋を見られました。"}</div>${b("contract", state.home === state.scene.slice(8) ? "自分の部屋に戻る" : state.home ? "この部屋へ引っ越す · 1,000円" : "この部屋で暮らす", state.scene.slice(8), "primary wide")}${b("close", "内見中の部屋を歩く", "", "wide")}` : ""}<p class="small">実在物件の相場・寸法・賃貸制度の再現ではありません。</p>`;
@@ -283,7 +302,7 @@ function journal() {
     )
     .join(
       "",
-    )}</div><div class="button-row">${b("wardrobe", "着替える")}${b("furnish", "部屋を整える")}${b("housing", "部屋を内見")}${b("rest", "休む・待つ")}</div><h2>持ちもの</h2>${Object.entries(
+    )}</div><div class="button-row">${b("wardrobe", "着替える")}${b("furnish", "部屋を整える")}${b("housing", "部屋を内見")}${b("rest", "休む・待つ")}${b("radio", "自宅のラジオ")}</div><h2>持ちもの</h2>${Object.entries(
     state.bag,
   )
     .filter(([, n]) => n > 0)
@@ -304,7 +323,32 @@ function journal() {
 }
 function settings() {
   audio.refresh();
-  return `${title("設定と、記録。")}<label class="setting">日本語音声<input id="sound" type="checkbox" ${state.settings.sound ? "checked" : ""}></label><label class="setting">日本語の声<select id="voice"><option value="">${audio.voices.length ? "自動で選ぶ" : "日本語の声なし・文字で遊べます"}</option>${audio.voices.map((v) => `<option value="${esc(v.voiceURI)}" ${state.settings.voice === v.voiceURI ? "selected" : ""}>${esc(v.name)}</option>`).join("")}</select></label><label class="setting">仮の波音・足音<input id="ambient" type="checkbox" ${state.settings.ambient ? "checked" : ""}></label><label class="setting">音量<input id="volume" type="range" min="0" max="1" step="0.05" value="${state.settings.volume}"></label><label class="setting">影を描く<input id="shadows" type="checkbox" ${state.settings.shadows ? "checked" : ""}></label><p>3Dが重い場合は影をオフにできます。音声や保存が使えない場合も、この画面内の暮らしは続けられます。</p><div class="button-row">${b("export", "JSONを書き出す")}<label class="file-button">JSONを読み込む<input type="file" id="import" accept="application/json,.json"></label></div><p>読み込みはこの作品の進行を置き換えます。不正なデータなら現在の記録を保ちます。</p><details><summary>この作品の記録を削除</summary><p>住居・所持品・お金・会話記録を消します。英語試作の保存には触れません。</p>${b("delete", "確認：日本の暮らしの記録を削除", null, "danger")}</details><p class="small">独自の簡易モデル・作成中の会話です。文化・日本語の本人確認、実機スマホ、学習効果は未確認です。</p>`;
+  return `${title("設定と、記録。")}${musicSettings()}<label class="setting">日本語音声<input id="sound" type="checkbox" ${state.settings.sound ? "checked" : ""}></label><label class="setting">日本語の声<select id="voice"><option value="">${audio.voices.length ? "自動で選ぶ" : "日本語の声なし・文字で遊べます"}</option>${audio.voices.map((v) => `<option value="${esc(v.voiceURI)}" ${state.settings.voice === v.voiceURI ? "selected" : ""}>${esc(v.name)}</option>`).join("")}</select></label><label class="setting">仮の波音・足音<input id="ambient" type="checkbox" ${state.settings.ambient ? "checked" : ""}></label><label class="setting">環境音・足音の音量<input id="volume" type="range" min="0" max="1" step="0.05" value="${state.settings.volume}"></label><label class="setting">影を描く<input id="shadows" type="checkbox" ${state.settings.shadows ? "checked" : ""}></label><p>3Dが重い場合は影をオフにできます。音声や保存が使えない場合も、この画面内の暮らしは続けられます。</p><div class="button-row">${b("export", "JSONを書き出す")}<label class="file-button">JSONを読み込む<input type="file" id="import" accept="application/json,.json"></label></div><p>読み込みはこの作品の進行を置き換えます。不正なデータなら現在の記録を保ちます。</p><details><summary>この作品の記録を削除</summary><p>住居・所持品・お金・会話記録を消します。英語試作の保存には触れません。</p>${b("delete", "確認：日本の暮らしの記録を削除", null, "danger")}</details><p class="small">独自の簡易モデル・作成中の会話です。文化・日本語の本人確認、実機スマホ、学習効果は未確認です。</p>`;
+}
+function musicSettings() {
+  return `<h2>音楽と聞き取り</h2><p>収録曲は独自の仮ループです。完成曲の監修・実聴は未確認。</p><label class="setting">音楽を消音<input id="musicMuted" type="checkbox" ${state.settings.musicMuted ? "checked" : ""}></label><label class="setting">音楽の音量<input id="musicVolume" type="range" min="0" max="1" step="0.05" value="${state.settings.musicVolume}"></label><label class="setting">声の音量<input id="voiceVolume" type="range" min="0" max="1" step="0.05" value="${state.settings.voiceVolume}"></label><p id="music-status" role="status"></p><div class="button-row">${b("start-audio", "音を再生する")}${b("radio", "自宅のラジオ")}</div>`;
+}
+function radioPanel() {
+  const unlocked = E.ownsRadio(state),
+    atHome = state.scene === state.home;
+  return `${title("部屋に、好きな音を。", "自宅のラジオ")}<p>家具店の卓上ラジオ（1,800円）を取得すると自宅で選曲できます。保管・転居でも取得と選曲を保ちます。</p>${!atHome ? '<p class="callout">自宅へ戻ってから試聴・選曲できます。</p>' : !unlocked ? '<p class="callout">ラジオはまだ取得していません。既定曲と停止・音量は選べます。</p>' : "<p>取得済み。机に置いたラジオからも開けます。試聴から戻ると元の曲です。</p>"}<p id="music-status" role="status"></p>${tracks.map((t) => `<article class="recipe"><h2>${t.name}${state.music.homeTrack === t.id ? " ✓ 選択中" : ""}</h2><p>${t.mood}。完成曲ではありません。</p><div class="button-row">${atHome && unlocked ? b("preview-track", "試聴", t.id) : ""}${atHome && (unlocked || t.id === "jp_home_default") ? b("choose-track", "この曲に決める", t.id) : ""}</div></article>`).join("")}<div class="button-row">${b("cancel-preview", "試聴を終える")}${atHome ? b("stop-home-music", "自宅の曲を停止") : ""}${b("start-audio", "音を再生する")}${b("settings", "音量・消音の設定")}</div>`;
+}
+function updateMusicStatus() {
+  music.sync(state);
+  const status = music.status(),
+    el = document.querySelector("#music-status");
+  if (!el) return;
+  for (const [key, value] of Object.entries(status))
+    if (key !== "message") el.dataset[key] = String(value);
+  el.textContent =
+    status.message ||
+    (state.settings.musicMuted
+      ? "音楽は消音中です。"
+      : status.paused
+        ? "音楽は中断中です。"
+        : status.track
+          ? `${trackById[status.track].name} · 仮の独自ループ${music.preview ? "を試聴中" : ""}`
+          : "音楽は停止中です。");
 }
 function restPanel() {
   const active = state.jobs.some((j) =>
@@ -347,32 +391,34 @@ function renderPanel() {
                         ? wardrobe()
                         : panel === "journal"
                           ? journal()
-                          : panel === "settings"
-                            ? settings()
-                            : panel === "rest"
-                              ? restPanel()
-                              : panel === "practice"
-                                ? practicePanel()
-                                : panel === "delivery"
-                                  ? `${title(destinations.find((d) => d.id === detail).name, "受け取り口・連絡先")}<p>呼び鈴を押して、ここで受け渡します。不在のときもこの受け取り口で待ち合わせできます。</p>${
-                                      state.jobs
-                                        .filter(
-                                          (j) =>
-                                            ["accepted", "carrying"].includes(
-                                              j.status,
-                                            ) &&
-                                            deliveries.find(
-                                              (d) => d.id === j.id,
-                                            ).dest === detail,
-                                        )
-                                        .map(
-                                          (j) =>
-                                            `<div class="job"><p>${j.id} ${j.status === "carrying" ? "所持中の荷物" : "まだ集荷前"}</p>${b("finish-job", "相手に渡す", j.id, "primary")}</div>`,
-                                        )
-                                        .join("") ||
-                                      "<p>この場所宛ての受注はありません。</p>"
-                                    }`
-                                  : "";
+                          : panel === "radio"
+                            ? radioPanel()
+                            : panel === "settings"
+                              ? settings()
+                              : panel === "rest"
+                                ? restPanel()
+                                : panel === "practice"
+                                  ? practicePanel()
+                                  : panel === "delivery"
+                                    ? `${title(destinations.find((d) => d.id === detail).name, "受け取り口・連絡先")}<p>呼び鈴を押して、ここで受け渡します。不在のときもこの受け取り口で待ち合わせできます。</p>${
+                                        state.jobs
+                                          .filter(
+                                            (j) =>
+                                              ["accepted", "carrying"].includes(
+                                                j.status,
+                                              ) &&
+                                              deliveries.find(
+                                                (d) => d.id === j.id,
+                                              ).dest === detail,
+                                          )
+                                          .map(
+                                            (j) =>
+                                              `<div class="job"><p>${j.id} ${j.status === "carrying" ? "所持中の荷物" : "まだ集荷前"}</p>${b("finish-job", "相手に渡す", j.id, "primary")}</div>`,
+                                          )
+                                          .join("") ||
+                                        "<p>この場所宛ての受注はありません。</p>"
+                                      }`
+                                    : "";
   overlay.innerHTML = `<section class="panel" aria-label="${panel}" role="dialog">${content}${feedback ? `<p class="feedback" role="status">${esc(feedback)}</p>` : ""}</section>`;
   if (panel === "furnish" && draft)
     world.setGhost?.(state, draft.uid, draft.at);
@@ -420,12 +466,38 @@ function interact() {
       open("rest");
     if (target.type === "kitchen") open("kitchen");
     if (target.type === "furnish") open("furnish");
+    if (target.type === "radio") open("radio");
     if (target.type === "delivery") open("delivery", target.id);
   } catch (e) {
     toast(e.message);
   }
 }
 function runAction(action, id, button) {
+  if (action === "start-audio") {
+    void music.unlock();
+    return;
+  }
+  if (action === "preview-track") {
+    if (state.scene !== state.home || !E.ownsRadio(state) || !trackById[id])
+      throw Error("自宅で、取得したラジオの曲を選んでください。");
+    music.preview = id;
+    feedback = "試聴中です。決定せず戻ると元の曲へ戻ります。";
+  }
+  if (action === "choose-track") {
+    E.chooseHomeTrack(state, id);
+    music.preview = null;
+    feedback = "自宅の曲を保存しました。";
+  }
+  if (action === "cancel-preview") {
+    music.preview = null;
+    feedback = "選択済みの曲へ戻しました。";
+  }
+  if (action === "stop-home-music") {
+    E.stopHomeMusic(state);
+    music.preview = null;
+    feedback = "自宅の曲を停止しました。";
+  }
+
   if (action === "close") {
     close();
     return;
@@ -447,6 +519,7 @@ function runAction(action, id, button) {
       "furnish",
       "rest",
       "cafe",
+      "radio",
     ].includes(action)
   ) {
     draft = null;
@@ -699,15 +772,25 @@ document.addEventListener("change", async (e) => {
   try {
     if (
       panel === "settings" &&
-      ["sound", "ambient", "shadows", "volume", "voice"].includes(el.id)
+      [
+        "sound",
+        "ambient",
+        "shadows",
+        "volume",
+        "voice",
+        "voiceVolume",
+        "musicVolume",
+        "musicMuted",
+      ].includes(el.id)
     ) {
       state.settings[el.id] =
         el.type === "checkbox"
           ? el.checked
-          : el.id === "volume"
+          : ["volume", "voiceVolume", "musicVolume"].includes(el.id)
             ? Number(el.value)
             : el.value;
       audio.ambient(state.settings.ambient, state.settings.volume);
+      music.sync(state);
       persist();
     }
     if (panel === "furnish" && draft) {
@@ -811,11 +894,16 @@ document.addEventListener("keyup", (e) => {
     persist();
 });
 window.addEventListener("blur", () => {
+  music.setPaused(true);
   world.keys.clear();
   world.touch = { x: 0, z: 0 };
   persist();
 });
+window.addEventListener("focus", () =>
+  music.setPaused(document.hidden || panel === "welcome"),
+);
 document.addEventListener("visibilitychange", () => {
+  music.setPaused(document.hidden || panel === "welcome");
   world.keys.clear();
   audio.stop();
   if (document.hidden) {
@@ -905,6 +993,7 @@ function loop(now) {
     hudTimer += dt;
     saveTimer += dt;
     if (hudTimer > 0.5) {
+      updateMusicStatus();
       renderHud();
       hudTimer = 0;
     }

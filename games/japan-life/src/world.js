@@ -290,6 +290,15 @@ export function furnitureModel(item) {
       cylinder(g, 0, 0.17, 0, 0.02, 0.02, 0.25, "#887e6b");
       cylinder(g, 0, 0.3, 0, 0.12, 0.17, 0.15, "#ead5a4");
       break;
+    case "radio":
+      box(g, 0, 0.15, 0, 0.42, 0.28, 0.18, "#967a59");
+      box(g, -0.07, 0.15, 0.1, 0.2, 0.18, 0.02, "#4c5f56");
+      for (const y of [0.1, 0.15, 0.2])
+        box(g, -0.07, y, 0.115, 0.18, 0.012, 0.015, "#c1b492");
+      ball(g, 0.13, 0.13, 0.12, 0.035, "#e4d6b5");
+      cylinder(g, 0.12, 0.42, 0, 0.008, 0.008, 0.32, "#b5bdb4").rotation.z =
+        -0.22;
+      break;
   }
   return g;
 }
@@ -868,6 +877,14 @@ export class World {
         (host.at.z + d / 2) * 0.5,
       );
     }
+    if (item.id === "f25")
+      this.targets.push({
+        type: "radio",
+        id: instance.uid,
+        name: "ラジオで曲を選ぶ",
+        x: m.position.x,
+        z: m.position.z,
+      });
     g.add(m);
   }
   sync(s) {

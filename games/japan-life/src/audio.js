@@ -15,6 +15,7 @@ export class AudioSupport {
     this.token++;
     clearTimeout(this.timer);
     this.synth?.cancel();
+    this.onSpeaking?.(false);
   }
   speak(text, settings, slow, done) {
     this.stop();
@@ -35,12 +36,14 @@ export class AudioSupport {
     utterance.lang = voice.lang;
     utterance.voice = voice;
     utterance.rate = slow ? 0.8 : 1;
+    utterance.volume = settings.voiceVolume ?? 1;
     this.utterance = utterance;
     let finished = false;
     const finish = (ok, message) => {
       if (token !== this.token || finished) return;
       finished = true;
       clearTimeout(this.timer);
+      this.onSpeaking?.(false);
       done(ok, message);
     };
     utterance.onend = () =>
@@ -52,6 +55,7 @@ export class AudioSupport {
       this.stop();
     }, 20000);
     try {
+      this.onSpeaking?.(true);
       this.synth.speak(utterance);
     } catch {
       finish(false, "音声を開始できませんでした。");
