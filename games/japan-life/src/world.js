@@ -14,6 +14,7 @@ import { floorSize } from "./engine.js";
 import { person, posePerson } from "./art/characters.js";
 import { buildDistrict, stateSeason } from "./art/district.js";
 import { groundHeight } from "./art/height.js";
+import {makeCafeRoom,workObjects} from "./art/cafe.js";
 
 const materials = new Map();
 function mat(color) {
@@ -428,6 +429,7 @@ export class World {
     this.art = buildDistrict(this, s, optimize);
   }
   buildRoom(s) {
+    if(s.scene==='market_cafe'){makeCafeRoom(this,s,optimize);return;}
     const preview = s.scene.startsWith("preview:"),
       home = homeById[preview ? s.scene.slice(8) : s.scene],
       g = new THREE.Group();
@@ -705,14 +707,15 @@ export class World {
       }
       this.wearKey = wearKey;
     }
-    const activityKey = s.scene + JSON.stringify([s.cafe?.prepared, s.cooking]);
+    const activityKey = s.scene + JSON.stringify([s.cafe?.prepared,s.cafe?.step,s.cafe?.work?{...s.cafe.work,pouring:s.cafe.work.pouring?.tool||null}:null, s.cooking]);
     if (this.activityKey !== activityKey) {
       this.activity.traverse((o) => {
         if (o.geometry) o.geometry.dispose();
       });
       this.activity.clear();
       this.activityKey = activityKey;
-      if (s.scene === "market_cafe" && s.cafe?.prepared) {
+      if (s.scene === "market_cafe" && s.cafe?.work&&!s.cafe.done) { this.workVisual=workObjects(this,s); }
+      else if (s.scene === "market_cafe" && s.cafe?.prepared) {
         const p = s.cafe.prepared;
         box(this.activity, 0, 1.03, -0.8, 1.5, 0.06, 0.6, "#c1a479");
         for (let i = 0; i < p.qty; i++) {
@@ -898,7 +901,11 @@ export class World {
   nearest(s) {
     let nearest = null,
       distance = 2.25;
+    const working=s.scene==='market_cafe'&&s.cafe&&!s.cafe.done;
+    if(working)distance=1.13;
     for (const t of this.targets) {
+      if(t.type==='workstation'&&!working)continue;
+      if(working&&!['workstation','exit'].includes(t.type))continue;
       const d = Math.hypot(s.pos.x - t.x, s.pos.z - t.z);
       if (d < distance) {
         nearest = t;
@@ -1012,7 +1019,7 @@ export class World {
       desired
         .copy(target)
         .addScaledVector(dir, Math.max(0.5, hit.distance - 0.25));
-    this.player.visible = desired.distanceTo(target) > 0.75;
+    this.player.visible = desired.distanceTo(target) > (s.scene==='town'?1.8:.85);
     this.camera.position.lerp(desired, Math.min(1, dt * 12));
     this.camera.lookAt(target);
     this.sun.position.set(s.pos.x - 26, floorY + 40, s.pos.z + 24);
@@ -1025,6 +1032,13 @@ export class World {
         this.route.z,
       );
     } else this.marker.visible = false;
+    if(s.scene==='market_cafe'&&s.cafe?.work&&!s.cafe.done&&this.workVisual){
+      const w=s.cafe.work,angle=this.player.rotation.y,v=this.workVisual;
+      const arms=this.player.children[0]?.userData.rig?.arms;
+      if(arms){if(w.carryingTray)for(const arm of arms)arm.rotation.x=-1.05;else if(w.hand)arms[1].rotation.x=-1.05;}
+      for(const object of [v.held,v.tray].filter(Boolean)){object.position.set(s.pos.x+Math.sin(angle)*.32+Math.cos(angle)*.18,1.02,s.pos.z+Math.cos(angle)*.32-Math.sin(angle)*.18);object.rotation.y=angle;}
+      if(v.liquid&&w.pouring)v.liquid.position.y=.035+(1-w.pouring.remaining/2.6)*.164;
+    }
     const hour = (s.clock % 1440) / 60;
     const day = Math.max(0, Math.sin(((hour - 6) / 12) * Math.PI));
     const warmth = Math.max(0, 1 - Math.abs(hour - 17.4) / 2.4);

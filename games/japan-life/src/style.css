@@ -1262,3 +1262,9 @@ details p {
     font-size: 13px;
   }
 }
+#work-note {position:fixed;left:50%;top:22px;transform:translateX(-50%);width:min(440px,calc(100vw - 36px));padding:14px 20px;background:#fbf7e9ed;border:1px solid #b6b799;border-radius:8px;z-index:8;pointer-events:auto;box-shadow:0 5px 22px #20373122;}
+#work-note[hidden]{display:none;}
+#work-note p{font-size:19px;color:#2b4339;margin:0 0 8px;line-height:1.6;}
+#work-note span{display:block;font-size:16px;margin-bottom:8px;}
+#work-note button{font-size:16px;padding:4px 10px;min-height:38px;}
+@media(max-width:700px){#work-note{top:136px;width:calc(100vw - 24px);padding:10px 14px;}#work-note p{font-size:17px;}}

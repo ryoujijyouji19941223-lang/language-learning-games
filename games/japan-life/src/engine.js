@@ -15,6 +15,7 @@ import {
 } from "./data.js";
 import { trackById } from "./music-data.js";
 import { safeTownPosition } from "./art/height.js";
+import {emptyWork,ensureWork,validateWork} from "./cafe-work.js";
 export const SAVE_KEY = "japan-life:v1";
 export const DAY = 1440;
 const months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -534,7 +535,7 @@ export function equip(s, id) {
 export function beginCafe(s) {
   shop(s, "market_cafe");
   requireThat(!s.cafe || s.cafe.done, "勤務の続きを進めてください。");
-  s.cafe = { id: ++s.serial, step: 0, prepared: null, done: false };
+  s.cafe = { id: ++s.serial, step: 0, prepared: null, done: false,work:emptyWork() };
 }
 export function prepareOrder(s, order) {
   requireThat(
@@ -566,6 +567,7 @@ export function serveOrder(s) {
   );
   j.step++;
   j.prepared = null;
+  if(j.work)j.work=emptyWork();
   if (j.step === 4) {
     j.done = true;
     s.money += 2000;
@@ -882,6 +884,7 @@ export function validate(s) {
             typeof s.cafe.prepared.takeout === "boolean"))),
     "勤務データが壊れています。",
   );
+  if(s.cafe?.work)validateWork(s.cafe.work);
   requireThat(
     s.cooking === null ||
       (int(s.cooking.id) &&
@@ -977,6 +980,7 @@ export function parse(raw) {
   const s = JSON.parse(raw);
   // 公開済みv0.1.0の保存へ追加項目だけを補完し、他の不正データは受け入れない。
   if (s?.game === "japan-life" && s.version === 1) {
+    if(s.cafe&&!s.cafe.done&&!s.cafe.work)ensureWork(s);
     if (s.worldVersion === undefined) {
       if (
         s.scene === "town" &&

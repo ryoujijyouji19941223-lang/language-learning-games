@@ -87,6 +87,7 @@ test("R1 秋の海岸から坂を上り丘の自宅まで実歩行し、関節�
   await page.waitForTimeout(900);
   await page.screenshot({ path: "evidence/art/hill-autumn-night.png" });
   final.clock = 291 * 1440 + 14 * 60;
+  final.pos = {x:0,z:-40}; // Open public overlook; day/evening/night above share the home-door pose.
   final.yaw = Math.PI;
   await restore(page, final);
   await page.waitForTimeout(900);

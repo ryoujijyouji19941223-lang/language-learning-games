@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import * as E from "../src/engine.js";
+import {residents,residentPosition} from "../src/data.js";
 
 const read = (page) =>
   page.evaluate(() => JSON.parse(localStorage.getItem("japan-life:v1")));
@@ -169,12 +170,15 @@ test("実WebAudioの音量をTTS開始で下げ、終了・取消・失敗で戻
   });
   const s = home();
   s.scene = "town";
-  s.pos = { x: 23.5, z: -62.6 };
+  const neighbor=residents.find(p=>p.id==="p33");
+  s.clock=291*1440+17.5*60;
+  const pos=residentPosition(neighbor,s.clock);
+  s.pos={x:pos.x,z:pos.z+.8};
   await begin(page, s);
   await track(page, "jp_town_day");
   await page.locator('[data-action="close"]').click();
   await page.keyboard.press("e");
-  await expect(page.locator(".panel h1")).toContainText("浩平");
+  await expect(page.locator(".panel h1")).toContainText("隣人");
   const gain = () =>
     page.evaluate(() => window.__audioContexts[0].__gains[0].gain.value);
   await page.locator('[data-action="speak"]').click();

@@ -2,16 +2,18 @@ import { test, expect } from "@playwright/test";
 import * as E from "../src/engine.js";
 import {
   recipes,
-  cafeOrders,
+  destinations,
   residents,
   homes,
   residentPosition,
 } from "../src/data.js";
+import {conversationFor} from "../src/dialogue.js";
+import {completeShift} from "./helpers/cafe.js";
 const read = (page) =>
   page.evaluate(() => JSON.parse(localStorage.getItem("japan-life:v1")));
 async function close(page) {
   if (await page.locator('[data-action="close"]').count())
-    await page.locator('[data-action="close"]').click();
+    await page.locator('[data-action="close"]').first().click();
 }
 async function begin(page) {
   await page.goto("/");
@@ -112,21 +114,13 @@ test("実際に歩き、三室内見→買い物→勤務→二件配達→部�
   await page.locator('[data-action="rest"]').click();
   await page.locator('[data-action="wait-hour"]').click();
   await close(page);
-  await walk(page, 33, -4.4);
+  await walk(page, 0, -4.4);
+  await walk(page, 0, 39.2);
+  await walk(page, -7, 39.2);
   await shop(page, "market_cafe");
-  await page.locator('[data-action="cafe"]').click();
+  await page.locator('#overlay [data-action="cafe"]').click();
   await page.locator('[data-action="start-cafe"]').click();
-  const before = await read(page);
-  for (const order of cafeOrders) {
-    await page.locator("#drink").selectOption(order.drink);
-    await page.locator("#cups").fill(String(order.qty));
-    await page.locator('[name="takeout"]').setChecked(order.takeout);
-    await page.locator('[name="milk"]').setChecked(order.milk);
-    await page.locator('[data-action="prepare"]').click();
-    await page.locator('[data-action="serve"]').click();
-  }
-  expect((await read(page)).money).toBe(before.money + 2000);
-  expect((await read(page)).cafe.done).toBe(true);
+  await completeShift(page);
   await page.screenshot({ path: "evidence/06-cafe-work.png" });
   await leaveShop(page);
   console.log("CHECKPOINT: four café customers, paid once");
@@ -135,6 +129,8 @@ test("実際に歩き、三室内見→買い物→勤務→二件配達→部�
   for (const id of ["d01", "d02"])
     await page.locator(`[data-action="accept"][data-id="${id}"]`).click();
   await close(page);
+  await walk(page, 0, 39.2);
+  await walk(page, 0, -4.4);
   await walk(page, 17, -4.4);
   await shop(page, "market_grocery");
   await page.locator('[data-action="pickup"][data-id="d01"]').click();
@@ -149,11 +145,14 @@ test("実際に歩き、三室内見→買い物→勤務→二件配達→部�
   await page.screenshot({ path: "evidence/07-harbour-parcel.png" });
   await walk(page, 0, 38.7);
   await walk(page, 0, -20);
-  await walk(page, -65, -20);
+  await walk(page, -61, -20);
+  await walk(page, destinations[0].x, destinations[0].z);
   await page.keyboard.press("e");
   await page.locator('[data-action="finish-job"][data-id="d01"]').click();
   await close(page);
-  await walk(page, -54, -19);
+  await walk(page, -61, -20.7);
+  await walk(page, -54, -20.7);
+  await walk(page, destinations[1].x, destinations[1].z);
   await page.keyboard.press("e");
   await page.locator('[data-action="finish-job"][data-id="d02"]').click();
   expect((await read(page)).stats.delivered).toBe(2);
@@ -163,7 +162,8 @@ test("実際に歩き、三室内見→買い物→勤務→二件配達→部�
     "CHECKPOINT: collected at two shops, walked to recipients, delivered twice",
   );
   // 家具と服を買う。公道を回って入口まで。
-  await walk(page, 0, -19);
+  await walk(page, -54, -20.7);
+  await walk(page, 0, -20.7);
   await walk(page, 0, -26.6);
   await walk(page, 17, -26.6);
   await shop(page, "market_furniture");
@@ -310,6 +310,7 @@ test("公園まで実歩行し、NPC会話と音声なし、会話中の移動�
   E.chooseHome(s, "home01");
   s.scene = "town";
   s.pos = { x: 0, z: -20 };
+  s.clock = 291 * 1440 + 17.1 * 60;
   s.settings.shadows = false;
   await fixture(page, s);
   await walk(page, 0, -55.5);
@@ -319,15 +320,14 @@ test("公園まで実歩行し、NPC会話と音声なし、会話中の移動�
   // 入力中は歩かず、音声のない状態も文字で返答できる。
   await page.locator('.tools [data-action="map"]').click();
   await page.getByText("町の60人を探す", { exact: true }).click();
-  await page.locator('[data-action="route-npc"][data-id="p47"]').click();
-  expect(await page.locator(".route").textContent()).toContain("浩平");
-  const p = residents.find((p) => p.id === "p47"),
-    target = p.home;
-  await walk(page, 26.5, -51);
-  await walk(page, 26.5, -62.6);
-  await walk(page, target.x, -62.6);
+  await page.locator('[data-action="route-npc"][data-id="p33"]').click();
+  expect(await page.locator(".route").textContent()).toContain("隣人");
+  await walk(page, 0, -51);
+  await walk(page, 0, -20.7);
+  await walk(page, -34, -20.7);
+  await walk(page, -34, -15.5);
   await page.keyboard.press("e");
-  await expect(page.locator(".panel h1")).toContainText(p.name);
+  await expect(page.locator(".dialogue-panel h1")).toContainText("隣人");
   const before = await read(page);
   await page.keyboard.down("w");
   await page.waitForTimeout(400);
@@ -338,8 +338,9 @@ test("公園まで実歩行し、NPC会話と音声なし、会話中の移動�
     "日本語の声がありません",
   );
   expect((await read(page)).supportLog.at(-1).type).toBe("speech-error");
-  await page.locator('[data-action="reply"]').first().click();
-  expect((await read(page)).history.p47.count).toBe(1);
+  for(let i=0;i<3;i++)await page.locator('[data-action="dialogue-next"]').click();
+  expect((await read(page)).history.p33.count).toBe(1);
+  await page.keyboard.press("e");
   await page.screenshot({ path: "evidence/12-conversation.png" });
   await page.locator(".support summary").click();
   await page.locator('[data-action="practice"]').click();
@@ -360,32 +361,26 @@ test("公園まで実歩行し、NPC会話と音声なし、会話中の移動�
   ).toHaveLength(1);
 });
 
-test("60人の固有話題・返答と読みをブラウザで一往復できる", async ({ page }) => {
-  // 各ケースはUIのJSON読み込みで接近位置を復元する。60人を徒歩で連続巡回した証拠とはしない。
+test("60人の話を、各人の生活時間と場所から聞いて進める", async ({ page }) => {
+  // 個別の有効なJSONを復元する。全員への連続徒歩巡回ではない。
   await page.goto("/");
-  for (const p of residents) {
-    const s = E.fresh(new Date(2026, 3, 1));
-    E.chooseHome(s, "home01");
-    s.scene = "town";
-    s.settings.shadows = false;
-    const position = residentPosition(p, s.clock);
-    s.scene = position.scene;
-    s.pos = { x: position.x, z: position.z + 1 };
+  for(const p of residents){
+    const s=E.fresh(new Date(2026,9,19));E.chooseHome(s,"home01");s.settings.shadows=false;
+    let position;
+    for(let m=360;m<1320;m+=15){
+      const clock=291*1440+m,candidate=residentPosition(p,clock);
+      if(candidate.scene!=="residence") {s.clock=clock;position=candidate;break;}
+    }
+    expect(position,`Encounter for ${p.id}`).toBeTruthy();
+    s.scene=position.scene;s.pos={x:position.x,z:position.z+.65};
     await page.locator('.tools [data-action="settings"]').click();
-    await page.locator("#import").setInputFiles({
-      name: "resident.json",
-      mimeType: "application/json",
-      buffer: Buffer.from(JSON.stringify(s)),
-    });
-    await close(page);
-    await expect(page.locator("#context")).toContainText(p.name);
-    await page.keyboard.press("e");
-    await expect(page.locator(".panel h1")).toContainText(p.name);
-    await expect(page.locator("blockquote")).toContainText(p.line);
-    await page.locator('[data-action="reply"]').first().click();
-    await expect(page.locator(".feedback")).toContainText(
-      p.replies[0].reaction,
-    );
+    await page.locator("#import").setInputFiles({name:"resident.json",mimeType:"application/json",buffer:Buffer.from(JSON.stringify(s))});
+    await close(page);await expect(page.locator("#context")).toContainText(p.role);await page.keyboard.press("e");
+    const script=conversationFor(p.id);
+    await expect(page.locator(".dialogue-line")).toContainText(script.lines[0].text);
+    await expect(page.locator('[data-action="reply"]')).toHaveCount(0);
+    for(let i=0;i<script.lines.length;i++)await page.locator('[data-action="dialogue-next"]').click();
+    expect((await read(page)).history[p.id].mode).toBe("read");
   }
 });
 

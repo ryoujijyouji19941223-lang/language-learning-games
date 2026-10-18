@@ -1,5 +1,6 @@
 import "./style.css";
 import { conversationFor, speakerLabel } from "./dialogue.js";
+import * as C from "./cafe-work.js";
 import { configureSurfaces } from "./art/materials.js";
 import { textureSources } from "./art/texture-sources.js";
 configureSurfaces(textureSources);
@@ -156,6 +157,10 @@ function title(name, kicker = "暮らしの手帳") {
   return `<div class="panel-head"><div><span class="eyebrow">${kicker}</span><h1>${esc(name)}</h1></div>${b("close", "×", "", "icon")}</div>`;
 }
 function renderHud() {
+  const note=document.querySelector('#work-note'),working=state.scene==='market_cafe'&&state.cafe&&!state.cafe.done;
+  note.hidden=!working;
+  if(working){const w=state.cafe.work;note.querySelector('p').textContent=cafeOrders[state.cafe.step].text;note.querySelector('span').textContent=w?.pouring?'注いでいます…':w?.carryingTray?'トレーを持っています':w?.hand?.kind==='cup'?'カップを持っています':w?.hand?'ミルクの容器を持っています':'道具に近づいて調べる';}
+
   const d = E.calendar(state.clock),
     home = state.home ? homeById[state.home].name : "部屋を内見中";
   const scene =
@@ -204,11 +209,10 @@ function shopPanel(id) {
   return `${title(p.name, "お店のカウンター")}<p>${p.open === 0 && p.close === 24 ? "ご案内の窓口です。" : `${p.open}:00〜${p.close}:00 ${p.closedDay === 2 ? "· 水曜休み" : ""}`}</p>${p.kind === "cafe" ? `${b("cafe", state.cafe && !state.cafe.done ? "勤務の続きをする" : "短時間勤務を見る", null, "primary wide")}<p class="small">4客の注文を準備して渡す仕事。2時間・2,000円。誤提供は作り直せます。</p>` : ""}${jobs.map((j) => `<article class="list-row"><span>${j.id} · ${deliveries.find((d) => d.id === j.id).item}</span>${b("pickup", "この荷物を受け取る", j.id)}</article>`).join("")}<div class="product-list">${goods.map((g) => `<article class="product" data-product="${g.id}"><div><span class="eyebrow">${g.kind === "food" ? "食材" : g.kind === "furniture" ? `${g.zone === "floor" ? "床" : g.zone === "wall" ? "壁" : g.zone === "window" ? "窓" : "机上"} ${g.w}×${g.d}` : g.kind === "clothes" ? "着替え" : "道具"}</span><h2>${g.name}</h2><span>${yen(g.price)} · 店の在庫 ${state.stock[g.id]}</span></div><div class="buy-controls"><label class="sr-only" for="qty-${g.id}">${g.name}の数量</label><input id="qty-${g.id}" type="number" min="1" max="99" value="1" aria-label="${g.name}の数量">${b("buy", "買う", g.id)}</div></article>`).join("")}</div>${goods.length ? "" : "<p>配達の受付と町の案内をしています。</p>"}`;
 }
 function cafePanel() {
-  const j = state.cafe;
-  if (!j || j.done)
-    return `${title("喫茶つばめのお手伝い", "短時間勤務")}<p>4人のお客さんの注文を確認し、飲み物・数量・店内か持ち帰り・ミルクを準備して渡します。</p><div class="callout">所要時間 2時間 · 報酬 2,000円<br>時間と支払いは、4客目を終えたときに一度だけ。途中保存できます。</div>${j?.done ? "<p>前の勤務は完了・支払済みです。</p>" : ""}${b("start-cafe", "この勤務を始める", null, "primary wide")}`;
-  const order = cafeOrders[j.step];
-  return `${title(`お客さん ${j.step + 1} / 4`, "喫茶つばめ・勤務中")}<blockquote>${order.text}</blockquote>${support(order.text, "注文を読み返し、内容を確認できます。")}<div class="order-form"><label>飲み物<select id="drink"><option value="coffee">ホットコーヒー</option><option value="tea">紅茶</option></select></label><label>数量<input id="cups" type="number" min="1" max="3" value="1"></label>${check("takeout", "持ち帰り用にする")}${check("milk", "ミルクを別にする")}${b("prepare", "トレーに準備する", null, "primary wide")}</div>${j.prepared ? `<div class="tray" aria-label="準備したトレー">${Array.from({ length: j.prepared.qty }, () => `<span class="cup ${j.prepared.drink}">☕</span>`).join("")}<p>${j.prepared.drink === "coffee" ? "コーヒー" : "紅茶"} ${j.prepared.qty}杯 · ${j.prepared.takeout ? "持ち帰り" : "店内"} · ${j.prepared.milk ? "別のミルク付き" : "ミルクなし"}</p></div>${b("serve", "お客さんに渡す", null, "primary wide")}` : ""}<p class="small">間違えても何度でも準備し直せます。支援や入力速度で報酬を減らしません。</p>`;
+  const j=state.cafe;
+  if(!j||j.done)return `${title('喫茶店で、ひと仕事。')}<p>お客さんの話を聞いて、器を取り、コーヒーマシンや紅茶のポットで作って渡します。</p><p>四人のお客さん · 2時間 · 2,000円</p>${j?.done?'<p>おつかれさまでした。今日の勤務は完了です。</p>':''}${b('start-cafe','この勤務を始める',null,'primary wide')}`;
+  const order=cafeOrders[j.step];
+  return `${title('お客さん '+(j.step+1)+' / 4','注文を聞く')}<blockquote>${esc(order.text)}</blockquote>${support(order.text,'店内、持ち帰り、ミルクを別に。注文は何度でも読み返せます。')}<p>カウンターの左から作業側へ。道具に近づいてE／調べるで扱えます。</p>${b('close','作業に戻る',null,'primary wide')}`;
 }
 function phonePanel() {
   return `${title("行き先を選んで、ひと仕事。", "スマホ・配達")}<p>同時に3件まで。集荷場所の店内で荷物を受け取り、町の受け取り口へ歩いて渡します。会話・確認中は時計停止。遅れても半額で届けられます。</p>${deliveries
@@ -521,6 +525,12 @@ function interact() {
       render();
       return;
     }
+    if(target.type==='workstation'){
+      const message=C.toolAction(state,target.id);
+      if(message==='serve'){E.prepareOrder(state,C.trayOrder(state));E.serveOrder(state);world.activityKey='';persist();open('cafe');}
+      else {persist();toast(message);}
+      return;
+    }
     if (target.type === "npc") open("npc", target.id);
     if (target.type === "shop") open("shop", target.id);
     if (target.type === "board") open("phone");
@@ -667,7 +677,7 @@ function runAction(action, id, button) {
     E.buy(state, id, Number(document.querySelector(`#qty-${id}`).value));
     feedback = productById[id].name + "を買いました。";
   }
-  if (action === "start-cafe") E.beginCafe(state);
+  if (action === "start-cafe") { E.beginCafe(state);close();toast('カウンターの左から作業側へ入り、カップの棚を調べてください。');return; }
   if (action === "prepare")
     E.prepareOrder(state, {
       drink: document.querySelector("#drink").value,
@@ -703,7 +713,7 @@ function runAction(action, id, button) {
       place = placeById[position.scene];
     route({
       id,
-      name: p.name + "さん" + (place ? " · " + place.name + "の店内" : ""),
+      name: p.role + (place ? " · " + place.name + "の店内" : position.scene === "residence" ? " · 自宅の入口（現在は室内）" : ""),
       x: place ? place.x : position.x,
       z: place ? place.z + place.d / 2 + 0.8 : position.z,
     });
@@ -1141,7 +1151,9 @@ function loop(now) {
     const blocked =
       !!panel || document.activeElement?.matches("input,textarea,select");
     world.frame(state, dt, blocked);
-    if (!blocked) E.advanceTime(state, dt * 0.5);
+    const working=state.scene==='market_cafe'&&state.cafe&&!state.cafe.done;
+    if(!blocked&&working&&C.tickWork(state,dt))persist();
+    if (!blocked&&!working) E.advanceTime(state, dt * 0.5);
     hudTimer += dt;
     saveTimer += dt;
     if (hudTimer > 0.5) {

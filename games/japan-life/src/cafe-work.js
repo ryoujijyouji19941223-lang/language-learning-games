@@ -5,10 +5,10 @@ export const workStations = [
   { id: "coffee", name: "コーヒーマシン", x: -0.7, z: -1.9 },
   { id: "tea", name: "紅茶のポット", x: 0.9, z: -1.9 },
   { id: "lid", name: "ふたを付ける", x: 2.1, z: -2.6 },
-  { id: "pitcher", name: "小さなミルク容器を取る", x: 3.2, z: -1.1 },
-  { id: "milk", name: "ミルクの置き場", x: 3.3, z: -2.1 },
-  { id: "tray", name: "トレー", x: 1.45, z: -0.35 },
-  { id: "serve", name: "注文したお客さんに渡す", x: 0, z: -0.35 },
+  { id: "pitcher", name: "小さなミルク容器を取る", x: 3.0, z: -.6 },
+  { id: "milk", name: "ミルクの置き場", x: 3.0, z: -2.1 },
+  { id: "tray", name: "トレー", x: 1.45, z: -1.7 },
+  { id: "serve", name: "注文したお客さんに渡す", x: 0, z: -1.7 },
   { id: "discard", name: "作り直しの返却口", x: -3.3, z: -0.8 },
 ];
 export const emptyWork = () => ({
@@ -150,6 +150,7 @@ export function tickWork(s, dt) {
   if (w.pouring.remaining === 0) {
     w.machine.cup.drink = w.pouring.tool;
     w.pouring = null;
+    return true;
   }
 }
 export function trayOrder(s) {
