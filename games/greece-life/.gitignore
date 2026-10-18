@@ -3,3 +3,5 @@
 dist/*
 !dist/greece-life.html
 tests/artifacts/*.webm
+test-results/
+playwright-report/
