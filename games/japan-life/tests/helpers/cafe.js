@@ -30,7 +30,7 @@ export async function completeShift(p,{record=false}={}) {
   for(let i=before.cafe.step;i<4;i++){
     const order=cafeOrders[i];for(let n=0;n<order.qty;n++)await makeCup(p,order,{reload:record&&i===2&&n===0});
     if(order.milk){await useTool(p,'pitcher');await useTool(p,'milk');await useTool(p,'tray');}
-    await useTool(p,'tray');if(i===0)await p.screenshot({path:'evidence/art/cafe-carry-tray.png'});await useTool(p,'serve');
+    await useTool(p,'tray');if(i===0){await expect(p.locator('#work-note span')).toContainText('トレー');await p.screenshot({path:'evidence/art/cafe-carry-tray.png'});}await useTool(p,'serve');
     if(i===0){await p.screenshot({path:'evidence/art/cafe-first-customer.png'});if(stop)console.log('Actual cafe video:',await stop());}
     if(i<3)await close(p);
   }

@@ -605,7 +605,7 @@ export class World {
         this.targets.push({
           type: "npc",
           id: staff.id,
-          name: staff.name + "さんと話す",
+          name: staff.role + "と話す",
           x: -2.7,
           z: 0.3,
         });

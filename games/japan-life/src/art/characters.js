@@ -216,6 +216,13 @@ export function person(style = {}, wear = {}, season = "秋") {
       0.02,
     );
   }
+  if(style.outfit==='ninja'){
+    const cloth=surface('cloth','#4d525f');
+    const hood=mesh(rig,new THREE.SphereGeometry(.19,12,8),cloth,0,1.57,-.065);hood.scale.set(.98,1.2,.95);
+    block(rig,0,1.485,.17,.27,.095,.047,cloth);
+    block(rig,0,1.31,.055,.34,.12,.3,cloth);
+    block(rig,-.11,1.08,-.14,.09,.38,.035,cloth);
+  }
   const legs = [],
     arms = [],
     knees = [];

@@ -1,0 +1,208 @@
+{
+  "version": 1,
+  "game": "japan-life",
+  "clock": 130202,
+  "money": 18200,
+  "debt": 0,
+  "rentThrough": 3,
+  "home": "home01",
+  "scene": "market_cafe",
+  "pos": {
+    "x": 0,
+    "z": 3.6
+  },
+  "yaw": 0,
+  "bag": {
+    "rice": 2,
+    "nori": 2,
+    "salt": 5,
+    "miso": 3,
+    "dashi": 5,
+    "soy": 3
+  },
+  "tools": [],
+  "furniture": [
+    {
+      "uid": "starter-bed",
+      "kind": "f01",
+      "at": {
+        "zone": "floor",
+        "x": 4,
+        "z": 1,
+        "rot": 0
+      }
+    },
+    {
+      "uid": "starter-desk",
+      "kind": "f02",
+      "at": {
+        "zone": "floor",
+        "x": 0,
+        "z": 4,
+        "rot": 0
+      }
+    },
+    {
+      "uid": "starter-chair",
+      "kind": "f03",
+      "at": {
+        "zone": "floor",
+        "x": 2,
+        "z": 4,
+        "rot": 90
+      }
+    },
+    {
+      "uid": "starter-curtain",
+      "kind": "f19",
+      "at": {
+        "zone": "window",
+        "window": 0
+      }
+    },
+    {
+      "uid": "owned-1",
+      "kind": "f25",
+      "at": null
+    }
+  ],
+  "wardrobe": [
+    "c01",
+    "c05",
+    "c09"
+  ],
+  "wear": {
+    "top": "c01",
+    "bottom": "c05",
+    "shoes": "c09"
+  },
+  "stock": {
+    "rice": 50,
+    "nori": 50,
+    "salt": 50,
+    "miso": 50,
+    "dashi": 50,
+    "tofu": 50,
+    "wakame": 50,
+    "egg": 50,
+    "soy": 50,
+    "mirin": 50,
+    "sake_cook": 50,
+    "wheat": 50,
+    "jinko": 50,
+    "tako_boiled": 50,
+    "negi": 50,
+    "ginger": 50,
+    "f01": 5,
+    "f02": 5,
+    "f03": 5,
+    "f04": 5,
+    "f05": 5,
+    "f06": 5,
+    "f07": 5,
+    "f08": 5,
+    "f09": 5,
+    "f10": 5,
+    "f11": 5,
+    "f12": 5,
+    "f13": 5,
+    "f14": 5,
+    "f15": 5,
+    "f16": 5,
+    "f17": 5,
+    "f18": 5,
+    "f19": 5,
+    "f20": 5,
+    "f21": 5,
+    "f22": 5,
+    "f23": 5,
+    "f24": 5,
+    "f25": 4,
+    "c01": 5,
+    "c02": 5,
+    "c03": 5,
+    "c04": 5,
+    "c05": 5,
+    "c06": 5,
+    "c07": 5,
+    "c08": 5,
+    "c09": 5,
+    "c10": 5,
+    "c11": 5,
+    "c12": 5,
+    "akashipan": 5,
+    "takeaway_akashiyaki": 5
+  },
+  "jobs": [
+    {
+      "id": "d01",
+      "status": "carrying",
+      "accepted": 130202,
+      "deadline": 130292,
+      "paid": 0
+    }
+  ],
+  "cafe": {
+    "id": 2,
+    "step": 0,
+    "prepared": {
+      "drink": "coffee",
+      "qty": 1,
+      "takeout": false,
+      "milk": false
+    },
+    "done": false
+  },
+  "cooking": null,
+  "history": {
+    "p28": {
+      "count": 1,
+      "last": 130202,
+      "choice": 1
+    }
+  },
+  "notes": [],
+  "supportLog": [],
+  "inspected": [
+    "home01"
+  ],
+  "settings": {
+    "sound": true,
+    "ambient": false,
+    "shadows": true,
+    "voice": "",
+    "volume": 0.2,
+    "voiceVolume": 0.85,
+    "musicVolume": 0.28,
+    "musicMuted": false
+  },
+  "music": {
+    "homeTrack": "jp_shop_calm",
+    "homeStopped": false
+  },
+  "serial": 2,
+  "events": [
+    {
+      "clock": 130080,
+      "text": "陽だまりの一室での暮らし。住居はこの一室です。"
+    },
+    {
+      "clock": 130202,
+      "text": "卓上ラジオを1個買いました。"
+    },
+    {
+      "clock": 130202,
+      "text": "d01の荷物を受け取りました。"
+    }
+  ],
+  "stats": {
+    "bought": 1,
+    "worked": 0,
+    "delivered": 0,
+    "cooked": 0,
+    "talked": 1,
+    "slept": 0,
+    "moved": 0,
+    "eaten": 0
+  }
+}

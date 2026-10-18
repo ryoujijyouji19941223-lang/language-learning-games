@@ -106,3 +106,26 @@ test("建物の衝突と壁際の視点、壊れたセーブからの復旧案�
   await page.getByRole("button", { name: "窓のある部屋を探す" }).click();
   await expect(page.locator(".room-card")).toHaveCount(3);
 });
+
+
+test("配布HTMLを実HTTPサーバーで開き、実際の旧v0.2記録から再開して歩ける",async({page})=>{
+  const {createServer}=await import('node:http');
+  const html=readFileSync(new URL('../dist/index.html',import.meta.url));
+  const server=createServer((req,res)=>{res.setHeader('Content-Type','text/html; charset=utf-8');res.end(html);});
+  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
+  const origin=`http://127.0.0.1:${server.address().port}`;
+  try{
+    const old=JSON.parse(readFileSync(new URL('./fixtures/legacy-v0.2.json',import.meta.url),'utf8'));
+    await page.addInitScript(s=>localStorage.setItem('japan-life:v1',JSON.stringify(s)),old);
+    const external=[];page.on('request',r=>{if(/^https?:/.test(r.url())&&!r.url().startsWith(origin))external.push(r.url());});
+    await page.goto(origin);
+    await page.getByRole('button',{name:'暮らしの続きを歩く'}).click();
+    const current=await read(page);
+    for(const key of ['clock','money','debt','furniture','wear','jobs','home','rentThrough','history','music'])expect(current[key]).toEqual(old[key]);
+    expect(current.cafe.work.tray[0].drink).toBe('coffee');
+    await page.keyboard.down('w');await page.waitForTimeout(700);await page.keyboard.up('w');
+    await page.locator('.tools [data-action="settings"]').click();await page.locator('[data-action="close"]').first().click();
+    expect((await read(page)).pos.z).toBeLessThan(old.pos.z);expect(external).toEqual([]);
+    await page.screenshot({path:'evidence/art/packaged-legacy-http.png'});
+  }finally{await new Promise(resolve=>server.close(resolve));}
+});

@@ -71,6 +71,10 @@ async function shop(page, id) {
 }
 async function leaveShop(page) {
   await close(page);
+  const leaving=await read(page);
+  if(leaving.scene==="market_cafe"&&leaving.pos.z<-.5){
+    await walk(page,-3.3,-1.9);await walk(page,-3.3,2.8);
+  }
   await walk(page, 0, 3.7);
   await page.keyboard.press("e");
   await expect.poll(async () => (await read(page)).scene).toBe("town");
@@ -144,13 +148,16 @@ test("実際に歩き、三室内見→買い物→勤務→二件配達→部�
   await leaveShop(page);
   await page.screenshot({ path: "evidence/07-harbour-parcel.png" });
   await walk(page, 0, 38.7);
-  await walk(page, 0, -20);
-  await walk(page, -61, -20);
+  // Approach the south-facing door from the public lane, not through the house.
+  await walk(page, 0, -3.4);
+  await walk(page, -61, -3.4);
   await walk(page, destinations[0].x, destinations[0].z);
   await page.keyboard.press("e");
   await page.locator('[data-action="finish-job"][data-id="d01"]').click();
   await close(page);
-  await walk(page, -61, -20.7);
+  await walk(page, -61, -3.4);
+  await walk(page, -55, -3.4);
+  await walk(page, -55, -20.7);
   await walk(page, -54, -20.7);
   await walk(page, destinations[1].x, destinations[1].z);
   await page.keyboard.press("e");
@@ -325,7 +332,7 @@ test("公園まで実歩行し、NPC会話と音声なし、会話中の移動�
   await walk(page, 0, -51);
   await walk(page, 0, -20.7);
   await walk(page, -34, -20.7);
-  await walk(page, -34, -15.5);
+  await walk(page, -34, -17.6);
   await page.keyboard.press("e");
   await expect(page.locator(".dialogue-panel h1")).toContainText("隣人");
   const before = await read(page);

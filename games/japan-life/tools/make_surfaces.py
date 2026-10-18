@@ -66,4 +66,4 @@ for name in names:
         vals.append(f'{channel}:{ident}')
     entries.append(name+':{'+','.join(vals)+'}')
 (ROOT.parent/'texture-sources.js').write_text('\n'.join(imports)+'\nexport const textureSources={'+','.join(entries)+'};\n')
-print('Generated',len(names),'original PBR surfaces (27 PNGs).')
+print('Generated',len(names),'original PBR surfaces (10 color WebP + 20 normal/roughness PNGs).')

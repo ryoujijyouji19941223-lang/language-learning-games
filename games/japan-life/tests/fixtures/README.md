@@ -1,0 +1,1 @@
+legacy-v0.2.json は実在の利用者のデータではない検証用記録。コミット4585638のsrcをgit archiveで/tmpへ取り出し、その版のengine.jsのfresh→chooseHome→advanceTime→buy(f25)→chooseHomeTrack→acceptJob→pickupJob→talk→beginCafe→prepareOrder→validateで生成した。旧版のラジオ・所有物・運搬中の配達・選択済み会話・提供待ちの勤務を含む。新版freshから旧形式らしく見せたものではない。

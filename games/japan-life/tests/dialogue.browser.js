@@ -114,4 +114,10 @@ test("勤務の意思決定ははい・いいえで、閉じる・自動送り�
   await page.waitForTimeout(800);
   await page.locator('[data-action="dialogue-auto"]').click();
   expect((await read(page)).cafe).toBeNull();
+  const text=await page.locator('.dialogue-line').textContent();await page.waitForTimeout(6500);
+  await expect(page.locator('.dialogue-line')).toHaveText(text);
+  await page.locator('[data-action="dialogue-auto"]').click();
+  await expect(page.locator('[data-action="work-yes"]')).toBeVisible({timeout:12000});
+  await expect(page.locator('[data-action="dialogue-auto"]')).toHaveText('自動送り',{timeout:12000});
+  expect((await read(page)).cafe).toBeNull();
 });

@@ -423,7 +423,7 @@ export function residentPosition(p, minutes) {
   // Keep the middle of public roads clear, and give people different directions.
   if (Math.abs(point.x) < 0.01)
     point.x = (i % 2 ? 1 : -1) * (1.05 + (i % 3) * 0.2);
-  else point.z += (i % 2 ? 1 : -1) * 0.85;
+  else point.z += .85; // The south verge stays clear of the office facade at z=-4.5.
   return { ...point, scene: "town" };
 }
 export const destinations = dwellings.map((b, i) => {

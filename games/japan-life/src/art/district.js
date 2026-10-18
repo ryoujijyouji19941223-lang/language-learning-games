@@ -7,6 +7,7 @@ import { makeBuilding, placard, fishDisplay, bicycle } from "./buildings.js";
 import { terrain, seaAndMountains } from "./landscape.js";
 import { vegetation, random } from "./vegetation.js";
 import { person } from "./characters.js";
+import { dressGarden } from "./gardens.js";
 
 export const industry = {
   fish: "魚屋",
@@ -69,6 +70,7 @@ export function buildDistrict(world, state, optimize) {
       { shopLabel: label, seed: i },
     );
     world.obstacle(p.x, p.z, p.w, p.d, built.body);
+    if(["home","residence"].includes(p.kind))dressGarden(g,p,i,season);
     // Entrance paths and thin plinths use the same sampled surface as the character.
     const door = doorOf(p);
     if (p.facing)
