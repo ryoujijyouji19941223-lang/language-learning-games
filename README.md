@@ -22,6 +22,8 @@
 | 地域の生活ゲーム：賃貸・暮らし・会話・季節の設計 | [docs/REGIONAL_LIFE_SIM_DESIGN.md](docs/REGIONAL_LIFE_SIM_DESIGN.md) |
 | 現在の新規対象：日本の暮らし | [games/japan-life/README.md](games/japan-life/README.md) |
 | 日本版の制作依頼文・完成条件 | [games/japan-life/CODEX_TASKS.md](games/japan-life/CODEX_TASKS.md) |
+| ギリシャの暮らし（Claude Code担当） | [games/greece-life/README.md](games/greece-life/README.md) |
+| ギリシャ版の制作依頼文・完成条件 | [games/greece-life/CLAUDE_TASKS.md](games/greece-life/CLAUDE_TASKS.md) |
 | 既存の英語試作 | [games/english-errands/README.md](games/english-errands/README.md) |
 | 既存の英語試作の仕様 | [games/english-errands/SPEC.md](games/english-errands/SPEC.md) |
 
@@ -35,3 +37,5 @@
 2026-10-18：地域の生活シミュレーションの[設計方針v0.1](docs/REGIONAL_LIFE_SIM_DESIGN.md)を作成。賃貸一室・単一住居と引っ越し、家具・壁飾り、固定の街並み、仕事と料理、短い選択会話、時間と季節を整理。この構想時点では対象の国・町・正式SPECは未確定。旧12語の試作をこの完成形とは扱わない。
 
 2026-10-18追記：最初の生活ゲームは本人が検証できる日本に決定。[日本版](games/japan-life/README.md)のSPEC・初期内容・文化資料・Codexへの依頼文を用意。現在の対象と手順は[制作入口](docs/START_HERE.md)を参照。日本版のゲーム本体・配布物は未実装。架空の港町・地域・技術・数値は変更可能な初期案。
+
+2026-10-18追記：本人の決定で、現代ギリシャの生活ゲーム[ギリシャ版](games/greece-life/README.md)を日本版と並行して作る。制作担当はClaude Code（日本版はCodex）。ゲーム内はギリシャ語、解説は英語、ギリシャ語を音声で読み上げる。仕様・内容計画・依頼文を用意。ゲーム本体は未実装。

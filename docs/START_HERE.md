@@ -27,6 +27,10 @@
 
 外部生成AI・APIキー・全言語共通エンジンを先行条件にしない。利用者にとって遊べる配布物や配信手順を用意し、クラウド内パスやlocalhostを公開URLとして案内しない。
 
+## ギリシャ版（Claude Code担当）
+
+本人の決定で、日本版と並行して [games/greece-life/](../games/greece-life/README.md) を作る。制作はClaude Code。ゲーム内はギリシャ語、解説は英語、ギリシャ語を音声で読み上げる。依頼文と合格条件は [CLAUDE_TASKS.md](../games/greece-life/CLAUDE_TASKS.md)。Codexの対象は引き続き日本版で、両方の作業は互いのフォルダを変更しない。
+
 ## 既存の英語試作
 
 [games/english-errands/](../games/english-errands/README.md)は12語の固定画面試作として保存。保守を頼まれた場合は同作品のREADME・SPEC・検証結果を読む。これは日本版や生活ゲーム全体の教材数・規模の上限ではない。
