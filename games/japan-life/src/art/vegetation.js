@@ -1,0 +1,32 @@
+import * as THREE from 'three';
+import {surface,rod,mesh} from './materials.js';
+import {groundHeight} from './height.js';
+export function random(seed=1){return ()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};}
+const leafShape=()=>{const s=new THREE.Shape();s.moveTo(0,-.12);s.lineTo(-.065,-.035);s.lineTo(-.11,.03);s.lineTo(-.045,.026);s.lineTo(-.06,.1);s.lineTo(-.018,.065);s.lineTo(0,.145);s.lineTo(.025,.065);s.lineTo(.065,.1);s.lineTo(.048,.025);s.lineTo(.11,.03);s.lineTo(.065,-.035);s.closePath();return new THREE.ShapeGeometry(s);};
+export function vegetation(g,trees,season) {
+  const rng=random(8791),instances=[],fallen=[],grass=[];
+  const colors=season==='秋'?['#a64223','#c67b29','#b6993d','#7a8b4a','#8c5029']:season==='春'?['#ded0cc','#e5cbc8','#d8b7b4','#86a05d']:season==='冬'?[]:['#5a783e','#749049','#849b55','#4e703b'];
+  for(const [x,z,size=1] of trees) {
+    const y=groundHeight(x,z),h=3.8*size;
+    rod(g,[x,y,z],[x+.12,y+h,z-.08],.2*size,surface('wood','#8e8069'),.075*size);
+    for(let k=0;k<7;k++) {
+      const a=k*2.399,tip=[x+Math.sin(a)*1.7*size,y+(3.0+rng()*1.9)*size,z+Math.cos(a)*1.65*size];
+      rod(g,[x+.06,y+h*(.55+rng()*.2),z],tip,.072*size,surface('wood','#81725e'),.018*size);
+      if(season!=='冬')for(let i=0;i<95;i++) {
+        const az=rng()*Math.PI*2,r=Math.sqrt(rng())*1.05*size;
+        instances.push({x:tip[0]+Math.sin(az)*r,y:tip[1]+(rng()-.5)*1.7*size,z:tip[2]+Math.cos(az)*r,rx:rng()*3,ry:rng()*6,rz:rng()*6,scale:(.55+rng()*.6)*size,color:colors[Math.floor(rng()*colors.length)]});
+      }
+    }
+    if(season==='秋'||season==='春')for(let i=0;i<65;i++) {const dx=(rng()-.5)*6*size,dz=(rng()-.5)*6*size;fallen.push({x:x+dx,y:groundHeight(x+dx,z+dz)+.036,z:z+dz,rx:-Math.PI/2,ry:0,rz:rng()*6,scale:.5+rng()*.6,color:colors[Math.floor(rng()*colors.length)]});}
+  }
+  function instanced(geometry,items,mat,shadows=true) {
+    const object=new THREE.InstancedMesh(geometry,mat,items.length),dummy=new THREE.Object3D(),c=new THREE.Color();
+    items.forEach((p,i)=>{dummy.position.set(p.x,p.y,p.z);dummy.rotation.set(p.rx||0,p.ry||0,p.rz||0);dummy.scale.setScalar(p.scale||1);dummy.updateMatrix();object.setMatrixAt(i,dummy.matrix);if(p.color)object.setColorAt(i,c.set(p.color));});
+    object.castShadow=shadows;object.receiveShadow=true;object.userData.keep=true;g.add(object);return object;
+  }
+  const leaves=instanced(leafShape(),instances,new THREE.MeshStandardMaterial({color:'#ffffff',roughness:.9,side:THREE.DoubleSide}),true);
+  instanced(leafShape(),fallen,new THREE.MeshStandardMaterial({color:'#ffffff',roughness:1,side:THREE.DoubleSide}),false);
+  for(let i=0;i<1600;i++) {const x=(rng()-.5)*143,z=-66+rng()*110;if(trees.every(t=>Math.hypot(t[0]-x,t[1]-z)>6))continue;grass.push({x,y:groundHeight(x,z)+.12,z,ry:rng()*6,scale:.6+rng(),color:season==='冬'?'#c5c6b7':season==='秋'?['#838452','#a19a64','#737d4c'][i%3]:'#819752'});}
+  const blade=new THREE.BufferGeometry();blade.setAttribute('position',new THREE.Float32BufferAttribute([-.014,0,0,0,.26,0,.012,0,0],3));blade.computeVertexNormals();blade.setAttribute('uv',new THREE.Float32BufferAttribute([0,0,.5,1,1,0],2));instanced(blade,grass,new THREE.MeshStandardMaterial({color:'#ffffff',roughness:1,side:THREE.DoubleSide}),false);
+  return leaves;
+}

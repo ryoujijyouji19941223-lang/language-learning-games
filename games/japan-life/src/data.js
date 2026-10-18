@@ -1,3 +1,4 @@
+import { dwellings,doorOf,alongLoop } from './art/layout.js';
 import people from "./residents.json" with { type: "json" };
 import foods from "./foods.json" with { type: "json" };
 import { conversations } from "./conversations.js";
@@ -80,9 +81,9 @@ export const places = [
   {
     id: "market_cafe",
     name: "喫茶つばめ",
-    area: "商店街",
-    x: 33,
-    z: -10,
+    area: "港",
+    x: -7,
+    z: 34,
     w: 9,
     d: 9,
     open: 9,
@@ -377,15 +378,14 @@ export const residents = people.map((p, i) => {
     [-65, -48],
     [17, -64],
   ][district];
-  const home = {
-    x: origin[0] + (i % 5) * 6.5,
-    z: origin[1] + Math.floor((i % 15) / 5) * 5.5,
-  };
+  const building=dwellings[i%dwellings.length];
+  const home=doorOf(building);
   return {
     ...p,
     ...conversations[p.id],
     audioText: p.line,
     home,
+    buildingId:building.id,unitId:`${building.id}-${101+Math.floor(i/dwellings.length)}`,
     workplace: workplaces[p.id] || null,
     schedule: {
       morning: { x: home.x, z: home.z + 1 },
@@ -402,44 +402,18 @@ export const residents = people.map((p, i) => {
     },
   };
 });
-export function residentPosition(p, minutes) {
-  const hour = Math.floor((minutes % 1440) / 60),
-    work = placeById[p.workplace];
-  if (
-    work &&
-    hour >= Math.max(8, work.open) &&
-    hour < Math.min(18, work.close) &&
-    Math.floor(minutes / 1440) % 7 !== work.closedDay
-  )
-    return { x: -2.7, z: 0.3, scene: p.workplace };
-  return {
-    ...p.schedule[
-      hour < 8 ? "morning" : hour < 17 ? "day" : hour < 20 ? "evening" : "night"
-    ],
-    scene: "town",
-  };
+export function residentPosition(p,minutes) {
+  const hour=Math.floor(minutes%1440/60),work=placeById[p.workplace],i=Number(p.id.slice(1))-1;
+  if(work&&hour>=Math.max(8,work.open)&&hour<Math.min(18,work.close)&&Math.floor(minutes/1440)%7!==work.closedDay)return {x:-2.7,z:.3,scene:p.workplace};
+  const slot=Math.floor((minutes%1440)/180);
+  if(hour<6||hour>=22||(slot+i)%3!==0)return {...p.home,scene:'residence'};
+  const point=alongLoop(minutes*1.6+i*17.3);
+  // Keep the middle of public roads clear, and give people different directions.
+  if(Math.abs(point.x)<.01)point.x=(i%2?1:-1)*(1.05+(i%3)*.2);
+  else point.z+=(i%2?1:-1)*.85;
+  return {...point,scene:'town'};
 }
-const dropPoints = [
-  [-65, -20],
-  [-54, -19],
-  [-43, -19],
-  [-32, -19],
-  [-63, -4],
-  [-44, -4],
-  [-32, 3],
-  [-19, 3],
-  [-65, 15],
-  [-53, 15],
-  [-41, 15],
-  [-29, 15],
-];
-export const destinations = dropPoints.map(([x, z], i) => ({
-  id: `drop${String(i + 1).padStart(2, "0")}`,
-  name: `${residents[30 + i].name}さんの受け取り口`,
-  x,
-  z,
-  npc: residents[30 + i].id,
-}));
+export const destinations=dwellings.map((b,i)=>{const person=residents.find(p=>p.buildingId===b.id);return {id:`drop${String(i+1).padStart(2,'0')}`,name:`${b.address} ${person.unitId.split('-').at(-1)}号室`,...doorOf(b),buildingId:b.id,unitId:person.unitId,npc:person.id};});
 const pickupIds = [
   "market_grocery",
   "port_fish",

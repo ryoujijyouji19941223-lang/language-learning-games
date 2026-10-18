@@ -11,6 +11,9 @@ import {
   destinations,
 } from "./data.js";
 import { floorSize } from "./engine.js";
+import { person, posePerson } from './art/characters.js';
+import { buildDistrict, stateSeason } from './art/district.js';
+import { groundHeight } from './art/height.js';
 
 const materials = new Map();
 function mat(color) {
@@ -44,8 +47,9 @@ function cylinder(g, x, y, z, r1, r2, h, c, sides = 8) {
 }
 function optimize(group) {
   group.updateMatrixWorld(true);
-  const meshes = new Map();
+  const meshes = new Map(),kept=[];
   group.traverse((o) => {
+    if(o.isMesh&&o.userData.keep)kept.push(o);
     if (o.isMesh && !o.userData.keep) {
       let geo = o.geometry.index
         ? o.geometry.toNonIndexed()
@@ -66,6 +70,7 @@ function optimize(group) {
     output.add(mesh);
     geos.forEach((g) => g.dispose());
   }
+  for(const o of kept){o.matrixWorld.decompose(o.position,o.quaternion,o.scale);o.removeFromParent();output.add(o);}
   return output;
 }
 const signs = new Map();
@@ -302,40 +307,6 @@ export function furnitureModel(item) {
   }
   return g;
 }
-function person(style, wear) {
-  const g = new THREE.Group();
-  const top = wear?.top?.color || style.shirt,
-    bottom = wear?.bottom?.color || "#5e7278",
-    shoe = wear?.shoes?.color || "#715f4e";
-  const head = ball(g, 0, 1.38, 0, 0.2, "#deb797");
-  head.scale.set(0.86, 1.05, 0.9);
-  const hair = ball(g, 0, 1.46, -0.035, 0.205, style.hair);
-  hair.scale.set(0.95, 0.65, 1);
-  box(g, 0, 1.02, 0, 0.4, 0.5, 0.25, top);
-  box(g, 0, 1.2, 0.14, 0.14, 0.1, 0.03, "#e6dfc9");
-  if (wear?.bottom?.shape === "skirt")
-    cylinder(g, 0, 0.63, 0, 0.2, 0.33, 0.4, bottom);
-  for (const side of [-1, 1]) {
-    const arm = box(g, side * 0.265, 0.99, 0, 0.13, 0.47, 0.13, top);
-    arm.rotation.z = side * 0.08;
-    ball(g, side * 0.28, 0.73, 0, 0.07, "#deb797");
-    cylinder(g, side * 0.115, 0.36, 0, 0.08, 0.075, 0.55, bottom);
-    box(g, side * 0.115, 0.065, 0.06, 0.17, 0.12, 0.32, shoe);
-  }
-  box(g, -0.07, 1.39, 0.17, 0.025, 0.025, 0.025, "#433b35");
-  box(g, 0.07, 1.39, 0.17, 0.025, 0.025, 0.025, "#433b35");
-  if (style.accessory === 0) {
-    box(g, 0.28, 0.77, 0.08, 0.18, 0.27, 0.13, "#d1b18a");
-    box(g, 0.28, 0.99, 0.08, 0.11, 0.12, 0.04, "#7a6e57");
-  }
-  if (style.accessory === 1)
-    cylinder(g, 0, 1.6, 0, 0.25, 0.25, 0.045, "#d3bd8d");
-  if (style.accessory === 2) {
-    box(g, 0, 0.97, -0.19, 0.27, 0.35, 0.18, "#816c54");
-  }
-  g.scale.set(style.body || 1, (style.height || 1.65) / 1.65, style.body || 1);
-  return g;
-}
 export class World {
   constructor(container, onError) {
     this.container = container;
@@ -343,7 +314,7 @@ export class World {
     this.keys = new Set();
     this.touch = { x: 0, z: 0 };
     this.yaw = 0;
-    this.pitch = 0.58;
+    this.pitch = 0.28;
     this.obstacles = [];
     this.rayMeshes = [];
     this.npcs = [];
@@ -354,30 +325,34 @@ export class World {
     this.route = null;
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color("#c2d8db");
-    this.scene.fog = new THREE.Fog("#c2d8db", 65, 190);
-    this.camera = new THREE.PerspectiveCamera(48, 1, 0.08, 400);
+    this.scene.fog = new THREE.Fog("#c2d8db", 85, 360);
+    this.camera = new THREE.PerspectiveCamera(58, 1, 0.08, 600);
     this.renderer = new THREE.WebGLRenderer({
       antialias: true,
       powerPreference: "low-power",
     });
-    this.renderer.setPixelRatio(Math.min(devicePixelRatio, 1.4));
+    const gl=this.renderer.getContext(),debug=gl.getExtension('WEBGL_debug_renderer_info');
+    this.software=/swiftshader|llvmpipe|software/i.test(debug?gl.getParameter(debug.UNMASKED_RENDERER_WEBGL):'');
+    this.renderer.setPixelRatio(this.software?.8:Math.min(devicePixelRatio,1.4));
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    this.renderer.shadowMap.autoUpdate=false;this.renderer.shadowMap.needsUpdate=true;
     this.renderer.setClearColor("#c2d8db");
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
+    this.renderer.toneMapping=THREE.ACESFilmicToneMapping;this.renderer.toneMappingExposure=1.12;
     container.append(this.renderer.domElement);
-    this.scene.add(new THREE.HemisphereLight("#fff3dc", "#728c83", 2.2));
+    this.skyLight=new THREE.HemisphereLight("#dce9ea", "#7c795b", 1.45);this.scene.add(this.skyLight);
     this.sun = new THREE.DirectionalLight("#fff2d5", 2.7);
     this.sun.position.set(-30, 60, 25);
     this.sun.castShadow = true;
-    this.sun.shadow.mapSize.set(1024, 1024);
+    this.sun.shadow.mapSize.set(this.software?1024:2048, this.software?1024:2048);
     this.sun.shadow.camera.left = -25;
     this.sun.shadow.camera.right = 25;
     this.sun.shadow.camera.top = 25;
     this.sun.shadow.camera.bottom = -25;
     this.sun.shadow.camera.far = 120;
-    this.sun.shadow.bias = -0.001;
-    this.sun.shadow.normalBias = 0.04;
+    this.sun.shadow.bias = -0.00025;
+    this.sun.shadow.normalBias = 0.025;
     this.scene.add(this.sun);
     this.scene.add(this.sun.target);
     this.root = new THREE.Group();
@@ -431,218 +406,7 @@ export class World {
     this.obstacles.push({ x, z, w, d });
     if (mesh) this.rayMeshes.push(mesh);
   }
-  buildTown() {
-    const g = new THREE.Group();
-    box(g, 0, -0.2, -14, 146, 0.4, 120, "#b2bb98");
-    box(g, 0, -0.01, -8, 9, 0.03, 120, "#9a9e92");
-    for (const z of [-55, -20, 7, 29]) {
-      box(g, 0, 0.015, z, 140, 0.04, 5, "#a3a599");
-      box(g, 0, 0.045, z - 3.4, 140, 0.08, 1.4, "#d9ceaf");
-    }
-    for (const x of [-34, 10, 57])
-      box(g, x, 0.02, -10, 3.5, 0.05, 90, "#c7c3ac");
-    box(g, 0, 0, 41, 145, 0.25, 9, "#d7c8a7");
-    box(g, 0, 0.05, 46, 145, 0.35, 1, "#87938b");
-    this.water = box(g, 0, -0.3, 115, 400, 0.2, 140, "#79b5bd");
-    for (let i = 0; i < 45; i++) {
-      box(
-        g,
-        -75 + ((i * 17) % 150),
-        0.02,
-        51 + ((i * 13) % 120),
-        4 + (i % 4) * 2,
-        0.02,
-        0.12,
-        "#aed1cc",
-      );
-    }
-    for (let i = 0; i < 35; i++) {
-      const x = -69 + (i % 10) * 14,
-        z = -66 + Math.floor(i / 10) * 28;
-      if (
-        places.some(
-          (p) =>
-            p.w && Math.abs(p.x - x) < p.w + 4 && Math.abs(p.z - z) < p.d + 4,
-        )
-      )
-        continue;
-      tree(g, x, z, 0.8 + (i % 3) * 0.15);
-    }
-    for (let i = 0; i < 10; i++) {
-      cylinder(g, -68 + i * 14, 1.5, 39, 0.06, 0.06, 3, "#76877d");
-      box(g, -68 + i * 14, 3, 39, 0.4, 0.12, 0.5, "#f3dcab");
-    }
-    for (const p of places.filter((p) => p.w)) {
-      const h = p.kind === "home" ? 5.2 : 3.6,
-        body = box(g, p.x, h / 2, p.z, p.w, h, p.d, p.color);
-      this.obstacle(p.x, p.z, p.w, p.d, body);
-      const roof = shape(
-        g,
-        new THREE.ConeGeometry(Math.max(p.w, p.d) * 0.76, 1.9, 4),
-        p.x,
-        h + 0.6,
-        p.z,
-        "#67797b",
-      );
-      roof.rotation.y = Math.PI / 4;
-      roof.scale.z = p.d / p.w;
-      box(
-        g,
-        p.x,
-        h - 0.2,
-        p.z + p.d / 2 + 0.6,
-        p.w + 0.6,
-        0.15,
-        1.7,
-        p.kind === "home" ? "#66736c" : "#e6cb9b",
-      );
-      const door = box(
-        g,
-        p.x,
-        1.05,
-        p.z + p.d / 2 + 0.05,
-        1.25,
-        2.1,
-        0.12,
-        "#5d7e7b",
-      );
-      box(g, p.x + 0.4, 1.05, p.z + p.d / 2 + 0.14, 0.05, 0.2, 0.06, "#e6d4b0");
-      sign(
-        this.root,
-        p.name,
-        p.x,
-        2.95,
-        p.z + p.d / 2 + 0.17,
-        Math.min(p.w - 1, 4.6),
-      );
-      for (const x of [-p.w * 0.31, p.w * 0.31]) {
-        box(g, p.x + x, 1.55, p.z + p.d / 2 + 0.08, 1.6, 1.3, 0.1, "#e2d8bd");
-        box(g, p.x + x, 1.55, p.z + p.d / 2 + 0.16, 1.4, 1.1, 0.05, "#aac8c7");
-        box(g, p.x + x, 1.55, p.z + p.d / 2 + 0.22, 0.05, 1.2, 0.04, "#7e8977");
-      }
-      if (p.kind === "home")
-        for (const x of [-p.w * 0.3, 0, p.w * 0.3])
-          box(g, p.x + x, 4, p.z + p.d / 2 + 0.08, 1.2, 1.05, 0.08, "#b5ccc8");
-      plant(g, p.x - p.w / 2 - 0.6, p.z + p.d / 2 + 0.2);
-      if (["grocery", "fish", "egg"].includes(p.kind))
-        for (let j = 0; j < 3; j++) {
-          box(
-            g,
-            p.x + p.w * 0.22 + j * 0.75,
-            0.55,
-            p.z + p.d / 2 + 0.5,
-            0.65,
-            0.9,
-            0.65,
-            "#9b8061",
-          );
-          for (let k = 0; k < 3; k++)
-            ball(
-              g,
-              p.x + p.w * 0.22 + j * 0.75 + (k - 1) * 0.15,
-              1.1,
-              p.z + p.d / 2 + 0.5,
-              0.14,
-              p.kind === "fish"
-                ? "#97afb3"
-                : ["#9dac67", "#d6c19a", "#c59464"][j],
-            );
-        }
-      this.targets.push({
-        type: "door",
-        id: p.id,
-        name: p.name,
-        x: p.x,
-        z: p.z + p.d / 2 + 0.8,
-      });
-    }
-    for (const d of destinations) {
-      box(g, d.x, 0.65, d.z, 0.45, 1.3, 0.35, "#c18b6c");
-      box(g, d.x, 0.95, d.z + 0.2, 0.28, 0.05, 0.04, "#6d776b");
-      this.targets.push({
-        type: "delivery",
-        id: d.id,
-        name: d.name,
-        x: d.x,
-        z: d.z,
-      });
-    }
-    for (const [x, z] of [
-      [45, -51],
-      [-10, 40],
-      [-45, 36],
-    ]) {
-      box(g, x, 0.45, z, 2, 0.15, 0.65, "#aa8c6b");
-      box(g, x, 0.8, z - 0.25, 2, 0.65, 0.12, "#aa8c6b");
-      this.targets.push({
-        type: "bench",
-        id: `bench${x}`,
-        name: "ベンチで休む",
-        x,
-        z: z + 0.6,
-      });
-    }
-    box(g, 8, 1.25, -51, 2, 1.5, 0.2, "#846c50");
-    sign(this.root, "仕事と町の案内", 8, 1.4, -50.85, 1.8);
-    this.targets.push({
-      type: "board",
-      id: "station_board",
-      name: "仕事の掲示板",
-      x: 8,
-      z: -50,
-    });
-    box(g, 0, 2.7, -69, 28, 5.4, 7, "#c3b8a1");
-    box(g, 0, 5.5, -69, 29, 0.35, 9, "#6e8581");
-    sign(this.root, "汐待駅", 0, 3.4, -65.4, 5);
-    this.obstacle(0, -69, 28, 7);
-    for (let i = 0; i < 6; i++) {
-      cylinder(g, -15 + i * 6, 1.5, 45, 0.1, 0.12, 3, "#8c8d78");
-      const loop = shape(
-        g,
-        new THREE.TorusGeometry(0.3, 0.06, 6, 12),
-        -15 + i * 6,
-        0.6,
-        44.4,
-        "#b7a984",
-      );
-      loop.rotation.x = Math.PI / 2;
-    }
-    // 漁具と船。形状は独自の仮モデル。
-    for (let i = 0; i < 3; i++) {
-      const boat = new THREE.Group();
-      const hull = shape(
-        boat,
-        new THREE.CylinderGeometry(1.4, 1, 5.2, 4),
-        0,
-        0.2,
-        0,
-        "#f0e5c9",
-      );
-      hull.rotation.z = Math.PI / 2;
-      box(boat, 0, 0.8, 0, 1.8, 1.1, 1.4, "#739b9c");
-      cylinder(boat, 0, 2, 0, 0.05, 0.05, 3, "#8f8170");
-      boat.position.set(-38 + i * 36, 0, 57 + i * 9);
-      g.add(boat);
-    }
-    for (let i = 0; i < 4; i++) {
-      const wheel = shape(
-        g,
-        new THREE.TorusGeometry(0.38, 0.04, 5, 12),
-        -16 + i * 0.6,
-        0.5,
-        -21,
-        "#596d66",
-      );
-      wheel.rotation.y = 0;
-    }
-    box(g, -15, 1, -21, 1.8, 0.05, 0.04, "#82978a");
-    this.root.add(optimize(g));
-    for (const p of residents) {
-      const mesh = person(p.style);
-      this.dynamic.add(mesh);
-      this.npcs.push({ data: p, mesh });
-    }
-  }
+  buildTown(s) { this.art=buildDistrict(this,s,optimize); }
   buildRoom(s) {
     const preview = s.scene.startsWith("preview:"),
       home = homeById[preview ? s.scene.slice(8) : s.scene],
@@ -889,18 +653,19 @@ export class World {
   }
   sync(s) {
     const roomKey =
-      s.scene + JSON.stringify(s.furniture.map((i) => [i.uid, i.at]));
+      s.scene + stateSeason(s) + JSON.stringify(s.furniture.map((i) => [i.uid, i.at]));
     if (this.lastKey !== roomKey) {
       this.clear();
-      if (s.scene === "town") this.buildTown();
+      this.renderer.shadowMap.needsUpdate=true;
+      if (s.scene === "town") this.buildTown(s);
       else this.buildRoom(s);
       this.lastKey = roomKey;
       this.sceneId = s.scene;
-      this.scene.fog.near = s.scene === "town" ? 65 : 20;
-      this.scene.fog.far = s.scene === "town" ? 190 : 60;
+      this.scene.fog.near = s.scene === "town" ? 85 : 20;
+      this.scene.fog.far = s.scene === "town" ? 360 : 60;
     }
     const carrying = s.jobs.some((j) => j.status === "carrying");
-    const wearKey = JSON.stringify(s.wear) + carrying;
+    const wearKey = JSON.stringify(s.wear) + carrying + stateSeason(s);
     if (wearKey !== this.wearKey) {
       this.player.clear();
       this.player.add(
@@ -908,7 +673,7 @@ export class World {
           { shirt: "#eee4ca", hair: "#443b31", height: 1.65, body: 0.92 },
           Object.fromEntries(
             Object.entries(s.wear).map(([k, v]) => [k, productById[v]]),
-          ),
+          ),stateSeason(s),
         ),
       );
       if (carrying) {
@@ -1079,7 +844,8 @@ export class World {
   canMove(s, x, z) {
     const r = s.scene === "town" ? 0.26 : 0.18;
     if (s.scene === "town") {
-      if (Math.abs(x) > 71 || z > 44.8 || z < -64) return false;
+      if (Math.abs(x) > 71 || z > 65 || z < -64) return false;
+      if (Math.abs(groundHeight(x,z)-groundHeight(s.pos.x,s.pos.z))>.3) return false;
     } else {
       const { w, d, home } = this.room;
       if (home) {
@@ -1126,7 +892,7 @@ export class World {
           nearest = {
             type: "npc",
             id: n.data.id,
-            name: `${n.data.name}さんと話す`,
+            name: `${n.data.role}と話す`,
             x: n.mesh.position.x,
             z: n.mesh.position.z,
           };
@@ -1138,6 +904,7 @@ export class World {
   frame(s, dt, blocked) {
     this.sync(s);
     this.yaw = s.yaw;
+    const before={...s.pos};
     if (!blocked) {
       const ix =
           (this.keys.has("d") || this.keys.has("ArrowRight") ? 1 : 0) -
@@ -1171,21 +938,31 @@ export class World {
         this.player.rotation.y = Math.atan2(dx, dz);
       }
     }
-    this.player.position.set(s.pos.x, 0, s.pos.z);
+    const floorY=s.scene==='town'?groundHeight(s.pos.x,s.pos.z):0;
+    this.player.position.set(s.pos.x, floorY+.025, s.pos.z);
+    const moved=Math.hypot(s.pos.x-before.x,s.pos.z-before.z);
+    if(this.player.children[0])posePerson(this.player.children[0],moved,this.keys.has('Shift'),dt);
+    this.renderer.domElement.dataset.height=floorY.toFixed(3);
+    this.renderer.domElement.dataset.gait=moved>.0005?(this.keys.has('Shift')?'run':'walk'):'idle';
     for (const n of this.npcs) {
       const p = residentPosition(n.data, s.clock);
-      n.mesh.position.set(p.x, 0, p.z);
+      const old=n.mesh.position.clone();
+      n.mesh.position.set(p.x, groundHeight(p.x,p.z)+.025, p.z);
+      const step=n.lastClock!==undefined&&Math.abs(s.clock-n.lastClock)<2?Math.hypot(p.x-old.x,p.z-old.z):0;
+      if(step>.001)n.mesh.rotation.y=Math.atan2(p.x-old.x,p.z-old.z);
+      posePerson(n.mesh,step,false,dt);n.lastClock=s.clock;
       n.inTown = p.scene === "town";
       n.mesh.visible =
-        n.inTown && Math.hypot(p.x - s.pos.x, p.z - s.pos.z) < 42;
+        n.inTown && Math.hypot(p.x - s.pos.x, p.z - s.pos.z) < 28;
     }
-    const target = new THREE.Vector3(s.pos.x, 1.05, s.pos.z),
-      distance = s.scene === "town" ? 6.8 : 3.3;
+    const target = new THREE.Vector3(s.pos.x, floorY+1.2, s.pos.z),
+      distance = s.scene === "town" ? 8.2 : 3.3;
     const desired = new THREE.Vector3(
       s.pos.x + Math.sin(s.yaw) * distance,
-      1.05 + distance * this.pitch,
+      floorY+1.2 + distance * this.pitch,
       s.pos.z + Math.cos(s.yaw) * distance,
     );
+    if(s.scene==='town')desired.y=Math.max(desired.y,groundHeight(desired.x,desired.z)+.5);
     this.root.updateMatrixWorld(true);
     this.dynamic.updateMatrixWorld(true);
     const dir = desired.clone().sub(target).normalize();
@@ -1206,15 +983,28 @@ export class World {
     this.player.visible = desired.distanceTo(target) > 0.75;
     this.camera.position.lerp(desired, Math.min(1, dt * 12));
     this.camera.lookAt(target);
-    this.sun.position.set(s.pos.x - 20, 45, s.pos.z + 20);
-    this.sun.target.position.set(s.pos.x, 0, s.pos.z);
+    this.sun.position.set(s.pos.x - 26, floorY+40, s.pos.z + 24);
+    this.sun.target.position.set(s.pos.x, floorY, s.pos.z);
     if (this.route && s.scene === "town") {
       this.marker.visible = true;
-      this.marker.position.set(this.route.x, 0.12, this.route.z);
+      this.marker.position.set(this.route.x, groundHeight(this.route.x,this.route.z)+.15, this.route.z);
     } else this.marker.visible = false;
     const hour = (s.clock % 1440) / 60;
-    this.sun.intensity = hour >= 6 && hour < 18 ? 2.5 : 1;
-    this.scene.background.set(hour >= 6 && hour < 18 ? "#c2d8db" : "#637b8c");
+    const day=Math.max(0,Math.sin((hour-6)/12*Math.PI));
+    const warmth=Math.max(0,1-Math.abs(hour-17.4)/2.4);
+    this.sun.intensity=.25+day*2.7;
+    this.sun.color.set('#fff5df').lerp(new THREE.Color('#f3b077'),warmth*.7);
+    this.sun.position.y=floorY+12+day*38;
+    this.skyLight.intensity=.45+day*.95;
+    this.scene.background.set('#354d61').lerp(new THREE.Color('#c6d5d6'),Math.min(1,day*1.7)).lerp(new THREE.Color('#bea48d'),warmth*.38);
+    this.scene.fog.color.copy(this.scene.background);
+    if(this.art&&s.scene==='town') {
+      this.art.ocean.time.value=performance.now()/1000;
+      for(const l of this.art.lights)l.mesh.visible=l.lamp?(hour>=17.5||hour<6.5):(hour>=17.5+l.offset*.16||hour<6-l.offset*.1);
+    }
+    if(!this.shadowAt||Math.hypot(s.pos.x-this.shadowAt.x,s.pos.z-this.shadowAt.z)>1||Math.abs(s.clock-this.shadowAt.clock)>1.5){this.renderer.shadowMap.needsUpdate=true;this.shadowAt={...s.pos,clock:s.clock};}
     this.renderer.render(this.scene, this.camera);
+    this.renderer.domElement.dataset.drawCalls=String(this.renderer.info.render.calls);
+    this.renderer.domElement.dataset.triangles=String(this.renderer.info.render.triangles);
   }
 }

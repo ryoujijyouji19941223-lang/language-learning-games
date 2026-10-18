@@ -17,7 +17,7 @@ import {
 } from "../src/data.js";
 import { furnitureModel } from "../src/world.js";
 function home(id = "home01") {
-  const s = E.fresh();
+  const s = E.fresh(new Date(2026,3,1));
   E.preview(s, id);
   E.chooseHome(s, id);
   return s;
@@ -101,7 +101,7 @@ test("SPECの16食材・6料理・25家具・12服・60人を持ち、会話と�
   }
 });
 test("三室の内見から一住居を選び、初期所持・家賃支払済み・設備を保持", () => {
-  const s = E.fresh();
+  const s = E.fresh(new Date(2026,3,1));
   for (const h of homes) E.preview(s, h.id);
   assert.equal(s.home, null);
   assert.equal(s.inspected.length, 3);

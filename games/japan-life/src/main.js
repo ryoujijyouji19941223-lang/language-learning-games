@@ -1,4 +1,7 @@
 import "./style.css";
+import {configureSurfaces} from './art/materials.js';
+import {textureSources} from './art/texture-sources.js';
+configureSurfaces(textureSources);
 import { World } from "./world.js";
 import { AudioSupport } from "./audio.js";
 import { MusicPlayer } from "./music.js";
@@ -152,7 +155,18 @@ function renderHud() {
       : state.scene.startsWith("preview:")
         ? "部屋の内見"
         : placeById[state.scene]?.name || "町";
-  hud.innerHTML = `<header class="topbar"><div class="brand"><span class="brand-icon">汐</span><div>汐待町<small>SHIOMACHI · 暮らしの試作</small></div></div><div class="date"><strong>${d.month}月${d.day}日 ${["月", "火", "水", "木", "金", "土", "日"][d.weekday]}曜日</strong><span>${d.season} · ${String(d.hour).padStart(2, "0")}:${String(d.minute).padStart(2, "0")}${panel ? "　時間停止中" : ""}</span></div><div class="wallet">${yen(state.money)}<small>${state.debt ? "未払い " + yen(state.debt) : "家賃はゲーム内の月初に処理"}</small></div></header><nav class="tools" aria-label="暮らしのメニュー">${b("map", "地図 M")}${b("phone", "スマホ・配達")}${b("journal", "暮らしの手帳")}${b("settings", "設定")}${music.blocked ? b("start-audio", "音を再生する") : ""}</nav><div class="where"><span class="eyebrow">${scene === "港と海岸" ? "SEASIDE" : scene === "商店街" ? "MARKET STREET" : scene === "住宅地" ? "NEIGHBOURHOOD" : "SHIOMACHI"}</span><strong>${esc(scene)}</strong><span>${esc(home)}</span>${world.route ? `<p class="route">◇ ${esc(world.route.name)}<br>${state.scene === "town" ? Math.ceil(Math.hypot(state.pos.x - world.route.x, state.pos.z - world.route.z)) + "m 先 · 地図の印へ歩こう" : "まず入口から外へ"}</p>` : ""}</div><div class="help">WASD / 矢印：歩く　Shift：走る　右ドラッグ：視点　E：調べる　Esc：戻る</div>`;
+  const markup = `<header class="topbar"><div class="brand"><span class="brand-icon">汐</span><div>汐待町<small>SHIOMACHI · 暮らしの試作</small></div></div><div class="date"><strong>${d.month}月${d.day}日 ${["月", "火", "水", "木", "金", "土", "日"][d.weekday]}曜日</strong><span>${d.season} · ${String(d.hour).padStart(2, "0")}:${String(d.minute).padStart(2, "0")}${panel ? "　時間停止中" : ""}</span></div><div class="wallet">${yen(state.money)}<small>${state.debt ? "未払い " + yen(state.debt) : "家賃はゲーム内の月初に処理"}</small></div></header><nav class="tools" aria-label="暮らしのメニュー">${b("map", "地図 M")}${b("phone", "スマホ・配達")}${b("journal", "暮らしの手帳")}${b("settings", "設定")}${music.blocked ? b("start-audio", "音を再生する") : ""}</nav><div class="where"><span class="eyebrow">${scene === "港と海岸" ? "SEASIDE" : scene === "商店街" ? "MARKET STREET" : scene === "住宅地" ? "NEIGHBOURHOOD" : "SHIOMACHI"}</span><strong>${esc(scene)}</strong><span>${esc(home)}</span>${world.route ? `<p class="route">◇ ${esc(world.route.name)}<br>${state.scene === "town" ? Math.ceil(Math.hypot(state.pos.x - world.route.x, state.pos.z - world.route.z)) + "m 先 · 地図の印へ歩こう" : "まず入口から外へ"}</p>` : ""}</div><div class="help">WASD / 矢印：歩く　Shift：走る　右ドラッグ：視点　E：調べる　Esc：戻る</div>`;
+  if(!hud.firstElementChild)hud.innerHTML=markup;
+  else {
+    const next=document.createElement('div');next.innerHTML=markup;
+    for(const selector of ['.date','.wallet','.where','.help']){
+      const current=hud.querySelector(selector),replacement=next.querySelector(selector);
+      if(current&&replacement&&current.innerHTML!==replacement.innerHTML)current.innerHTML=replacement.innerHTML;
+    }
+    const retry=hud.querySelector('.tools [data-action="start-audio"]');
+    if(music.blocked&&!retry)hud.querySelector('.tools').insertAdjacentHTML('beforeend',b('start-audio','音を再生する'));
+    if(!music.blocked&&retry)retry.remove();
+  }
 }
 function housing() {
   return `${title("窓から、どんな暮らしを。", "住まいの案内")}<p>三つの部屋を内見して、一室を選べます。初月は支払済み、所持金20,000円から。転居は1,000円、家具はすべて保管箱へ。</p><div class="room-list">${homes.map((h) => `<article class="room-card ${state.scene.endsWith(h.id) ? "selected" : ""}"><div><span class="eyebrow">${h.w} × ${h.d} マス · ${state.inspected.includes(h.id) ? "内見した" : "まだ内見していない"}</span><h2>${h.name}</h2><p>${h.note}</p><strong>月 ${yen(h.rent)}</strong></div>${b("preview", "中を歩いて見る", h.id)}</article>`).join("")}</div>${state.scene.startsWith("preview:") ? `<div class="callout">いま映っているのは ${homeById[state.scene.slice(8)].name}。${state.inspected.length < 3 ? "ほかの部屋の窓も見てみませんか。" : "三つの部屋を見られました。"}</div>${b("contract", state.home === state.scene.slice(8) ? "自分の部屋に戻る" : state.home ? "この部屋へ引っ越す · 1,000円" : "この部屋で暮らす", state.scene.slice(8), "primary wide")}${b("close", "内見中の部屋を歩く", "", "wide")}` : ""}<p class="small">実在物件の相場・寸法・賃貸制度の再現ではありません。</p>`;
@@ -903,6 +917,7 @@ window.addEventListener("focus", () =>
   music.setPaused(document.hidden || panel === "welcome"),
 );
 document.addEventListener("visibilitychange", () => {
+  frameTime=performance.now();
   music.setPaused(document.hidden || panel === "welcome");
   world.keys.clear();
   audio.stop();
@@ -983,7 +998,7 @@ for (const event of ["pointerup", "pointercancel"])
   look.addEventListener(event, () => (lookPointer = null));
 let lastContext = "";
 function loop(now) {
-  const dt = Math.min((now - frameTime) / 1000, 0.25);
+  const dt = Math.min((now - frameTime) / 1000, 1);
   frameTime = now;
   if (!document.hidden) {
     const blocked =

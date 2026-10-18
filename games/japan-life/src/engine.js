@@ -14,6 +14,7 @@ import {
   residents,
 } from "./data.js";
 import { trackById } from "./music-data.js";
+import { safeTownPosition } from "./art/height.js";
 export const SAVE_KEY = "japan-life:v1";
 export const DAY = 1440;
 const months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -49,14 +50,17 @@ export function calendar(minutes) {
             : "冬",
   };
 }
-export function fresh() {
+export function fresh(date=new Date()) {
+  const month=date.getMonth(),day=Math.min(date.getDate(),months[month]);
+  const startDay=months.slice(0,month).reduce((a,b)=>a+b,0)+day-1;
   return {
     version: 1,
     game: "japan-life",
-    clock: 90 * DAY + 480,
+    clock: startDay * DAY + 480,
     money: 20000,
     debt: 0,
-    rentThrough: 3,
+    rentThrough: month,
+    worldVersion:2,
     home: null,
     scene: "preview:home01",
     pos: { x: 1.75, z: 3.25 },
@@ -69,8 +73,8 @@ export function fresh() {
       { uid: "starter-chair", kind: "f03", at: null },
       { uid: "starter-curtain", kind: "f19", at: null },
     ],
-    wardrobe: ["c01", "c05", "c09"],
-    wear: { top: "c01", bottom: "c05", shoes: "c09" },
+    wardrobe: ["c01", "c05", "c09", ...(month>=8||month<=1?[month>=11||month<=1?"c04":"c03"]:[])],
+    wear: { top:month>=11||month<=1?"c04":month>=8?"c03":"c01", bottom: "c05", shoes: "c09" },
     stock: Object.fromEntries(
       products.map((p) => [p.id, p.kind === "food" ? 50 : 5]),
     ),
@@ -914,6 +918,7 @@ export function parse(raw) {
   const s = JSON.parse(raw);
   // 公開済みv0.1.0の保存へ追加項目だけを補完し、他の不正データは受け入れない。
   if (s?.game === "japan-life" && s.version === 1) {
+    if(s.worldVersion===undefined){if(s.scene==='town'&&s.pos&&Number.isFinite(s.pos.x)&&Number.isFinite(s.pos.z))s.pos=safeTownPosition(s.pos);s.worldVersion=2;}
     if (s.music === undefined)
       s.music = { homeTrack: "jp_home_default", homeStopped: false };
     if (s.settings && typeof s.settings === "object") {
