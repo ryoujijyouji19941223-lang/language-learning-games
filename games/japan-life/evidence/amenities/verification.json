@@ -1,0 +1,98 @@
+{
+  "version": "0.3.3",
+  "productSourceCommit": "0df5353ad9c272ada8fb2305831fa10f9e97b7a8",
+  "checkedAtUTC": "2026-10-19T17:29:33.134295+00:00",
+  "unit": {
+    "passed": 53,
+    "failed": 0
+  },
+  "browser": {
+    "uniqueCases": 9,
+    "broadRun": {
+      "passed": 8,
+      "failed": 1,
+      "sourceCommit": "8dd434a6e3702007899e84e73260555ce4f70e98"
+    },
+    "finalUiRun": {
+      "passed": 5,
+      "failed": 1,
+      "sourceCommit": "0df5353ad9c272ada8fb2305831fa10f9e97b7a8"
+    },
+    "finalTargetRun": {
+      "passed": 1,
+      "failed": 0,
+      "sourceCommit": "0df5353ad9c272ada8fb2305831fa10f9e97b7a8"
+    },
+    "scope": "Nine affected cases: broad8pass1fail; final UI5pass1fail; one corrected neighbor approach passed. Overlapping runs. Not the full 26-case suite."
+  },
+  "videos": {
+    "vending": {
+      "capture": {
+        "errors": [],
+        "video": {
+          "frames": 21,
+          "seconds": 13.208626985549927
+        },
+        "cost": 260,
+        "method": "E at real vending machine; purchase, drink, reload, J drink, physical walk to recovery bin, E and separate can/PET return. No position replacement between actions."
+      },
+      "encoding": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 960,
+            "height": 600,
+            "avg_frame_rate": "15/1"
+          }
+        ],
+        "format": {
+          "duration": "14.000000",
+          "size": "311056"
+        }
+      }
+    },
+    "park": {
+      "capture": {
+        "errors": [],
+        "video": {
+          "frames": 229,
+          "seconds": 111.60282897949219
+        },
+        "method": "One starting-state import at coast; all subsequent travel is physical Shift/WASD, regular E rest, real swing/slide/fence collisions and open entrances."
+      },
+      "encoding": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 960,
+            "height": 600,
+            "avg_frame_rate": "15/1"
+          }
+        ],
+        "format": {
+          "duration": "112.066667",
+          "size": "7992483"
+        }
+      }
+    }
+  },
+  "download": {
+    "url": "https://raw.githubusercontent.com/ryoujijyouji19941223-lang/language-learning-games/0df5353ad9c272ada8fb2305831fa10f9e97b7a8/games/japan-life/releases/japan-life-park-preview.zip",
+    "sourceCommit": "0df5353ad9c272ada8fb2305831fa10f9e97b7a8",
+    "httpStatus": 200,
+    "bytes": 4203835,
+    "sha256": "b60a344fda6c6cad8e001f844b8d147f1b1c295eae5ab38cbcaea2e271647c5c",
+    "localBytesMatch": true,
+    "crcValid": true,
+    "htmlMatchesBuild": true
+  },
+  "limitations": [
+    "Playground is static, water fountain inspection only",
+    "No coin/change or sold-out simulation, no carried-container 3D",
+    "No native PC/GPU, physical phone, audio listening, Safari/Firefox or file URL validation"
+  ]
+}

@@ -1,0 +1,70 @@
+
+> japan-life@0.3.3 test:browser
+> playwright test tests/amenities.browser.js tests/build.browser.js tests/life.browser.js --grep 自販機・回収箱|自販機で二種|海辺から小公園|配布HTML|公園まで実歩行
+
+[WebServer] (node:159547) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:159560) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+(node:159584) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/amenities.browser.js:30:1 › 自販機・回収箱・公園の遊具と夜の表示を実描画し、地図から自販機を案内できる (45.1s)
+
+  ✓  2 tests/amenities.browser.js:54:1 › 自販機で二種を買い、飲み物と空き容器を再開し、実際に歩いて缶とPETを回収箱へ戻す (19.1s)
+
+  ✓  3 tests/amenities.browser.js:75:1 › 海辺から小公園へ連続して歩き、ベンチで休み、遊具と柵の衝突を保って入口を通れる (2.1m)
+  ✓  4 tests/build.browser.js:8:1 › 配布HTMLだけで3Dと歩行が起動し、外部通信なし・保存禁止でも進む (12.1s)
+  ✓  5 tests/build.browser.js:111:1 › 配布HTMLを実HTTPサーバーで開き、実際の旧v0.2記録から再開して歩ける (4.7s)
+  ✘  6 tests/life.browser.js:332:1 › 公園まで実歩行し、NPC会話と音声なし、会話中の移動停止・IME・地図の案内 (1.1m)
+
+
+  1) tests/life.browser.js:332:1 › 公園まで実歩行し、NPC会話と音声なし、会話中の移動停止・IME・地図の案内 ──────────────────────────
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('.dialogue-panel h1')
+    Expected substring: "隣人"
+    Received string:    "猫を見守る人"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" with timeout 5000ms
+      - waiting for locator('.dialogue-panel h1')
+        14 × locator resolved to <h1>猫を見守る人</h1>
+           - unexpected value "猫を見守る人"
+
+
+      355 |   await walk(page, -34, -17.6);
+      356 |   await page.keyboard.press("e");
+    > 357 |   await expect(page.locator(".dialogue-panel h1")).toContainText("隣人");
+          |                                                    ^
+      358 |   const before = await read(page);
+      359 |   await page.keyboard.down("w");
+      360 |   await page.waitForTimeout(400);
+        at /workspace/language-learning-games/games/japan-life/tests/life.browser.js:357:52
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/life.browser.js-公園まで実歩行し、NPC会話と音声なし、会話中の移動停止・IME・地図の案内/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/life.browser.js-公園まで実歩行し、NPC会話と音声なし、会話中の移動停止・IME・地図の案内/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/life.browser.js-公園まで実歩行し、NPC会話と音声なし、会話中の移動停止・IME・地図の案内/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/life.browser.js-公園まで実歩行し、NPC会話と音声なし、会話中の移動停止・IME・地図の案内/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/life.browser.js:332:1 › 公園まで実歩行し、NPC会話と音声なし、会話中の移動停止・IME・地図の案内 ───────────────────────────
+  5 passed (4.6m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

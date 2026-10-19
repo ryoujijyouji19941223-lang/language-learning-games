@@ -1,0 +1,9 @@
+{
+  "errors": [],
+  "video": {
+    "frames": 21,
+    "seconds": 13.208626985549927
+  },
+  "cost": 260,
+  "method": "E at real vending machine; purchase, drink, reload, J drink, physical walk to recovery bin, E and separate can/PET return. No position replacement between actions."
+}

@@ -2,17 +2,17 @@
 
 日本を最初の舞台にする、独立した3D生活ゲーム。日本語で暮らし・料理・短い会話の自然さを本人が検証する。
 
-2026-10-19：**v0.3.2 道路と海辺のバス停プレビュー**。車道を幹線・駅前・海岸へ接続し、東西は歩けない町の外まで続けました。車道を横切る場所だけに横断歩道を置き、車道横の歩道と作り分けています。海岸柵と商店街の終端の柵に衝突を付け、海岸東側に木板・トタン屋根・長椅子のバス待合所を追加しました。近づいてEで休めます。バスの運行・乗車は未実装です。
+2026-10-19：**v0.3.3 自販機と小公園プレビュー**。海辺のバス停と駅前公園に自販機・缶とペットボトルの回収箱を追加。Eで飲み物を買い、持ち物で飲み、空き容器を回収箱へ戻せます。元の公園を、秋の木陰・園路・柵・ベンチ・砂場・ブランコ・すべり台・水飲み場と管理用ごみ箱のある小公園へ整えました。
 
-前版の秋の町・敷地・店内商品・地図と、既存の買物・勤務・配達・料理・家具・保存を引き継ぎます。旧セーブの位置が新しい柵等に重なった場合だけ公道へ移し、財産・日付・住居・家財を保持します。単体47件・今回のブラウザ9件成功。最新の実行結果と制限は[TESTING](TESTING.md)、進捗は[PROGRESS](PROGRESS.md)、素材条件は[ART_DIRECTION](ART_DIRECTION.md)。店舗二階の賃貸、運行する交通、完成美術と実機性能は残件です。
+前版の道路・歩道とバス停、秋の町・店内商品・地図と、買物・勤務・配達・料理・家具・保存を引き継ぎます。旧セーブの位置が新しい設備等に重なる場合だけ公道へ移し、財産・日付・住居・家財・仕事を保持します。単体53件成功。影響範囲のブラウザ9項目を確認し、文字調整後の5件と隣人への1件を再確認。検証と制限は[TESTING](TESTING.md)、進捗は[PROGRESS](PROGRESS.md)、素材条件は[ART_DIRECTION](ART_DIRECTION.md)。遊具の乗用、水道操作、容器の手持ち3D、自販機の釣銭・在庫切れは未実装です。
 
-実際の画面：[海辺のバス停](evidence/streets/bus-stop.png)・[海岸道路と歩道](evidence/streets/coast-road.png)・[坂の歩道](evidence/streets/hill-sidewalk.png)・[西の連絡路](evidence/streets/west-link.png)・[地図](evidence/streets/map.png)。[歩道から商店街・バス停までの実操作動画](evidence/streets/walk-sidewalk-bus.mp4)。ソフトウェア描画なので快適な実機性能の証明ではありません。
+実際の画面：[海辺の自販機と回収箱](evidence/amenities/coast-vending.png)・[駅前公園](evidence/amenities/park-entry.png)・[遊具](evidence/amenities/playground.png)・[公園の回収箱とごみ箱](evidence/amenities/park-bins.png)。動画：[買う・飲む・分けて戻す](evidence/amenities/buy-drink-recycle.mp4)・[海辺から公園への散歩](evidence/amenities/walk-to-park.mp4)。ソフトウェア描画の検証で、快適な実機性能を確認したものではありません。
 
 作業ブランチは`codex/japan-life-autumn-art`。mainと従来の`gh-pages`の配布物は旧版のままです。このフォルダの最新版プレビューを使ってください。
 
 ## 手元で起動する
 
-[**道路と海辺のバス停プレビューZIPをダウンロード**](https://raw.githubusercontent.com/ryoujijyouji19941223-lang/language-learning-games/codex/japan-life-autumn-art/games/japan-life/releases/japan-life-streets-preview.zip)
+[**自販機と小公園プレビューZIPをダウンロード**](https://raw.githubusercontent.com/ryoujijyouji19941223-lang/language-learning-games/codex/japan-life-autumn-art/games/japan-life/releases/japan-life-park-preview.zip)
 
 最新版の作業ブランチ内に配布ZIPを置いています。[従来のv0.2.0 ZIP](https://raw.githubusercontent.com/ryoujijyouji19941223-lang/language-learning-games/gh-pages/japan-life/japan-life.zip)とは内容が違います。
 

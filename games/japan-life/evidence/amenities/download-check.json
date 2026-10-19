@@ -1,9 +1,9 @@
 {
-  "url": "https://raw.githubusercontent.com/ryoujijyouji19941223-lang/language-learning-games/8dd434a6e3702007899e84e73260555ce4f70e98/games/japan-life/releases/japan-life-park-preview.zip",
-  "sourceCommit": "8dd434a6e3702007899e84e73260555ce4f70e98",
+  "url": "https://raw.githubusercontent.com/ryoujijyouji19941223-lang/language-learning-games/0df5353ad9c272ada8fb2305831fa10f9e97b7a8/games/japan-life/releases/japan-life-park-preview.zip",
+  "sourceCommit": "0df5353ad9c272ada8fb2305831fa10f9e97b7a8",
   "httpStatus": 200,
-  "bytes": 4203755,
-  "sha256": "6959090c6da54cb87cddffb82bbfdeecab26a32f28812465fe5fc86c9db68422",
+  "bytes": 4203835,
+  "sha256": "b60a344fda6c6cad8e001f844b8d147f1b1c295eae5ab38cbcaea2e271647c5c",
   "localBytesMatch": true,
   "crcValid": true,
   "htmlMatchesBuild": true

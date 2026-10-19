@@ -1,3 +1,19 @@
+# 自販機と小公園プレビュー v0.3.3
+
+配布物：`japan-life-park-preview.zip`。自動販売機と飲料容器の回収箱をバス停と公園に追加。Eで買う→持ち物で飲む→空き缶／PETを回収箱へ戻す操作と保存、秋の木陰・遊具・園路のある駅前公園を含みます。遊具の乗用と水道操作、現金投入／釣銭、在庫切れ、容器の手持ち3Dは未実装です。単体53件成功、影響範囲のブラウザ9項目を確認し文字調整後の5件と隣人への1件を再確認。実行結果と制限は一つ上のTESTING.md。
+
+ZIPをすべて解凍し、Python 3のある手元のPCで解凍先から実行します。Node.js不要です。
+
+```sh
+python3 -m http.server 4182 --bind 127.0.0.1
+```
+
+Windowsは`python3`の代わりに`py -3`。同じPCのブラウザで`http://localhost:4182`。直接HTMLを開く方法は管理環境のfile URL禁止で未確認です。別の場所へ記録を移すときは、旧版の設定でJSONを書き出し、新版へ読み込みます。
+
+製品ソース／ZIPのコミット：`0df5353ad9c272ada8fb2305831fa10f9e97b7a8`。[固定ダウンロードURL](https://raw.githubusercontent.com/ryoujijyouji19941223-lang/language-learning-games/0df5353ad9c272ada8fb2305831fa10f9e97b7a8/games/japan-life/releases/japan-life-park-preview.zip)。4,203,835 bytes、SHA-256 `b60a344fda6c6cad8e001f844b8d147f1b1c295eae5ab38cbcaea2e271647c5c`。GitHubからHTTP200で実取得し、ローカルとのバイト一致・CRC・ビルドHTML一致を確認しました。main／旧gh-pagesは未更新です。
+
+以下は以前の配布物の記録です。
+
 # 道路と海辺のバス停プレビュー v0.3.2
 
 配布物：`japan-life-streets-preview.zip`。車道の接続・歩道・横断歩道・海岸柵の衝突・屋根付きバス待合所を追加。バスの運行と乗車は未実装。単体47件と影響範囲のブラウザ9件が成功。実行範囲と制限は一つ上のTESTING.md。
