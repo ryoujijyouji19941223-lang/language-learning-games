@@ -2,17 +2,17 @@
 
 日本を最初の舞台にする、独立した3D生活ゲーム。日本語で暮らし・料理・短い会話の自然さを本人が検証する。
 
-2026-10-19：**v0.3.1 秋の町と店プレビュー**。日本版の配色と田舎らしい余白を残し、塀・門・駐車区画・静止車・魚屋の軽トラ、二階建ての商店、歩行者用の道、松と刈り跡の田を追加。店内の球だけの仮商品を、魚・たこ・米袋・卵・瓶・衣服等へ置き換えました。時計・メニュー・地図の読みやすさを改修しています。
+2026-10-19：**v0.3.2 道路と海辺のバス停プレビュー**。車道を幹線・駅前・海岸へ接続し、東西は歩けない町の外まで続けました。車道を横切る場所だけに横断歩道を置き、車道横の歩道と作り分けています。海岸柵と商店街の終端の柵に衝突を付け、海岸東側に木板・トタン屋根・長椅子のバス待合所を追加しました。近づいてEで休めます。バスの運行・乗車は未実装です。
 
-対象はSPEC v0.6／[PLAYTEST_REDESIGN](PLAYTEST_REDESIGN.md) v0.4。本人は両作品ともまだ散歩した段階で、生活の中身が受入済みという意味ではありません。店舗二階の賃貸は後続候補です。松・車・田畑は簡略モデル。Farthest Frontier相当の完成美術、役場からの新導入、連続した帰宅、路面電車・寺社・四季の完成景観は未達です。最新の進捗・検証は[PROGRESS](PROGRESS.md)／[TESTING](TESTING.md)、素材条件は[ART_DIRECTION](ART_DIRECTION.md)。
+前版の秋の町・敷地・店内商品・地図と、既存の買物・勤務・配達・料理・家具・保存を引き継ぎます。旧セーブの位置が新しい柵等に重なった場合だけ公道へ移し、財産・日付・住居・家財を保持します。単体47件・今回のブラウザ9件成功。最新の実行結果と制限は[TESTING](TESTING.md)、進捗は[PROGRESS](PROGRESS.md)、素材条件は[ART_DIRECTION](ART_DIRECTION.md)。店舗二階の賃貸、運行する交通、完成美術と実機性能は残件です。
 
-実際の画面：[地図](evidence/rural/map.png)・[魚屋](evidence/rural/fish.png)・[食料品店](evidence/rural/grocery.png)・[敷地と駐車](evidence/rural/fence.png)・[海沿いの松](evidence/rural/pine.png)。
+実際の画面：[海辺のバス停](evidence/streets/bus-stop.png)・[海岸道路と歩道](evidence/streets/coast-road.png)・[坂の歩道](evidence/streets/hill-sidewalk.png)・[西の連絡路](evidence/streets/west-link.png)・[地図](evidence/streets/map.png)。[歩道から商店街・バス停までの実操作動画](evidence/streets/walk-sidewalk-bus.mp4)。ソフトウェア描画なので快適な実機性能の証明ではありません。
 
 作業ブランチは`codex/japan-life-autumn-art`。mainと従来の`gh-pages`の配布物は旧版のままです。このフォルダの最新版プレビューを使ってください。
 
 ## 手元で起動する
 
-[**秋の町と店プレビューZIPをダウンロード**](https://raw.githubusercontent.com/ryoujijyouji19941223-lang/language-learning-games/codex/japan-life-autumn-art/games/japan-life/releases/japan-life-rural-preview.zip)
+[**道路と海辺のバス停プレビューZIPをダウンロード**](https://raw.githubusercontent.com/ryoujijyouji19941223-lang/language-learning-games/codex/japan-life-autumn-art/games/japan-life/releases/japan-life-streets-preview.zip)
 
 最新版の作業ブランチ内に配布ZIPを置いています。[従来のv0.2.0 ZIP](https://raw.githubusercontent.com/ryoujijyouji19941223-lang/language-learning-games/gh-pages/japan-life/japan-life.zip)とは内容が違います。
 

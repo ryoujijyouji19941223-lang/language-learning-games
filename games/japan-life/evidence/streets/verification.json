@@ -1,0 +1,114 @@
+{
+  "version": "0.3.2",
+  "productSourceCommit": "ee985d6bab0f5c7b1468857bcdfaa3a94e4b968d",
+  "checkedAtUTC": "2026-10-19T16:43:21.318454+00:00",
+  "unit": {
+    "passed": 47,
+    "failed": 0
+  },
+  "browser": {
+    "passed": 9,
+    "failed": 0,
+    "scope": "Affected streets, homes, complete life loop, map, save compatibility and packaged HTML; not the entire 23-case suite."
+  },
+  "walk": {
+    "errors": [],
+    "video": {
+      "frames": 174,
+      "seconds": 102.55566501617432
+    },
+    "route": [
+      [
+        -1.8,
+        39.1
+      ],
+      [
+        -1.8,
+        3.6
+      ],
+      [
+        -5,
+        3.6
+      ],
+      [
+        -5,
+        -1.6
+      ],
+      [
+        -1.8,
+        -1.6
+      ],
+      [
+        -1.8,
+        -15.65
+      ],
+      [
+        -5,
+        -15.65
+      ],
+      [
+        -5,
+        -21.35
+      ],
+      [
+        -1.8,
+        -22.6
+      ],
+      [
+        6,
+        -22.6
+      ],
+      [
+        28,
+        -20
+      ],
+      [
+        6,
+        -20
+      ],
+      [
+        6,
+        39.1
+      ],
+      [
+        42.4,
+        39.1
+      ],
+      [
+        42.4,
+        37.8
+      ]
+    ],
+    "method": "One imported starting state; actual Shift/WASD movement with collisions, E opens rest menu. No position replacement along route."
+  },
+  "videoEncoding": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 960,
+        "height": 600,
+        "avg_frame_rate": "15/1"
+      }
+    ],
+    "format": {
+      "duration": "103.666667",
+      "size": "5634077"
+    }
+  },
+  "download": {
+    "url": "https://raw.githubusercontent.com/ryoujijyouji19941223-lang/language-learning-games/ee985d6bab0f5c7b1468857bcdfaa3a94e4b968d/games/japan-life/releases/japan-life-streets-preview.zip",
+    "sourceCommit": "ee985d6bab0f5c7b1468857bcdfaa3a94e4b968d",
+    "httpStatus": 200,
+    "bytes": 4199052,
+    "sha256": "6a9f2a6c71ba77a99ab6600737d4719679db0c4bb1e1bcacff5a7d1b5cccc419",
+    "localBytesMatch": true,
+    "crcValid": true,
+    "htmlMatchesBuild": true
+  },
+  "limitations": [
+    "No moving buses, boarding or driving",
+    "No native-device/GPU performance, physical mobile, audio listening, or direct file URL validation"
+  ]
+}

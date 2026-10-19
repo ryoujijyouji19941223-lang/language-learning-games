@@ -1,0 +1,70 @@
+{
+  "errors": [],
+  "video": {
+    "frames": 174,
+    "seconds": 102.55566501617432
+  },
+  "route": [
+    [
+      -1.8,
+      39.1
+    ],
+    [
+      -1.8,
+      3.6
+    ],
+    [
+      -5,
+      3.6
+    ],
+    [
+      -5,
+      -1.6
+    ],
+    [
+      -1.8,
+      -1.6
+    ],
+    [
+      -1.8,
+      -15.65
+    ],
+    [
+      -5,
+      -15.65
+    ],
+    [
+      -5,
+      -21.35
+    ],
+    [
+      -1.8,
+      -22.6
+    ],
+    [
+      6,
+      -22.6
+    ],
+    [
+      28,
+      -20
+    ],
+    [
+      6,
+      -20
+    ],
+    [
+      6,
+      39.1
+    ],
+    [
+      42.4,
+      39.1
+    ],
+    [
+      42.4,
+      37.8
+    ]
+  ],
+  "method": "One imported starting state; actual Shift/WASD movement with collisions, E opens rest menu. No position replacement along route."
+}
