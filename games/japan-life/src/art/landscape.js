@@ -1,3 +1,5 @@
+import {placard} from './buildings.js';
+import { townWays } from './town-plan.js';
 import * as THREE from "three";
 import { surface, mesh, block, projectUV, rod } from "./materials.js";
 import { groundHeight } from "./height.js";
@@ -80,14 +82,25 @@ export function terrain(g, season) {
     m.castShadow = false;
     return m;
   }
-  road([0, -63], [0, 44], 6.4);
-  for (const z of [-55, -20, 7, 29]) {
-    road([-70, z], [70, z], 5.2);
-    road([-70, z - 3.35], [70, z - 3.35], 1.25, "concrete", "#d0c5aa", 0.07);
+  for(const way of townWays){
+    road(way.a,way.b,way.width,way.kind==='pedestrian'?'stone':way.kind==='road'?'asphalt':'concrete',way.kind==='pedestrian'?'#d0c5ae':'#d2d0bf');
+    if(way.kind==='pedestrian')for(const side of [-1,1])road([way.a[0],way.a[1]+side*(way.width/2-.25)],[way.b[0],way.b[1]+side*(way.width/2-.25)],.12,'brick','#9e8e71',.075);
   }
-  for (const x of [-55, -34, 10, 57])
-    road([x, -60], [x, 41], 2.1, "concrete", "#b7b39e", 0.05);
-  road([-70, 42], [70, 42], 5, "stone", "#d0c5ae", 0.065);
+  // Dashed centre lines identify the two-way roads. Pedestrian streets carry no cars.
+  for(let z=-60;z<42;z+=5)if(![-55,7,29].some(n=>Math.abs(n-z)<4))road([0,z],[0,z+2],.1,'paint','#e4e0c8',.07);
+  for(let x=-66;x<67;x+=5)road([x,29],[x+2,29],.1,'paint','#e4e0c8',.07);
+  for(const x of [8,65])for(const z of [-20,-1.5]){
+    rod(g,[x,groundHeight(x,z),z],[x,groundHeight(x,z)+2.6,z],.04,surface('metal','#767e73'));
+    const sign=mesh(g,new THREE.CircleGeometry(.33,20),surface('sign','#3c7087'),x,groundHeight(x,z)+2.4,z);sign.userData.keep=true;
+    const white=surface('paint','#eeeadd'),sy=groundHeight(x,z);
+    mesh(g,new THREE.SphereGeometry(.055,8,5),white,x,sy+2.55,z+.035);
+    block(g,x,sy+2.41,z+.035,.07,.18,.025,white);
+    for(const side of [-1,1]){
+      rod(g,[x,sy+2.46,z+.04],[x+side*.13,sy+2.37,z+.04],.016,white);
+      rod(g,[x,sy+2.33,z+.04],[x+side*.1,sy+2.2,z+.04],.018,white);
+    }
+    placard(g,'歩行者専用',x,sy+1.85,z+.04,1.35,'#ede9da');
+  }
   road([-21, 48], [15, 48], 5, "sand", "#d5c4a1", 0.05);
   // Drain channels, road edging and intermittent retaining walls beside the hill ramp.
   for (const side of [-1, 1])

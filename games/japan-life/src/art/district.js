@@ -1,3 +1,4 @@
+import { townDressing } from './town-dressing.js';
 import * as THREE from "three";
 import { places, residents, destinations } from "../data.js";
 import { dwellings, doorOf } from "./layout.js";
@@ -63,13 +64,14 @@ export function buildDistrict(world, state, optimize) {
       {
         ...p,
         y,
-        floors: p.floors || (p.kind === "home" ? 2 : 1),
+        floors: p.floors || (["home","grocery","egg","furniture","clothes"].includes(p.kind) ? 2 : 1),
         style: p.style || (p.kind === "home" ? "apartment" : "shop"),
         snow: season === "冬",
       },
       { shopLabel: label, seed: i },
     );
     world.obstacle(p.x, p.z, p.w, p.d, built.body);
+    if(p.area==='商店街')road([p.x-p.w/2-.4,p.z+p.d/2+1.65],[p.x+p.w/2+.4,p.z+p.d/2+1.65],3.2,'concrete','#c7bda7',.075);
     if(["home","residence"].includes(p.kind))dressGarden(g,p,i,season);
     // Entrance paths and thin plinths use the same sampled surface as the character.
     const door = doorOf(p);
@@ -465,6 +467,7 @@ export function buildDistrict(world, state, optimize) {
       }
     }
   }
+  townDressing(g,world,parcels,road,season);
   world.root.add(optimize(g));
   for (const [i, p] of residents.entries()) {
     const outfit =

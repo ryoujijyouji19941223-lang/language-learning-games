@@ -1,0 +1,19 @@
+import {places,destinations,deliveries} from './data.js';
+import {dwellings} from './art/layout.js';
+import {townWays,parkingAreas,paddy} from './art/town-plan.js';
+import {groundHeight} from './art/height.js';
+const typeNames={fish:'魚屋',cafe:'喫茶店',grocery:'食料品店',egg:'玉子焼店',furniture:'家具屋',clothes:'服屋',office:'住まいの案内所',depot:'集荷場',home:'住まい',board:'掲示板',bench:'公園'};
+export function townMap(state,escape){
+  const origin=state.scene==='town'?state.pos:places.find(p=>p.id===state.scene.replace('preview:',''))||state.pos;
+  const x=v=>(v+77)/154*100,z=v=>(v+78)/144*100;
+  let terrain='';
+  for(let xx=-77;xx<77;xx+=7)for(let zz=-78;zz<66;zz+=7){
+    const h=groundHeight(xx,zz),color=h<.3?'#8bb2b6':zz>48?'#d8cbaa':h>7?'#c6ccb0':'#e2ddc5';
+    terrain+=`<rect x="${xx}" y="${zz}" width="7.1" height="7.1" fill="${color}"/>`;
+  }
+  const roads=townWays.map(r=>`<path d="M${r.a.join(',')}L${r.b.join(',')}" stroke="${r.kind==='pedestrian'?'#dbc17d':r.kind==='road'?'#f5f2e5':'#c2b69b'}" stroke-width="${r.width}"/>`).join('');
+  const buildings=[...places.filter(p=>p.w),...dwellings].map(p=>`<rect x="${p.x-p.w/2}" y="${p.z-p.d/2}" width="${p.w}" height="${p.d}" rx=".4" fill="${p.kind==='home'?'#b8975d':p.kind?'#64847a':'#9fa693'}" stroke="#f0ecdc" stroke-width=".25"/>`).join('');
+  const parks=parkingAreas.map(p=>`<rect x="${p.x-p.w/2}" y="${p.z-p.d/2}" width="${p.w}" height="${p.d}" fill="#aeb2a2"/>`).join('');
+  const destinationsActive=state.jobs.filter(j=>['accepted','carrying'].includes(j.status)).map(j=>({job:j,definition:deliveries.find(d=>d.id===j.id)}));
+  return `<div class="map-layout"><div><div class="town-map-view" role="group" aria-label="道路と建物の町の地図"><svg aria-hidden="true" viewBox="-77 -78 154 144">${terrain}${roads}${buildings}${parks}<rect x="${paddy.x-paddy.w/2}" y="${paddy.z-paddy.d/2}" width="${paddy.w}" height="${paddy.d}" fill="#b7a46b"/><path d="M-67 46L-34 46" stroke="#647c57" stroke-width="3"/></svg>${places.map((p,i)=>`<button class="map-marker ${p.kind==='home'?'map-home':''}" data-action="route-place" data-id="${p.id}" style="left:${x(p.x)}%;top:${z(p.z)}%" aria-label="${escape(typeNames[p.kind]||p.name)} ${escape(p.name)}" title="${escape(p.name)}">${i+1}</button>`).join('')}${state.scene==='town'?`<span class="map-you" aria-label="現在地" style="left:${x(state.pos.x)}%;top:${z(state.pos.z)}%">●</span>`:''}${destinationsActive.filter(d=>d.job.status==='carrying').map(({definition:d})=>{const dest=destinations.find(n=>n.id===d.dest);return `<button class="map-parcel" data-action="route-drop" data-id="${dest.id}" style="left:${x(dest.x)}%;top:${z(dest.z)}%" aria-label="配達先 ${escape(dest.name)}">荷</button>`}).join('')}</div><div class="map-legend"><span>● 現在地</span><span>■ 店・施設</span><span>■ 住まい</span><span>━ 歩行者専用</span></div><p class="small">海は南側。番号か行き先を選ぶと、町に案内の印がつきます。</p></div><div class="map-destinations"><h2>行き先</h2>${places.map((p,i)=>`<button data-action="route-place" data-id="${p.id}" class="map-place"><span class="map-number">${i+1}</span><span><strong>${escape(typeNames[p.kind]||p.name)}</strong><small>${escape(p.name)}</small></span><span class="map-distance">${Math.round(Math.hypot(origin.x-p.x,origin.z-p.z))}m</span></button>`).join('')}${destinationsActive.length?`<h2>配達の行き先</h2>${destinationsActive.map(({job:j,definition:d})=>{const dest=destinations.find(n=>n.id===d.dest);return `<button data-action="${j.status==='carrying'?'route-drop':'route-place'}" data-id="${j.status==='carrying'?dest.id:d.pickup}" class="map-place">📦 ${escape(j.status==='carrying'?dest.name:places.find(p=>p.id===d.pickup).name)}</button>`}).join('')}`:''}</div></div>`;
+}

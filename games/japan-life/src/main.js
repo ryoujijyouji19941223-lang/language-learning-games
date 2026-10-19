@@ -1,3 +1,4 @@
+import { townMap } from './town-map.js';
 import "./style.css";
 import { conversationFor, speakerLabel } from "./dialogue.js";
 import * as C from "./cafe-work.js";
@@ -175,7 +176,9 @@ function renderHud() {
       : state.scene.startsWith("preview:")
         ? "部屋の内見"
         : placeById[state.scene]?.name || "町";
-  const markup = `<header class="topbar"><div class="brand"><span class="brand-icon">汐</span><div>汐待町<small>SHIOMACHI</small></div></div><div class="date"><strong>${d.month}月${d.day}日 ${["月", "火", "水", "木", "金", "土", "日"][d.weekday]}曜日</strong><span>${d.season} · ${String(d.hour).padStart(2, "0")}:${String(d.minute).padStart(2, "0")}</span></div><div class="wallet">${yen(state.money)}<small>${state.debt ? "未払い " + yen(state.debt) : ""}</small></div></header><nav class="tools" aria-label="暮らしのメニュー">${b("map", "地図 M")}${b("phone", "スマホ・配達")}${b("journal", "暮らしの手帳")}${b("settings", "設定")}${music.blocked ? b("start-audio", "音を再生する") : ""}</nav><div class="where"><span class="eyebrow">${scene === "港と海岸" ? "SEASIDE" : scene === "商店街" ? "MARKET STREET" : scene === "住宅地" ? "NEIGHBOURHOOD" : "SHIOMACHI"}</span><strong>${esc(scene)}</strong><span>${esc(home)}</span>${world.route ? `<p class="route">◇ ${esc(world.route.name)}<br>${state.scene === "town" ? Math.ceil(Math.hypot(state.pos.x - world.route.x, state.pos.z - world.route.z)) + "m 先 · 地図の印へ歩こう" : "まず入口から外へ"}</p>` : ""}</div><div class="help">WASD / 矢印：歩く　Shift：走る　右ドラッグ：視点　E：調べる　Esc：戻る</div>`;
+  const time=`${String(d.hour).padStart(2,"0")}:${String(d.minute).padStart(2,"0")}`;
+  const menu=(action,icon,label,key='')=>b(action,`<span class="menu-icon" aria-hidden="true">${icon}</span><span>${label}</span>${key?`<kbd>${key}</kbd>`:''}`);
+  const markup = `<header class="topbar"><div class="brand"><span class="brand-icon">汐</span><div>汐待町<small>SHIOMACHI</small></div></div><div class="date"><time class="hud-clock">${time}</time><strong>${d.month}月${d.day}日 ${["月","火","水","木","金","土","日"][d.weekday]}曜日</strong><span>${d.season}の暮らし</span></div><div class="wallet">${yen(state.money)}<small>${state.debt?"未払い "+yen(state.debt):"所持金"}</small></div></header><nav class="tools" aria-label="暮らしのメニュー">${menu('map','🗺','地図','M')}${menu('phone','📦','スマホ・配達','P')}${menu('journal','📖','手帳・持ち物','J')}${menu('settings','⚙','設定')}${music.blocked?b('start-audio','音を再生する'):''}</nav><div class="where"><strong>${esc(scene)}</strong><span>${esc(home)}</span>${world.route?`<p class="route">◇ ${esc(world.route.name)}<br>${state.scene==='town'?Math.ceil(Math.hypot(state.pos.x-world.route.x,state.pos.z-world.route.z))+'m 先':'まず入口から外へ'}</p>`:''}</div><div class="help">WASD 歩く　Shift 走る　右ドラッグ 視点　E 調べる</div>`;
   if (!hud.firstElementChild) hud.innerHTML = markup;
   else {
     const next = document.createElement("div");
@@ -296,8 +299,9 @@ function furnishPanel() {
   return `${title(p.name, "配置のプレビュー")}<p>半透明のモデルが設置候補です。確定前の編集はセーブに影響しません。</p>${controls}<p class="${error ? "error" : "valid"}" role="status">${error || "✓ この場所に置けます。"}</p><div class="button-row">${b("confirm-furniture", "ここに置く", null, "primary")}${b("cancel-furniture", "取消して戻る")}</div>`;
 }
 function mapPanel() {
-  return `${title("歩いて、町を知る。", "町の地図")}<p>行き先を選ぶと町に印がつきます。地図からの瞬間移動はありません。</p><div class="town-map"><span class="sea-map">港と海</span><span class="map-road"></span>${places.map((p) => `<button data-action="route-place" data-id="${p.id}" style="left:${((p.x + 73) / 146) * 100}%;top:${((p.z + 74) / 123) * 100}%" title="${p.name}">${p.kind === "home" ? "⌂" : p.kind === "board" ? "▤" : "●"}<small>${p.name}</small></button>`).join("")}<span class="you" style="left:${((state.pos.x + 73) / 146) * 100}%;top:${((state.pos.z + 74) / 123) * 100}%">◎</span></div><div class="place-list">${places.map((p) => b("route-place", p.name, p.id)).join("")}</div><details><summary>町の60人を探す</summary><p>全員に固有の会話があります。ここは名簿で、会話は本人のところへ歩いてから。</p>${residents.map((p) => `<div class="list-row"><span>${p.name} · ${p.role} / ${p.area}</span>${b("route-npc", "場所に印をつける", p.id)}</div>`).join("")}</details>`;
+  return `${title("町の地図", "汐待町・歩いて行き先へ")}${townMap(state,esc)}<details class="map-residents"><summary>町の60人を探す</summary>${residents.map(p=>`<div class="list-row"><span>${esc(p.name)} · ${esc(p.role)}</span>${b("route-npc","場所に印",p.id)}</div>`).join('')}</details>`;
 }
+
 function support(text, reading) {
   return `<div class="support"><details><summary>読み・やさしい意味・任意入力</summary><p>${esc(reading)}</p><p>確認や入力は生活の条件ではありません。選択・転記・再聴は別の記録です。</p>${b("practice", "ことばを写してみる", reading.split("／")[0])}</details><div class="button-row">${b("speak", "再聴", text)}${b("slow", "ゆっくり", text)}${b("stop-speech", "停止")}</div><p id="speech-status" role="status"></p></div>`;
 }
@@ -485,7 +489,7 @@ function renderPanel() {
                                         "<p>この場所宛ての受注はありません。</p>"
                                       }`
                                     : "";
-  overlay.innerHTML = `<section class="panel ${panel === "npc" ? "dialogue-panel" : ""}" aria-label="${panel}" role="dialog">${content}${feedback ? `<p class="feedback" role="status">${esc(feedback)}</p>` : ""}</section>`;
+  overlay.innerHTML = `<section class="panel ${panel === "npc" ? "dialogue-panel" : panel === "map" ? "map-panel" : ""}" aria-label="${panel}" role="dialog">${content}${feedback ? `<p class="feedback" role="status">${esc(feedback)}</p>` : ""}</section>`;
   if (panel === "furnish" && draft)
     world.setGhost?.(state, draft.uid, draft.at);
 }
@@ -1015,6 +1019,8 @@ document.addEventListener("keydown", (e) => {
     interact();
     return;
   }
+  if (key === "p" && !e.repeat) { open("phone"); return; }
+  if (key === "j" && !e.repeat) { open("journal"); return; }
   if (e.key.toLowerCase() === "m" && !e.repeat) {
     open("map");
     return;

@@ -1,3 +1,4 @@
+import { shopGoods } from './art/shop-goods.js';
 import * as THREE from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import {
@@ -12,7 +13,7 @@ import {
 } from "./data.js";
 import { floorSize } from "./engine.js";
 import { person, posePerson } from "./art/characters.js";
-import { buildDistrict, stateSeason } from "./art/district.js";
+import { buildDistrict, stateSeason, industry } from "./art/district.js";
 import { groundHeight } from "./art/height.js";
 import {makeCafeRoom,workObjects} from "./art/cafe.js";
 
@@ -520,7 +521,7 @@ export class World {
         });
     } else {
       const p = placeById[s.scene];
-      sign(this.root, p.name, 0, 2.2, back + 0.12, 4);
+      sign(this.root, industry[p.kind] || p.name, 0, 2.2, back + 0.12, 4);
       box(g, 0, 0.5, -1, 4, 1, 0.7, "#a98b69");
       this.obstacle(0, -1, 4, 0.7);
       if (p.kind === "cafe") {
@@ -544,36 +545,8 @@ export class World {
           m.position.set(x, 0, z);
           g.add(m);
         }
-      } else if (p.kind === "clothes") {
-        for (let i = 0; i < 4; i++) {
-          box(
-            g,
-            -3 + i * 2,
-            1.2,
-            -3,
-            0.65,
-            0.6,
-            0.25,
-            ["#eee5d0", "#3c5b7b", "#97a187", "#8e8f91"][i],
-          );
-          cylinder(g, -3 + i * 2, 0.6, -3, 0.03, 0.03, 1.2, "#8a8171");
-        }
-      } else
-        for (let i = 0; i < 4; i++) {
-          box(g, -2.7 + i * 1.8, 1, -3, 1.2, 1.8, 0.7, "#a08a6f");
-          for (let j = 0; j < 3; j++)
-            for (let k = 0; k < 3; k++)
-              ball(
-                g,
-                -3 + i * 1.8 + k * 0.3,
-                0.45 + j * 0.55,
-                -2.6,
-                0.13,
-                p.kind === "fish"
-                  ? "#98bec0"
-                  : ["#cbbb91", "#a6b974", "#d9b67a"][j],
-              );
-        }
+      }
+      if (p.kind !== "furniture") g.add(optimize(shopGoods(p.kind)));
       this.targets.push({
         type: "shop",
         id: p.id,

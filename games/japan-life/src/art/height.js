@@ -1,6 +1,8 @@
+import {fenceSegments,parkedFootprints} from './town-plan.js';
 import { places } from "../data.js";
 import { dwellings } from "./layout.js";
-const parcels = [...places.filter((p) => p.w), ...dwellings];
+const parcels = [...places.filter((p) => p.w), ...dwellings.map(p=>({...p,kind:"residence"}))];
+const addedObstacles=[...fenceSegments(parcels),...parkedFootprints];
 const smooth = (a, b, t) => {
   const x = Math.max(0, Math.min(1, (t - a) / (b - a)));
   return x * x * (3 - 2 * x);
@@ -31,7 +33,7 @@ export function safeTownPosition(pos) {
   const x = Math.max(-70, Math.min(70, pos.x)),
     z = Math.max(-73, Math.min(64, pos.z));
   if (
-    [...places.filter((p) => p.w), ...dwellings].some(
+    [...parcels,...addedObstacles].some(
       (b) =>
         Math.abs(x - b.x) < b.w / 2 + 0.35 &&
         Math.abs(z - b.z) < b.d / 2 + 0.35,

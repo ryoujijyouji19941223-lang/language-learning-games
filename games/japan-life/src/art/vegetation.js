@@ -1,3 +1,4 @@
+import { treeAppearance } from './tree-season.js';
 import * as THREE from "three";
 import { surface, rod, mesh } from "./materials.js";
 import { groundHeight } from "./height.js";
@@ -27,19 +28,15 @@ const leafShape = () => {
 export function vegetation(g, trees, season) {
   const rng = random(8791),
     instances = [],
+    cherryLeaves = [],
+    blossoms = [],
     fallen = [],
     grass = [];
-  const colors =
-    season === "秋"
-      ? ["#a64223", "#c67b29", "#b6993d", "#7a8b4a", "#8c5029"]
-      : season === "春"
-        ? ["#ded0cc", "#e5cbc8", "#d8b7b4", "#86a05d"]
-        : season === "冬"
-          ? []
-          : ["#5a783e", "#749049", "#849b55", "#4e703b"];
-  let treeIndex = 0;
-  for (const [x, z, size = 1] of trees) {
-    const dominant = colors[treeIndex++ % Math.max(1, colors.length)];
+  let treeIndex=0;
+  for (const [x,z,size=1,species=treeIndex%3===0?'cherry':'maple'] of trees){
+    const look=treeAppearance(season,species),colors=look.colors;
+    const dominant=colors[treeIndex++%Math.max(1,colors.length)];
+    const items=look.kind==='blossom'?blossoms:species==='cherry'?cherryLeaves:instances;
     const y = groundHeight(x, z),
       h = 3.8 * size;
     rod(
@@ -69,7 +66,7 @@ export function vegetation(g, trees, season) {
         for (let i = 0; i < 95; i++) {
           const az = rng() * Math.PI * 2,
             r = Math.sqrt(rng()) * 1.05 * size;
-          instances.push({
+          items.push({
             x: tip[0] + Math.sin(az) * r,
             y: tip[1] + (rng() - 0.5) * 1.7 * size,
             z: tip[2] + Math.cos(az) * r,
@@ -84,7 +81,7 @@ export function vegetation(g, trees, season) {
           });
         }
     }
-    if (season === "秋" || season === "春")
+    if (season === "秋")
       for (let i = 0; i < 65; i++) {
         const dx = (rng() - 0.5) * 6 * size,
           dz = (rng() - 0.5) * 6 * size;
@@ -119,6 +116,16 @@ export function vegetation(g, trees, season) {
     g.add(object);
     return object;
   }
+  const leafMat=new THREE.MeshStandardMaterial({color:'#ffffff',roughness:.9,side:THREE.DoubleSide});
+  const oval=new THREE.Shape();oval.moveTo(0,-.12);oval.quadraticCurveTo(-.13,.02,0,.16);oval.quadraticCurveTo(.13,.02,0,-.12);
+  instanced(new THREE.ShapeGeometry(oval),cherryLeaves,leafMat);
+  // Five distinct petals only on spring cherry trees.
+  const flower=new THREE.Shape();
+  for(let i=0;i<30;i++){
+    const a=i/30*Math.PI*2,r=.085*(.8+.22*Math.cos(a*5));
+    if(i===0)flower.moveTo(Math.cos(a)*r,Math.sin(a)*r);else flower.lineTo(Math.cos(a)*r,Math.sin(a)*r);
+  }
+  flower.closePath();instanced(new THREE.ShapeGeometry(flower),blossoms,leafMat);
   const leaves = instanced(
     leafShape(),
     instances,
