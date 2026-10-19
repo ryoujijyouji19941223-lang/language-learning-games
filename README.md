@@ -23,6 +23,8 @@
 | 地域の生活ゲーム：賃貸・暮らし・会話・季節の設計 | [docs/REGIONAL_LIFE_SIM_DESIGN.md](docs/REGIONAL_LIFE_SIM_DESIGN.md) |
 | 現在の新規対象：日本の暮らし | [games/japan-life/README.md](games/japan-life/README.md) |
 | 日本版の制作依頼文・完成条件 | [games/japan-life/CODEX_TASKS.md](games/japan-life/CODEX_TASKS.md) |
+| フィンランドの暮らし：言語・国を選定、地域と生活の初回調査 | [games/finland-life/README.md](games/finland-life/README.md) |
+| 日本の動物・人物画・昔話イベント | [games/japan-life/LIVING_STORIES.md](games/japan-life/LIVING_STORIES.md) |
 | ギリシャの暮らし（Claude Code担当） | [games/greece-life/README.md](games/greece-life/README.md) |
 | ギリシャ版の制作依頼文・完成条件 | [games/greece-life/CLAUDE_TASKS.md](games/greece-life/CLAUDE_TASKS.md) |
 | 既存の英語試作 | [games/english-errands/README.md](games/english-errands/README.md) |
@@ -42,3 +44,5 @@
 2026-10-18追記：本人の決定で、現代ギリシャの生活ゲーム[ギリシャ版](games/greece-life/README.md)を日本版と並行して作る。制作担当はClaude Code（日本版はCodex）。ゲーム内はギリシャ語、解説は英語、ギリシャ語を音声で読み上げる。仕様・内容計画・依頼文を用意。ゲーム本体は未実装。
 
 2026-10-20：本人の希望で日本・ギリシャ以外の作品の調査準備を開始。[教訓と調査手順](docs/NEXT_COUNTRY_RESEARCH.md)を保存。次の国・言語・地域は未選定。確認時、日本版は試作v0.2.0と改修仕様v0.5、ギリシャ版は作業ブランチの[実装PR #1](https://github.com/ryoujijyouji19941223-lang/language-learning-games/pull/1)が未マージ。以前の未実装表記は当時の履歴で、各作品のブランチ・進捗・配布物の状態を確認する。仕様を作ったことや自動テストの成功を、本人の見た目の受入や学習効果の確認とは扱わない。
+
+2026-10-20追記：本人が次の言語としてフィンランド語・フィンランドを選定。[初回調査](games/finland-life/README.md)を開始。町と実装担当は未確定、本体は未制作。日本版はSPEC v0.6へ更新し、猫・タヌキ・人物画・お地蔵さんと季節の昔話の[追加仕様](games/japan-life/LIVING_STORIES.md)を保存。これらは素材・コード・配布物の完成報告ではない。
