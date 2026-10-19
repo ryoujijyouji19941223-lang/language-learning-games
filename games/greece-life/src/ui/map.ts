@@ -44,7 +44,7 @@ export function openMap(ctx: Ctx) {
       const ht = heightAt(wx, wz);
       const k = (y * W + x) * 4;
       if (ht < 0) { img.data.set([60, 140, 200, 255], k); continue; }
-      const beach = wx > -252 && wx < -108 && wz > 4;
+      const beach = wx > -236 && wx < -108 && wz > 4;
       const c = beach ? [235, 220, 170] : ht > 5 ? [200 - ht * 2, 185 - ht * 1.5, 130] : [232, 226, 210];
       img.data.set([c[0], c[1], c[2], 255], k);
     }
@@ -93,8 +93,8 @@ export function openMap(ctx: Ctx) {
     const dl: [keyof typeof DISTRICTS, number, number][] = [['limani', 190, 15], ['agora', 55, 5], ['chora', -60, -45], ['geitonia', 40, -112], ['paralia', -200, 0]];
     for (const [id, x, z] of dl) g.fillText(DISTRICTS[id].el, px(x), pz(z));
     g.font = `600 12px ${FONT}`;
-    g.fillText('Ανεμόμυλοι', px(-188), pz(-92));
-    g.fillText('Φάρος', px(-272), pz(-40));
+    g.fillText('Ανεμόμυλοι', px(-216), pz(-104));
+    g.fillText('Φάρος', px(-229), pz(-34));
     g.fillText('Εκκλησάκι', px(-211), pz(-54));
     // deliveries
     for (const d of ctx.state.deliveries.active) {

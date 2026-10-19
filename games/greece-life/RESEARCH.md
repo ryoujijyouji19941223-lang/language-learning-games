@@ -97,7 +97,21 @@ export function speakGreek(text, { rate = 1.0 } = {}) {
 
 ゲームでの使い方：雨の確率＝雨の日数÷その月の日数。曇りは「日照時間÷昼の長さ」で足りない分から割り振る。冬（12～2月）の強風の頻度も推定値。実際の天気予報や特定の年の再現ではない。
 
-## 5. 残る不足
+## 5. 地形と町の高低差（2026-10-19 追加、本人の依頼で調査）
+
+| ID | 内容 | 出典 | 状態 |
+|---|---|---|---|
+| L01 | キクラデスの Χώρα（島の中心の町）は海賊を避けるため、港から離れた丘や岩の斜面に、すり鉢状に段々と建てられたものが多い。頂上に城（Κάστρο）がある例が多い | [Serifos architecture](https://serifos-en.e-serifos.com/serifos-information/serifos-architecture.php)、[Antiparos Kastro](https://kalispera.se/greece/antiparos/kastro-in-chora-on-antiparos-in-the-cyclades.html)、[Sikinos Kastro](https://www.kalispera.se/greece/sikinos/kastro.html) | 検索結果の要約で確認 |
+| L02 | フォレガンドロス島の Χώρα は高さ約200 m の崖の縁にある | [Wikipedia: Folegandros](https://en.wikipedia.org/wiki/Folegandros)、[Visit Greece](https://www.visitgreece.gr/islands/cyclades/folegandros) | 同上 |
+| L03 | アモルゴス島の Χώρα は港カタポラの上、標高約350 m | [To Vima: Amorgos](https://www.tovima.gr/2021/06/28/international/amorgos-steeped-in-the-azure-of-the-waves-and-the-froth-of-the-sea/amp/) | 同上 |
+| L04 | イオス島の Χώρα は港オルモスの上の丘に、すり鉢状に建つ | [Greeka: Ios villages](https://greeka.com/cyclades/ios/villages)、[aegeanislands.gr: Chora of Ios](https://www.aegeanislands.gr/?p=128753) | 同上（標高の数値なし） |
+| L05 | サントリーニ島：カルデラ側は高さ約250～300 m の崖、外側（東）は海へなだらかに下る。最高点は南東のプロフィティス・イリアス（約540～567 m、出典で差あり）。フィラはカルデラの縁、海から約200 m | [Wikipedia: Santorini caldera](https://simple.wikipedia.com/wiki/Santorini_caldera)、[pointurier.org: Profitis Ilias](https://pointurier.org/travel/greece/thira/mountprofitisilias)、[pointurier.org: Fira](https://www.pointurier.org/travel/greece/thira/fira/) | 同上 |
+| L06 | イドラ島の町は港を囲む円形劇場のように斜面を登り、急な石段の路地をロバが荷を運ぶ（サロニコス湾の島。参考） | [Olympic Holidays: Hydra](https://www.olympicholidays.com/resort-guide/hydra/hydra-resorts/)、[Ontheluce: Hydra](https://www.ontheluce.com/best-things-to-do-in-hydra-greece/) | 同上 |
+| L07 | シロス島エルムポリは港から斜面にすり鉢状、背後の丘の上に古い町アノ・シロス | [Wikipedia: Syros](https://en.wikipedia.org/wiki/Syros) | 同上 |
+
+ゲームでの使い方（混合型）：港（約1 m）から商店通りが段々に上り（約15 m）、旧市街の広場が約29 m（イオス・セリフォス・イドラ型）。町の背後（北）は島の内陸で約45 m まで上がる。西側は風車の尾根（約52 m）が海へ落ちる崖で終わる（フォレガンドロス・サントリーニ型）。実際の Χώρα の標高（100～350 m）より低いのは、歩く時間（端から端まで4～6分）を保つためのゲーム用の縮尺。特定の島の再現ではない。
+
+## 6. 残る不足
 
 - ギリシャ語の会話・看板・品名のネイティブ確認（全部未確認）。
 - 行事（8月15日の πανηγύρι、10月28日、クリスマス・新年、Καθαρά Δευτέρα、Πάσχα）の出典確認と説明文。

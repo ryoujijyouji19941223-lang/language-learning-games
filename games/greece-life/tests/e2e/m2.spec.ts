@@ -260,7 +260,7 @@ test('a full day: rooms, shopping, work, deliveries, furniture, cooking, clothes
   await pressE(page);
   await page.getByTestId('ask-yes').click();
   s = await state(page);
-  expect(s.time % 1440).toBe(8 * 60);
+  expect(Math.floor(s.time) % 1440).toBe(8 * 60); // a few game seconds may tick after the panel closes
   expect(Math.floor(s.time / 1440)).toBe(1);
 
   // 10. reload and continue: everything is back
@@ -268,7 +268,9 @@ test('a full day: rooms, shopping, work, deliveries, furniture, cooking, clothes
   await page.waitForFunction(() => (window as any).__greece?.ready, null, { timeout: 120_000 });
   await page.getByTestId('continue').click();
   const back = await state(page);
-  for (const key of ['home', 'money', 'time', 'inventory', 'clothes', 'settings', 'deliveries', 'jobs']) expect(back[key], key).toEqual(s[key]);
+  for (const key of ['home', 'money', 'inventory', 'clothes', 'settings', 'deliveries', 'jobs']) expect(back[key], key).toEqual(s[key]);
+  // the walking clock may run a few game seconds before the page saves on reload
+  expect(Math.abs(back.time - s.time)).toBeLessThan(1);
   expect(back.furniture.map((f: any) => [f.id, f.place])).toEqual(s.furniture.map((f: any) => [f.id, f.place]));
   expect(await g<any>(page, 'player').then((p: any) => p.area)).toBe('home:h02');
   await shot(page, '09-after-reload');

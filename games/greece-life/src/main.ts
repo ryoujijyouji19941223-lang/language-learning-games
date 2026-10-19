@@ -701,6 +701,7 @@ class Game implements Ctx {
       },
       cameraInside: () => this.rig.insideSomething(this.areas.get(this.areaId)!, this.npcShapes),
       cameraYaw: (y: number) => { this.rig.yaw = y; },
+      cameraView: (yaw: number, pitch: number, dist: number) => { this.rig.yaw = yaw; this.rig.pitch = pitch; this.rig.wanted = dist; },
       nearest: () => (this.nearest ? { ...this.nearest } : null),
       lot: (id: string) => getLayout().lots.find((l) => l.id === id || l.shop === id || l.home === id),
       npcSpot: (id: string) => this.people.spots.get(id),

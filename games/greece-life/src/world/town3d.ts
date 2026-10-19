@@ -6,7 +6,7 @@ import * as THREE from 'three';
 import { getLayout, addressOf, type Lot } from './layout';
 import { StaticBuilder, vertexColorMaterial, vary } from './builder';
 import { flagstoneTexture, cobbleTexture, concreteTexture, dirtTexture, mosaicTexture, signTexture, numberAtlas, signCase } from './textures';
-import { heightAt, rng, pointAt, leftNormal, ShapeGrid, faceToRot, toWorld, distanceToPolyline, type Shape, type Box } from '../core/geo';
+import { heightAt, WEST_CLIFF_X, rng, pointAt, leftNormal, ShapeGrid, faceToRot, toWorld, distanceToPolyline, type Shape, type Box } from '../core/geo';
 import { PLAZAS, LANDMARKS, ZONES, type RoadKind } from '../data/town';
 import { SHOP_BY_ID, OPEN_SIGN } from '../data/shops';
 import { DESTINATIONS } from '../data/deliveries';
@@ -217,6 +217,7 @@ export function buildTown(): TownWorld {
   addTerraces(b, shapes);
   addNature(b, shapes, R);
   addBenches(b, shapes, interactables);
+  addCliffWall(b, shapes, R);
   addAnimals(b, R);
   const laiki = addLaiki(dynamic, interactables);
   group.add(laiki);
@@ -287,7 +288,7 @@ function mergeAll(geos: THREE.BufferGeometry[]) {
 }
 
 function terrainColor(x: number, z: number, h: number, r: number): [number, number, number] {
-  const beach = x > -252 && x < -108 && z > 4;
+  const beach = x > WEST_CLIFF_X && x < -108 && z > 4;
   if (h < -0.4) return [0.62, 0.6, 0.48];
   if (beach) return [0.9 + r * 0.04, 0.82 + r * 0.04, 0.6];
   const townish = (x > -125 && x < 256 && z > -146 && z < 50) && !(x < -120);
@@ -820,7 +821,7 @@ function addBeach(b: StaticBuilder, shapes: Shape[], inter: Interactable[], R: (
     b.ball(x, heightAt(x, z) - 0.2, z, 0.6 + R() * 1.1, R() < 0.5 ? '#9a948a' : '#8a857c', 0, 0.6);
   }
   for (let i = 0; i < 24; i++) {
-    const x = -258 + R() * 10;
+    const x = WEST_CLIFF_X + 1 + R() * 6;
     const z = 10 + R() * 40;
     b.ball(x, heightAt(x, z) - 0.2, z, 0.8 + R() * 1.4, '#958f84', 0, 0.7);
   }
@@ -903,7 +904,7 @@ function addNature(b: StaticBuilder, shapes: Shape[], R: () => number) {
     shapes.push({ kind: 'circle', x, z, r: 0.5, top: h + 7 });
   }
   for (let i = 0; i < 10; i++) {
-    const x = -240 + i * 13 + R() * 4;
+    const x = -228 + i * 12 + R() * 4;
     const z = 6 + R() * 2;
     const h = heightAt(x, z);
     if (nearRoad(x, z, 1.5)) continue;
@@ -919,6 +920,20 @@ function addNature(b: StaticBuilder, shapes: Shape[], R: () => number) {
     b.box(x, h, z, 2.2, 0.25, 1.4, '#7a5a3a');
     for (let j = 0; j < 3; j++) b.ball(x - 0.7 + j * 0.7, h + 0.45, z, 0.3, (i + k) % 3 === 0 ? '#3f8f3f' : '#5aa84a', 0);
     if ((i + k) % 3 === 0) b.ball(x, h + 0.7, z + 0.2, 0.12, '#d93b2b');
+  }
+}
+
+/** Low white-washed wall along the west cliff top (you cannot climb down the cliff). */
+function addCliffWall(b: StaticBuilder, shapes: Shape[], R: () => number) {
+  const x = WEST_CLIFF_X + 1.2;
+  for (let z = -150; z < 6; z += 2) {
+    const y = heightAt(x, z);
+    if (y < 3) continue;
+    b.box(x, y - 0.4, z + 1, 0.45, 1.2, 2.05, '#f7f5ef');
+    b.box(x, y + 0.8, z + 1, 0.55, 0.08, 2.1, '#fdfcf8');
+    shapes.push({ kind: 'box', x, z: z + 1, hw: 0.4, hd: 1.05, rot: 0, top: y + 0.9 });
+    // rocks on the cliff face below
+    if (R() < 0.5) b.ball(WEST_CLIFF_X - 2 - R() * 2, y * (0.3 + R() * 0.5), z + R() * 2, 1 + R() * 1.5, R() < 0.5 ? '#8f877a' : '#a39a8b', 0, 0.8);
   }
 }
 

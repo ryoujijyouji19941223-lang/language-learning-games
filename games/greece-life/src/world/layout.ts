@@ -6,7 +6,7 @@ import { ROADS, PLAZAS, SPECIAL_LOTS, LANDMARKS, HOME_ROADS, HOME_PREFS, type Ro
 import { SHOP_BY_ID, type DistrictId } from '../data/shops';
 import { NPCS } from '../data/npcs';
 import {
-  polyline, pointAt, leftNormal, heightAt, boxesOverlap, boxCorners, toWorld, rng, faceToRot,
+  polyline, pointAt, leftNormal, heightAt, WEST_CLIFF_X, boxesOverlap, boxCorners, toWorld, rng, faceToRot,
   type Box, type Polyline, type Vec2, distanceToPolyline,
 } from '../core/geo';
 
@@ -118,7 +118,7 @@ export function districtAt(x: number, z: number): DistrictId {
 
 function lotGroundOk(b: Box): boolean {
   const pts = [...boxCorners(b), { x: b.x, z: b.z }];
-  return pts.every((p) => heightAt(p.x, p.z) > 0.35 && !(p.x > -252 && p.x < -108 && p.z > 4));
+  return pts.every((p) => heightAt(p.x, p.z) > 0.35 && !(p.x > WEST_CLIFF_X && p.x < -108 && p.z > 4));
 }
 
 function finishLot(l: Omit<Lot, 'door' | 'front' | 'base'>): Lot {

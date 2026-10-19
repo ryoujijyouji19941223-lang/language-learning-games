@@ -27,28 +27,28 @@ export const hashString = (s: string) => {
 };
 
 // ── Terrain ──────────────────────────────────────────────────────────
-interface Plateau { x0: number; z0: number; x1: number; z1: number; h: number; soft: number }
-const PLATEAUS: Plateau[] = [
-  { x0: -118, z0: -58, x1: -4, z1: 14, h: 4, soft: 9 }, // Χώρα
-  { x0: -34, z0: -140, x1: 124, z1: -56, h: 2.5, soft: 8 }, // Γειτονιά
-];
-const HILL = { x: -195, z: -72, r: 105, h: 22 };
-const BASE = 0.6;
-const WATER_DEPTH = -4;
+// The town climbs a hill from the harbour like an amphitheatre (Ios, Serifos,
+// Hydra), the island's interior rises behind it, and a ridge with the windmills
+// ends in a sea cliff on the west (Folegandros, Santorini). Heights are game
+// scale: real Choras sit 100–350 m up; here the Chora square is about 30 m.
 
-function rectDistance(x: number, z: number, p: Plateau) {
-  const dx = Math.max(p.x0 - x, 0, x - p.x1);
-  const dz = Math.max(p.z0 - z, 0, z - p.z1);
-  return Math.hypot(dx, dz);
-}
+/** Town hill: highest around the Chora, falling to the harbour. */
+const TOWN_HILL = { x: -55, z: -30, r: 170, h: 30 };
+/** Windmill ridge on the west; it falls faster towards the beach in the south. */
+const RIDGE = { x: -200, z: -75, r: 95, h: 55 };
+/** The island interior behind the town (north) rises towards a mountain. */
+const NORTH = { from: -60, to: -175, h: 45 };
+/** West sea cliff: land ends here. */
+export const WEST_CLIFF_X = -236;
+const BASE = 0.8;
+const WATER_DEPTH = -4;
 
 /** Southern coastline (z beyond which there is sea) for a given x. */
 export function coastZ(x: number): number {
   if (x >= 100) return 52; // harbour quay edge
   if (x >= 60) return 56;
   if (x >= -100) return 52;
-  if (x >= -250) return 48;
-  return 48 - (-250 - x) * 1.8; // western headland bends north
+  return 48;
 }
 
 const inRect = (x: number, z: number, x0: number, z0: number, x1: number, z1: number) => x >= x0 && x <= x1 && z >= z0 && z <= z1;
@@ -63,19 +63,18 @@ function quayStructure(x: number, z: number): boolean {
   return x >= 213 && x <= 254 && Math.abs(z - cz) <= 3;
 }
 
-/** Ground height in metres (sea level = 0). */
-export function heightAt(x: number, z: number): number {
+const bump = (d: number, r: number) => 1 - smoothstep(0, r, d);
+
+/** Natural ground before squares are levelled. */
+function rawHeight(x: number, z: number): number {
   let h = BASE;
-  for (const p of PLATEAUS) {
-    const d = rectDistance(x, z, p);
-    h = Math.max(h, p.h * (1 - smoothstep(0, p.soft, d)));
-  }
-  const dh = Math.hypot(x - HILL.x, z - HILL.z);
-  h = Math.max(h, HILL.h * (1 - smoothstep(0, HILL.r, dh)));
-  // low hills along the northern edge frame the town
-  h = Math.max(h, 7 * smoothstep(-145, -175, z) + 0.6);
-  // beach: sand slopes down into the sea
-  if (x > -252 && x < -108 && z > 6) h = Math.min(h, BASE + 0.1 - (z - 6) * 0.045);
+  h = Math.max(h, TOWN_HILL.h * bump(Math.hypot(x - TOWN_HILL.x, z - TOWN_HILL.z), TOWN_HILL.r));
+  const dz = z - RIDGE.z;
+  h = Math.max(h, RIDGE.h * bump(Math.hypot(x - RIDGE.x, dz > 0 ? dz * 1.5 : dz), RIDGE.r));
+  h = Math.max(h, NORTH.h * smoothstep(NORTH.from, NORTH.to, z) + BASE);
+  // beach cove: sand slopes into the sea; the hillside blends down into it
+  const beachW = smoothstep(-100, -122, x) * smoothstep(-6, 8, z) * (x > WEST_CLIFF_X ? 1 : 0);
+  if (beachW > 0) h = lerp(h, Math.min(h, BASE - (z - 6) * 0.045), beachW);
   // coast
   const zc = coastZ(x);
   if (x >= 100) {
@@ -83,8 +82,31 @@ export function heightAt(x: number, z: number): number {
   } else if (z > zc) {
     h = lerp(h, WATER_DEPTH, smoothstep(zc, zc + 5, z));
   }
-  if (x < -288) h = lerp(h, WATER_DEPTH, smoothstep(-288, -296, x));
+  // the west cliff drops straight into the sea
+  if (x < WEST_CLIFF_X) h = lerp(h, WATER_DEPTH * 2, smoothstep(WEST_CLIFF_X, WEST_CLIFF_X - 5, x));
   if (x > 262) h = lerp(h, WATER_DEPTH, smoothstep(262, 268, x));
+  return h;
+}
+
+/** Squares and look-outs are levelled terraces (soft 6 m edge). */
+const PADS: { x0: number; z0: number; x1: number; z1: number; h?: number }[] = [
+  { x0: -61, z0: -27, x1: -29, z1: -1 }, // Πλατεία του Πλατάνου
+  { x0: 92, z0: 12, x1: 106, z1: 36 }, // market square
+  { x0: -230, z0: -100, x1: -196, z1: -56 }, // windmill hilltop
+  { x0: -176, z0: -106, x1: -160, z1: -94 }, // lookout
+  { x0: 26, z0: -142, x1: 48, z1: -126 }, // vegetable garden
+];
+for (const p of PADS) p.h = rawHeight((p.x0 + p.x1) / 2, (p.z0 + p.z1) / 2);
+
+/** Ground height in metres (sea level = 0). */
+export function heightAt(x: number, z: number): number {
+  let h = rawHeight(x, z);
+  for (const p of PADS) {
+    const dx = Math.max(p.x0 - x, 0, x - p.x1);
+    const dz = Math.max(p.z0 - z, 0, z - p.z1);
+    const d = Math.hypot(dx, dz);
+    if (d < 6) h = lerp(h, p.h!, 1 - smoothstep(0, 6, d));
+  }
   if (quayStructure(x, z)) h = Math.max(h, 1.0);
   return h;
 }
