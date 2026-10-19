@@ -28,7 +28,7 @@ async function begin(page) {
   await page.locator("#shadows").uncheck();
   await close(page);
 }
-async function walk(page, x, z) {
+async function walk(page, x, z, townTolerance = 0.75) {
   for (const [axis, target, positive, negative] of [
     ["x", x, "d", "a"],
     ["z", z, "s", "w"],
@@ -37,7 +37,7 @@ async function walk(page, x, z) {
     for (let n = 0; n < 100; n++) {
       const s = await read(page),
         delta = target - s.pos[axis];
-      if (Math.abs(delta) < (s.scene === "town" ? 0.75 : 0.15)) break;
+      if (Math.abs(delta) < (s.scene === "town" ? townTolerance : 0.15)) break;
       const key = delta > 0 ? positive : negative,
         running=s.scene === "town"&&Math.abs(delta)>6,
         duration = Math.max(
@@ -352,7 +352,8 @@ test("公園まで実歩行し、NPC会話と音声なし、会話中の移動�
   await walk(page, 0, -51);
   await walk(page, 0, -20.7);
   await walk(page, -34, -20.7);
-  await walk(page, -34, -17.6);
+  await walk(page, -33.9, -17.3, 0.2);
+  await expect(page.locator("#context")).toContainText("隣人");
   await page.keyboard.press("e");
   await expect(page.locator(".dialogue-panel h1")).toContainText("隣人");
   const before = await read(page);
