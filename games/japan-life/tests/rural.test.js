@@ -17,7 +17,7 @@ test('塀と駐車車両が全住居・配達先の玄関と門の正面経路�
 });
 test('追加された塀・車両の位置で保存した旧v0.3記録を安全な公道へ移し、暮らしの記録は保持する',()=>{
   const old=E.fresh(new Date(2026,3,1));E.preview(old,'home02');E.chooseHome(old,'home02');old.worldVersion=2;old.scene='town';old.pos={x:parkingAreas[0].x,z:parkingAreas[0].z};
-  const restored=E.parse(JSON.stringify(old));assert.equal(restored.worldVersion,3);assert.ok(!blocked(restored.pos.x,restored.pos.z));
+  const restored=E.parse(JSON.stringify(old));assert.equal(restored.worldVersion,4);assert.ok(!blocked(restored.pos.x,restored.pos.z));
   for(const k of ['clock','money','furniture','jobs','home','wear','debt','rentThrough'])assert.deepEqual(restored[k],old[k]);
   assert.equal(E.calendar(restored.clock).month,4); // never silently force an existing save into October
 });

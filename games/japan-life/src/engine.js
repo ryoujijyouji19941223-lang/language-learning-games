@@ -62,7 +62,7 @@ export function fresh(date = new Date()) {
     money: 20000,
     debt: 0,
     rentThrough: month,
-    worldVersion: 3,
+    worldVersion: 4,
     home: null,
     scene: "preview:home01",
     pos: { x: 1.75, z: 3.25 },
@@ -981,7 +981,7 @@ export function parse(raw) {
   // 公開済みv0.1.0の保存へ追加項目だけを補完し、他の不正データは受け入れない。
   if (s?.game === "japan-life" && s.version === 1) {
     if(s.cafe&&!s.cafe.done&&!s.cafe.work)ensureWork(s);
-    if (s.worldVersion === undefined || s.worldVersion === 2) {
+    if (s.worldVersion === undefined || s.worldVersion === 2 || s.worldVersion === 3) {
       if (
         s.scene === "town" &&
         s.pos &&
@@ -989,7 +989,7 @@ export function parse(raw) {
         Number.isFinite(s.pos.z)
       )
         s.pos = safeTownPosition(s.pos);
-      s.worldVersion = 3;
+      s.worldVersion = 4;
     }
     if (s.music === undefined)
       s.music = { homeTrack: "jp_home_default", homeStopped: false };

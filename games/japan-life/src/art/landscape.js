@@ -1,11 +1,11 @@
 import {placard} from './buildings.js';
-import { townWays } from './town-plan.js';
+import { townWays, vehicleWays, sidewalks, crossings, coastRails, segmentDistance } from './town-plan.js';
 import * as THREE from "three";
 import { surface, mesh, block, projectUV, rod } from "./materials.js";
 import { groundHeight } from "./height.js";
 import { random } from "./vegetation.js";
 export function terrain(g, season) {
-  const geo = new THREE.PlaneGeometry(190, 147, 150, 130);
+  const geo = new THREE.PlaneGeometry(480, 147, 320, 130);
   geo.rotateX(-Math.PI / 2);
   geo.translate(0, 0, -5.5);
   const p = geo.attributes.position,
@@ -83,12 +83,37 @@ export function terrain(g, season) {
     return m;
   }
   for(const way of townWays){
-    road(way.a,way.b,way.width,way.kind==='pedestrian'?'stone':way.kind==='road'?'asphalt':'concrete',way.kind==='pedestrian'?'#d0c5ae':'#d2d0bf');
+    road(way.a,way.b,way.width,way.kind==='pedestrian'?'stone':'asphalt',way.kind==='pedestrian'?'#d0c5ae':'#868b82');
     if(way.kind==='pedestrian')for(const side of [-1,1])road([way.a[0],way.a[1]+side*(way.width/2-.25)],[way.b[0],way.b[1]+side*(way.width/2-.25)],.12,'brick','#9e8e71',.075);
   }
-  // Dashed centre lines identify the two-way roads. Pedestrian streets carry no cars.
-  for(let z=-60;z<42;z+=5)if(![-55,7,29].some(n=>Math.abs(n-z)<4))road([0,z],[0,z+2],.1,'paint','#e4e0c8',.07);
-  for(let x=-66;x<67;x+=5)road([x,29],[x+2,29],.1,'paint','#e4e0c8',.07);
+  for(const p of sidewalks)road(p.a,p.b,p.width,'concrete','#c9c6b5',.09);
+  const atJunction=(x,z,own)=>vehicleWays.some(r=>r!==own&&segmentDistance(x,z,r.a,r.b)<r.width/2+.6);
+  for(const way of vehicleWays.filter(r=>r.kind==='road')){
+    const vertical=way.a[0]===way.b[0],len=Math.hypot(way.b[0]-way.a[0],way.b[1]-way.a[1]);
+    const at=t=>[way.a[0]+(vertical?0:t),way.a[1]+(vertical?t:0)];
+    for(let t=2;t<len-2;t+=5){
+      const a=at(t),b=at(t+2);
+      if(atJunction(...a,way)||atJunction(...b,way)||crossings.some(c=>c.road===way.id&&Math.hypot(c.x-a[0],c.z-a[1])<3))continue;
+      road(a,b,.1,'paint','#eee9d8',.072);
+    }
+    // Low curb/drain edge, omitted at junctions and lowered at actual zebra crossings.
+    for(const side of [-1,1])for(let t=0;t<len;t+=1.4){
+      const a=at(t+.04),b=at(Math.min(t+1.3,len));
+      a[vertical?0:1]+=side*(way.width/2+.015);b[vertical?0:1]+=side*(way.width/2+.015);
+      if(atJunction(...a,way)||atJunction(...b,way))continue;
+      const crossing=crossings.some(c=>c.road===way.id&&Math.hypot(c.x-a[0],c.z-a[1])<way.width/2+1.5);
+      road(a,b,.12,'concrete','#acafa3',crossing?.065:.14);
+    }
+  }
+  // White ladder bars only span the carriageway, perpendicular to vehicle travel.
+  for(const c of crossings){
+    const r=vehicleWays.find(r=>r.id===c.road),vertical=r.a[0]===r.b[0];
+    for(let t=-r.width/2+.4;t<r.width/2-.2;t+=.8){
+      const a=vertical?[c.x+t,c.z-c.width/2]:[c.x-c.width/2,c.z+t];
+      const b=vertical?[c.x+t,c.z+c.width/2]:[c.x+c.width/2,c.z+t];
+      road(a,b,.43,'paint','#eeeadd',.08);
+    }
+  }
   for(const x of [8,65])for(const z of [-20,-1.5]){
     rod(g,[x,groundHeight(x,z),z],[x,groundHeight(x,z)+2.6,z],.04,surface('metal','#767e73'));
     const sign=mesh(g,new THREE.CircleGeometry(.33,20),surface('sign','#3c7087'),x,groundHeight(x,z)+2.4,z);sign.userData.keep=true;
@@ -102,46 +127,6 @@ export function terrain(g, season) {
     placard(g,'歩行者専用',x,sy+1.85,z+.04,1.35,'#ede9da');
   }
   road([-21, 48], [15, 48], 5, "sand", "#d5c4a1", 0.05);
-  // Drain channels, road edging and intermittent retaining walls beside the hill ramp.
-  for (const side of [-1, 1])
-    for (let z = -58; z < 44; z += 1.8) {
-      const y = groundHeight(side * 3.65, z);
-      block(
-        g,
-        side * 3.65,
-        y + 0.035,
-        z,
-        0.18,
-        0.13,
-        1.7,
-        surface("concrete", "#b8b5a1"),
-      );
-      if (z % 8 < 1.8)
-        block(
-          g,
-          side * 3.15,
-          y + 0.065,
-          z,
-          0.32,
-          0.035,
-          0.6,
-          surface("metal", "#49554e"),
-        );
-    }
-  for (const x of [-4.4, 4.4])
-    for (const z of [-31, -12]) {
-      const h = 0.6;
-      block(
-        g,
-        x,
-        groundHeight(x, z) + h / 2,
-        z,
-        0.3,
-        h,
-        7,
-        surface("stone", "#aba28b"),
-      );
-    }
   return { road };
 }
 export function seaAndMountains(g) {
@@ -203,35 +188,16 @@ export function seaAndMountains(g) {
     ).castShadow = false;
   }
   // Harbour quay ends at a beach opening, with timber mooring posts and small boats.
-  for (const [a, b] of [
-    [-70, -22],
-    [17, 70],
-  ]) {
-    block(
-      g,
-      (a + b) / 2,
-      0.8,
-      48,
-      b - a,
-      1.6,
-      0.8,
-      surface("stone", "#8b9285"),
-    );
-    for (let x = a + 1; x < b; x += 4) {
-      rod(
-        g,
-        [x, 1.55, 47.6],
-        [x, 2.5, 47.6],
-        0.035,
-        surface("metal", "#63746b"),
-      );
-      rod(
-        g,
-        [x, 2.5, 47.6],
-        [Math.min(x + 4, b), 2.5, 47.6],
-        0.025,
-        surface("metal", "#63746b"),
-      );
+  for(const f of coastRails){
+    const a=f.x-f.w/2,b=f.x+f.w/2;
+    for(let x=a;x<b;x+=1.5){
+      const end=Math.min(x+1.5,b),y=groundHeight((x+end)/2,f.z);
+      block(g,(x+end)/2,y-.42,48,end-x,.84,.8,surface('stone','#8b9285'));
+    }
+    for(let x=a;x<=b;x+=2){
+      const end=Math.min(x+2,b),y=groundHeight(x,f.z),ey=groundHeight(end,f.z);
+      rod(g,[x,y,f.z],[x,y+1.05,f.z],.045,surface('metal','#63746b'));
+      for(const h of [.48,1.02])rod(g,[x,y+h,f.z],[end,ey+h,f.z],.035,surface('metal','#63746b'));
     }
   }
   for (let i = 0; i < 3; i++) {

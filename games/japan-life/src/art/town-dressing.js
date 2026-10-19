@@ -1,8 +1,9 @@
+import {busShelter} from './bus-stop.js';
 import * as THREE from 'three';
 import {surface,block,mesh,rod} from './materials.js';
 import {groundHeight} from './height.js';
 import {placard} from './buildings.js';
-import {parkingAreas,parkedFootprints,fenceSegments,paddy} from './town-plan.js';
+import {parkingAreas,parkedFootprints,fenceSegments,paddy,streetObstacles,pedestrianRails} from './town-plan.js';
 import {random} from './vegetation.js';
 function vehicle(g,p){
   const car=new THREE.Group();car.position.set(p.x,groundHeight(p.x,p.z),p.z);g.add(car);
@@ -28,6 +29,15 @@ function vehicle(g,p){
   placard(car,'汐待 12',0,.39,1.76,.42,'#d6cd8f');
 }
 export function townDressing(g,world,parcels,road,season){
+  for(const f of streetObstacles)world.obstacle(f.x,f.z,f.w,f.d);
+  for(const f of pedestrianRails){
+    for(let z=f.z-f.d/2;z<=f.z+f.d/2;z+=1.25){
+      const end=Math.min(z+1.25,f.z+f.d/2),y=groundHeight(f.x,z),ey=groundHeight(f.x,end);
+      rod(g,[f.x,y,z],[f.x,y+1,z],.045,surface('metal','#61796d'));
+      for(const h of [.5,1])rod(g,[f.x,y+h,z],[f.x,ey+h,end],.035,surface('metal','#61796d'));
+    }
+  }
+  busShelter(g,world,road);
   for(const f of fenceSegments(parcels)){
     const y=groundHeight(f.x,f.z);
     block(g,f.x,y+.43,f.z,f.w,.86,f.d,surface('concrete','#b6b3a1'));

@@ -1,8 +1,8 @@
-import {fenceSegments,parkedFootprints} from './town-plan.js';
+import {fenceSegments,parkedFootprints,streetObstacles} from './town-plan.js';
 import { places } from "../data.js";
 import { dwellings } from "./layout.js";
 const parcels = [...places.filter((p) => p.w), ...dwellings.map(p=>({...p,kind:"residence"}))];
-const addedObstacles=[...fenceSegments(parcels),...parkedFootprints];
+const addedObstacles=[...fenceSegments(parcels),...parkedFootprints,...streetObstacles];
 const smooth = (a, b, t) => {
   const x = Math.max(0, Math.min(1, (t - a) / (b - a)));
   return x * x * (3 - 2 * x);

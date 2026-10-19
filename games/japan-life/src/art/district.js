@@ -276,7 +276,7 @@ export function buildDistrict(world, state, optimize) {
     [-48, -16, 1.25],
     [-67, 21, 1.2],
     [5, 37, 0.9],
-    [43, 39, 1.1],
+    [52, 35, 1.1],
     [-28, 17, 1],
     [-39, 5, 1.1],
     [47, -46, 1.3],
@@ -298,8 +298,8 @@ export function buildDistrict(world, state, optimize) {
   vegetation(g, trees, season);
   for (const [x, z] of [
     [45, -51],
-    [-17, 43],
-    [-45, 42],
+    [-17, 49],
+    [-45, 38.0],
   ]) {
     const y = groundHeight(x, z);
     block(g, x, y + 0.48, z, 2.1, 0.12, 0.55, surface("wood", "#a7987c"));
@@ -396,9 +396,6 @@ export function buildDistrict(world, state, optimize) {
     { shopLabel: "汐待駅", seed: 3 },
   );
   world.obstacle(0, -70, 27, 6, station.body);
-  // Drainage and stone retaining walls create edges without blocking the street openings.
-  for (const x of [-4.4, 4.4])
-    for (const z of [-31, -12]) world.obstacle(x, z, 0.3, 7);
   for (let k = 0; k < 19; k++) {
     const z = -24 - k * 0.76,
       y = groundHeight(-18, z);
