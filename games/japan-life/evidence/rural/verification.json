@@ -1,0 +1,57 @@
+{
+  "unit_passed": 43,
+  "browser_cases_verified": 20,
+  "batch1": {
+    "passed": 17,
+    "failed": 3
+  },
+  "recheck": {
+    "passed": 5,
+    "failed": 0,
+    "repeated_package_cases": 2
+  },
+  "life_duration": "6.0m",
+  "source_commit": "170cf50ed8d23f5076cc9eb8c0cfedf20cade1f8",
+  "videos": {
+    "walk-coast-hill": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "width": 960,
+          "height": 600,
+          "r_frame_rate": "15/1",
+          "nb_frames": "788"
+        }
+      ],
+      "format": {
+        "duration": "52.533333"
+      },
+      "source_capture": {
+        "browser_frames": 81,
+        "capture_seconds": 51.40438103675842,
+        "frames_per_second": 1.58
+      }
+    },
+    "cafe-make-and-serve": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "width": 960,
+          "height": 600,
+          "r_frame_rate": "15/1",
+          "nb_frames": "164"
+        }
+      ],
+      "format": {
+        "duration": "10.933333"
+      },
+      "source_capture": {
+        "browser_frames": 57,
+        "capture_seconds": 10.560485124588013,
+        "frames_per_second": 5.4
+      }
+    }
+  }
+}

@@ -1,12 +1,13 @@
 {
   "version": "0.3.1",
-  "source_commit": "bacfbfa270208008e8e52f52576befc396ad75bc",
-  "url": "https://raw.githubusercontent.com/ryoujijyouji19941223-lang/language-learning-games/bacfbfa270208008e8e52f52576befc396ad75bc/games/japan-life/releases/japan-life-rural-preview.zip",
+  "source_commit": "170cf50ed8d23f5076cc9eb8c0cfedf20cade1f8",
+  "url": "https://raw.githubusercontent.com/ryoujijyouji19941223-lang/language-learning-games/170cf50ed8d23f5076cc9eb8c0cfedf20cade1f8/games/japan-life/releases/japan-life-rural-preview.zip",
   "http_status": 200,
-  "bytes": 4196407,
-  "sha256": "c1c013e7c135a92fb4818160b0d20c2d4a90b27d5364421cb4fed94679b31aa4",
+  "bytes": 4196453,
+  "sha256": "c5e86c18e27a4d0b1bc681c7c3d47629ece5c70be598a82037588f37a662647a",
   "download_equals_local_zip": true,
   "zip_crc_ok": true,
   "html_equals_build": true,
-  "browser_final_check": "in_progress"
+  "browser_final_check": "20 cases passed across batches (17 then 5, including 2 repeated package checks)",
+  "unit_tests_passed": 43
 }

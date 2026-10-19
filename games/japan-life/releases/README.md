@@ -1,6 +1,6 @@
-# 秋の町と店プレビュー v0.3.1（検証中）
+# 秋の町と店プレビュー v0.3.1
 
-配布物：`japan-life-rural-preview.zip`。現在ブラウザで新UI・門・車・生活機能を再確認中。過去のZIPを新しい版と読み替えない。
+配布物：`japan-life-rural-preview.zip`。新UI・門・車・生活一巡をブラウザで確認済み（20項目を分割で成功確認）。過去のZIPを新しい版と読み替えない。
 
 ZIPをすべて解凍し、Python 3がある手元のPCで解凍先から実行する（Node.js不要）。
 
@@ -10,7 +10,7 @@ python3 -m http.server 4182 --bind 127.0.0.1
 
 Windowsは`python3`の代わりに`py -3`。同じPCのブラウザで`http://localhost:4182`。直接HTMLを開く方法は管理環境のfile URL禁止で未確認。新しい場所へセーブを移す場合は、前の版の設定でJSONを書き出し、新しい版の設定で読み込む。
 
-SHA-256：`c1c013e7c135a92fb4818160b0d20c2d4a90b27d5364421cb4fed94679b31aa4`、4,196,407 bytes。CRCと同梱HTMLのビルドとの一致を確認。修正後の配布コミット`bacfbfa270208008e8e52f52576befc396ad75bc`をpushし、[固定URL](https://raw.githubusercontent.com/ryoujijyouji19941223-lang/language-learning-games/bacfbfa270208008e8e52f52576befc396ad75bc/games/japan-life/releases/japan-life-rural-preview.zip)からHTTP200で再取得。バイト一致・CRC・HTML一致を確認済み。ゲーム内の一括ブラウザ確認は継続中。
+SHA-256：`c5e86c18e27a4d0b1bc681c7c3d47629ece5c70be598a82037588f37a662647a`、4,196,453 bytes。CRCと同梱HTMLのビルドとの一致を確認。修正後の配布コミット`170cf50ed8d23f5076cc9eb8c0cfedf20cade1f8`をpushし、[固定URL](https://raw.githubusercontent.com/ryoujijyouji19941223-lang/language-learning-games/170cf50ed8d23f5076cc9eb8c0cfedf20cade1f8/games/japan-life/releases/japan-life-rural-preview.zip)からHTTP200で再取得。バイト一致・CRC・HTML一致を確認済み。ブラウザ20項目は分割で成功確認。詳細はTESTING.md。
 
 
 ## 以前の配布物（v0.3.0）
