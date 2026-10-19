@@ -21,6 +21,7 @@ test('追加した住宅の塀・駐車車両は実際に衝突し、門から�
   await page.keyboard.down('w');await page.waitForTimeout(1800);await page.keyboard.up('w');
   await expect(page.locator('#context')).toContainText('陽だまり');
   await page.keyboard.press('e');await expect.poll(async()=>(await read(page)).scene).toBe('home01');
+  await expect(page.locator('#context')).toContainText('外へ出る');
   await page.keyboard.press('e');await expect.poll(async()=>(await read(page)).scene).toBe('town');
   await restore(page,fixture(-59,-40.5));
   await page.keyboard.down('w');await page.waitForTimeout(1500);await page.keyboard.up('w');

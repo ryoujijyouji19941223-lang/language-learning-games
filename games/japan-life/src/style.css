@@ -1308,3 +1308,7 @@ button {border-radius:10px;}
 
 .panel.map-panel{max-height:none;}
 .town-map-view{max-width:calc((100vh - 240px) * 154 / 144);margin-inline:auto;}
+@media(min-width:751px){
+  /* Keep the corner menu reachable when a normal panel is open. */
+  #overlay:not(.dialogue):not(.welcome) .panel:not(.map-panel){left:50%;right:auto;transform:translateX(-50%);}
+}
