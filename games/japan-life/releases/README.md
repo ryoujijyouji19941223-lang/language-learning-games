@@ -10,7 +10,7 @@ python3 -m http.server 4182 --bind 127.0.0.1
 
 Windowsは`python3`の代わりに`py -3`。同じPCのブラウザで`http://localhost:4182`。直接HTMLを開く方法は管理環境のfile URL禁止で未確認。新しい場所へセーブを移す場合は、前の版の設定でJSONを書き出し、新しい版の設定で読み込む。
 
-SHA-256：`b714c1a9745b371b14a742bb55ea8d2e5bab03bd7b5d1afcf706e80c9333c0a4`、4,196,368 bytes。CRCと同梱HTMLのビルドとの一致を確認。GitHubからの再取得はpush後に確認する。
+SHA-256：`c1c013e7c135a92fb4818160b0d20c2d4a90b27d5364421cb4fed94679b31aa4`、4,196,407 bytes。CRCと同梱HTMLのビルドとの一致を確認。修正後の配布コミット`bacfbfa270208008e8e52f52576befc396ad75bc`をpushし、[固定URL](https://raw.githubusercontent.com/ryoujijyouji19941223-lang/language-learning-games/bacfbfa270208008e8e52f52576befc396ad75bc/games/japan-life/releases/japan-life-rural-preview.zip)からHTTP200で再取得。バイト一致・CRC・HTML一致を確認済み。ゲーム内の一括ブラウザ確認は継続中。
 
 
 ## 以前の配布物（v0.3.0）
