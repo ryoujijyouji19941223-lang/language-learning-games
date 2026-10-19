@@ -225,6 +225,8 @@ export function buildDistrict(world, state, optimize) {
     // Separate unlit/emissive window overlay, varied per household in the evening.
     const panes = new THREE.Group();
     panes.position.set(p.x, y, p.z);
+    panes.rotation.y=p.facing==="east"?Math.PI/2:p.facing==="west"?-Math.PI/2:0;
+    const frontWidth=p.facing?p.d:p.w,frontDepth=p.facing?p.w:p.d;
     world.root.add(panes);
     const glow = new THREE.MeshBasicMaterial({
       color: "#edb778",
@@ -232,14 +234,14 @@ export function buildDistrict(world, state, optimize) {
       opacity: 0.6,
       depthWrite: false,
     });
-    for (const xx of [-p.w * 0.3, p.w * 0.3])
+    for (const xx of [-frontWidth * 0.3, frontWidth * 0.3])
       mesh(
         panes,
-        new THREE.PlaneGeometry(p.w * 0.2, 1.22),
+        new THREE.PlaneGeometry(frontWidth * 0.2, 1.22),
         glow,
         xx,
         1.65,
-        p.d / 2 + 0.18,
+        frontDepth / 2 + 0.18,
       ).castShadow = false;
     lights.push({ mesh: panes, offset: i % 7 });
   });

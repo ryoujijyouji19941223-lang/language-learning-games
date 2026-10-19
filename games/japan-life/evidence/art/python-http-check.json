@@ -1,0 +1,21 @@
+{
+  "protocol": "HTTP via python3 -m http.server",
+  "port": 4182,
+  "walkedFrom": {
+    "x": -43,
+    "z": -20.7
+  },
+  "walkedTo": {
+    "x": -35.800450000000026,
+    "z": -20.7
+  },
+  "canvas": {
+    "engine": "three.js r186",
+    "height": "1.600",
+    "gait": "idle",
+    "drawCalls": "264",
+    "triangles": "419093"
+  },
+  "errors": [],
+  "externalRequests": []
+}

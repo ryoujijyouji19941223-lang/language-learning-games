@@ -4,7 +4,7 @@
 
 2026-10-19：**v0.3.0 秋の街区プレビュー**。海岸から坂と丘の住宅へ歩ける一街区を作り直し、材質・建具・店先・植生・秋服・関節の歩行・光と影を追加しました。聞いて進む会話と、カップ／器具／別添え容器／ふた／トレーを実際に扱う喫茶店も接続しています。
 
-対象はSPEC v0.5／[PLAYTEST_REDESIGN](PLAYTEST_REDESIGN.md)のR1とR2・R3の基礎。**Farthest Frontierと同等の完成美術には達していません。** 住民の連続した帰宅、役場からの新しい導入、路面電車・寺社、四季の完成景観と催しは残件です。最新の到達点・次の作業は[PROGRESS](PROGRESS.md)、実画面・動画と確認の限界は[TESTING](TESTING.md)、新規素材の出所・利用条件は[ART_DIRECTION](ART_DIRECTION.md)。
+対象はSPEC v0.5／[PLAYTEST_REDESIGN](PLAYTEST_REDESIGN.md)のR1とR2・R3の基礎。**Farthest Frontierと同等の完成美術には達していません。** 住民の連続した帰宅、役場からの新しい導入、路面電車・寺社、四季の完成景観と催しは残件です。最新の到達点・次の作業は[PROGRESS](PROGRESS.md)、実画面・動画と確認の限界は[TESTING](TESTING.md)、新規素材の出所・利用条件は[ART_DIRECTION](ART_DIRECTION.md)、実画面から見た具体的な不足は[ART_REVIEW](ART_REVIEW.md)。
 
 作業ブランチは`codex/japan-life-autumn-art`。mainと従来の`gh-pages`の配布物は旧版のままです。このフォルダの最新版プレビューを使ってください。
 
@@ -12,21 +12,22 @@
 
 [**秋の街区プレビューZIPをダウンロード**](https://raw.githubusercontent.com/ryoujijyouji19941223-lang/language-learning-games/codex/japan-life-autumn-art/games/japan-life/releases/japan-life-autumn-preview.zip)
 
-最新版の作業ブランチ内に配布ZIPを置きます。[従来のv0.2.0 ZIP](https://raw.githubusercontent.com/ryoujijyouji19941223-lang/language-learning-games/gh-pages/japan-life/japan-life.zip)とは内容が違います。
+最新版の作業ブランチ内に配布ZIPを置いています。[従来のv0.2.0 ZIP](https://raw.githubusercontent.com/ryoujijyouji19941223-lang/language-learning-games/gh-pages/japan-life/japan-life.zip)とは内容が違います。
 
 PCのChrome／Edgeなど、WebGL 2対応ブラウザが必要です。単一HTMLの配布物は、プログラム・3Dライブラリ・描画素材をすべて含みます。ゲーム中の外部生成AI、APIキー、CDN、アカウント、サーバーDBは不要です。
 
 配布ZIPを受け取った場合は、すべて解凍して **index.html** を通常のブラウザで開きます。Node.jsのインストールは不要です。チャット内やスマホのファイルプレビューでは実行できない場合があります。保存を許可しないブラウザでは通知を出し、その画面内で続けられます。設定のJSONで記録を退避できます。
 
-直接開けない場合は、解凍先で次を実行してから、手元のブラウザで `http://localhost:4180` を開けます（Python 3が必要。Windowsは`python3`の代わりに`py -3`）。この管理環境のChromiumはfile URLを禁止しているため、直接開く方法の実行確認はできていません。通常のHTTP配信での起動は別に検証します。
+直接開けない場合は、解凍先で次を実行してから、手元のブラウザで `http://localhost:4182` を開けます（Python 3が必要。Windowsは`python3`の代わりに`py -3`）。この管理環境のChromiumはfile URLを禁止しているため、直接開く方法の実行確認はできていません。通常のHTTP配信での起動と旧セーブの再開は確認済みです。
 
 ```sh
-python3 -m http.server 4180 --bind 127.0.0.1
+python3 -m http.server 4182 --bind 127.0.0.1
 ```
 
 ソースから動かす場合は、手元のPCでNode.js 24を用意して、リポジトリ内の次のフォルダで実行します。
 
 ```sh
+git fetch origin
 git switch codex/japan-life-autumn-art
 cd games/japan-life
 npm ci
