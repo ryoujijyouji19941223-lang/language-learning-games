@@ -4,7 +4,11 @@
 
 ## 0. 現在は初回プレイを受けた改修を優先する
 
-試作v0.2.0は存在するが、本人の試遊で街・文化・仕事の体験と視認性が未達と判明した。旧M1/M2の機能確認のみで受入済みにしない。[PLAYTEST_REDESIGN.md](PLAYTEST_REDESIGN.md)とSPEC v0.5を読み、会話本数や新機能の拡張よりR1〜R4を優先する。この指示の保存自体はコード修正や別セッションの起動ではない。
+試作v0.2.0は存在するが、本人の試遊で街・文化・仕事の体験と視認性が未達と判明した。旧M1/M2の機能確認のみで受入済みにしない。[PLAYTEST_REDESIGN.md](PLAYTEST_REDESIGN.md)とSPEC v0.6を読み、会話本数や新機能の拡張よりR1〜R4を優先する。この指示の保存自体はコード修正や別セッションの起動ではない。
+
+### 動物・人物画・昔話の追加条件（2026-10-20）
+
+[LIVING_STORIES.md](LIVING_STORIES.md)も現行仕様として読む。猫・タヌキの動作と反応、お地蔵さん、会話の約10基本顔、雪の日の笠地蔵と春の犬の物語を追加する。動物と人物画は街区・会話改修へ組み込み、季節イベントは地形・天候・睡眠・住居と保存に接続して段階的に作る。文章と正解ボタンだけで終えず、歩く・かぶせる・包みを見つける・掘る操作を実際に確認する。既存のR1〜R4を放棄せず、実装済み／未実装を分ける。
 
 ### 見た目を優先し、中断後も継続する制作依頼（2026-10-19）
 
@@ -13,7 +17,7 @@
 ```text
 このリポジトリの日本版 games/japan-life/ を改修してください。
 
-AGENTS.md、docs/START_HERE.md、日本版のSPEC.md、PLAYTEST_REDESIGN.md、CODEX_TASKS.md §0、PROGRESS.md、TESTING.mdを読み、最新の仕様と進捗から作業を始めてください。
+AGENTS.md、docs/START_HERE.md、日本版のSPEC.md、PLAYTEST_REDESIGN.md、LIVING_STORIES.md、CODEX_TASKS.md §0、PROGRESS.md、TESTING.mdを読み、最新の仕様と進捗から作業を始めてください。
 
 Farthest Frontierを見た目の目標にして、建物・地面の材質、地形、街並みの密度、植生、小物、光と影をできるだけ近づけてください。まず、海岸から坂を上がって丘の住宅へ歩ける一街区を、今回の季節に合う秋の景色と服装で作り込んでください。必要な3Dモデルやテクスチャを制作・導入し、素材の出所と利用条件を記録してください。
 
@@ -42,7 +46,7 @@ Farthest Frontierを見た目の目標にして、建物・地面の材質、地
 
 ### 次に貼る改修依頼文
 
-> AGENTS.md、docs/START_HERE.md、games/japan-life/README.md、SPEC.md、PLAYTEST_REDESIGN.md、PROGRESS.md、TESTING.mdを読み、日本版試作v0.2.0を改修してください。現在はPLAYTEST_REDESIGNのR1〜R4が優先です。計画だけで終えず、実装しブラウザで操作して確認してください。
+> AGENTS.md、docs/START_HERE.md、games/japan-life/README.md、SPEC.md、PLAYTEST_REDESIGN.md、LIVING_STORIES.md、PROGRESS.md、TESTING.mdを読み、日本版試作v0.2.0を改修してください。現在はPLAYTEST_REDESIGNのR1〜R4が優先です。計画だけで終えず、実装しブラウザで操作して確認してください。
 >
 > 主人公の歩行・走行で足と腕を動かし、住民を実在する住宅・職場・目的地と時間帯に結び付けて暮らさせてください。等間隔の配置と道路上に並ぶ配達ポストをやめ、住戸・玄関・共用入口と配送先を対応させてください。他人の家の内装は不要。全NPCに名前を表示する必要はありません。
 >
