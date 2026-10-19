@@ -11,3 +11,5 @@ Windowsは`python3`の代わりに`py -3`。同じPCのブラウザで`http://lo
 SHA-256: `fc501f3523b896650df7e4b57d65f18df10459f1db3b8c4b3081da3aa8dedda1`
 
 最新の結果と未確認は一つ上のTESTING.md、素材条件はART_DIRECTION.md、実画面の不足はART_REVIEW.md。Farthest Frontierと同じ完成品質には達していません。旧gh-pages配布とmainは更新していません。
+
+[検証済みZIPの固定ダウンロードURL](https://raw.githubusercontent.com/ryoujijyouji19941223-lang/language-learning-games/e3de39e4882536614082effa29d6dd4d0145e053/games/japan-life/releases/japan-life-autumn-preview.zip)。配布コミット`e3de39e4882536614082effa29d6dd4d0145e053`。GitHubからHTTP200で取得し、上のSHA-256とローカルZIPのバイト一致・CRC・HTML一致を確認しました。

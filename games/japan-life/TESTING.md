@@ -56,7 +56,7 @@ PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:browser -- --
 - SHA-256：`fc501f3523b896650df7e4b57d65f18df10459f1db3b8c4b3081da3aa8dedda1`。
 - 標準ZIPのCRC、含まれるHTMLと`dist/index.html`の一致、同梱の遊び方・Three.js MIT・新規素材のCC0-1.0条件を確認。
 - 作業ブランチ`codex/japan-life-autumn-art`にソースとZIPを置く。**従来のgh-pagesのZIP／公開ページは旧v0.2.0**。mainへ自動マージしない。
-- 最終push後のGitHub取得のバイト照合を追記する。GitHubのリポジトリページはHTTP200で、Public／isPrivate:falseを確認。
+- 配布コミット`e3de39e4882536614082effa29d6dd4d0145e053`をpush後、[固定URL](https://raw.githubusercontent.com/ryoujijyouji19941223-lang/language-learning-games/e3de39e4882536614082effa29d6dd4d0145e053/games/japan-life/releases/japan-life-autumn-preview.zip)から再取得し、**HTTP200・4,188,458 bytes・ローカルとのバイト一致・CRC・HTML一致**を確認。GitHubのリポジトリページもHTTP200、Public／isPrivate:falseを確認。
 - 基準f0004f8からの全変更が`games/japan-life/`内であることを確認。他作品に差分なし。
 
 最初の一括試行は15件中12件成功・3件失敗。カウンターや住民を直進する旧テスト経路と、室内店員の旧固有名ラベルを修正。その後の分割試行ではfile URLの禁止と低FPSの短い入力・旧海辺経路が残ったため、HTTP配信、実フレーム待ちと歩行者の迂回、岸沿いの公道からの移動を使った。これらを経て上記18件が成功。失敗をスキップや衝突無効化で隠していない。

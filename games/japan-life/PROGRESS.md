@@ -2,7 +2,7 @@
 
 ## 最新チェックポイント：v0.3.0 秋の街区プレビュー（2026-10-19 日本時間）
 
-対象はSPEC v0.5／PLAYTEST_REDESIGN v0.3。作業ブランチ **`codex/japan-life-autumn-art`**、基準main `f0004f8`。計画`b5419c2`→街区`604ad71`→会話`7edb799`→道具で働く喫茶店`f44a263`→庭`e9073aa`→旧セーブ・表示改善`cf76ee1`→生活一巡の確認`8ac9027`まで、各段階のpushを確認した。今回の窓明かり修正・最終ZIP・検証記録も同じブランチへcommit・pushする。mainと従来のgh-pagesは更新しない。
+対象はSPEC v0.5／PLAYTEST_REDESIGN v0.3。作業ブランチ **`codex/japan-life-autumn-art`**、基準main `f0004f8`。計画`b5419c2`→街区`604ad71`→会話`7edb799`→道具で働く喫茶店`f44a263`→庭`e9073aa`→旧セーブ・表示改善`cf76ee1`→生活一巡の確認`8ac9027`まで、各段階のpushを確認した。窓明かり修正・最終ZIP・検証記録は`e3de39e`として同ブランチへpush確認済み。mainと従来のgh-pagesは更新しない。
 
 | 項目 | 実装・確認した範囲 | 残ること |
 | --- | --- | --- |
@@ -14,7 +14,7 @@
 
 **検証**：単体39件成功。ブラウザ18件が一括で成功（15.7分、失敗0・スキップ0）。生活一巡は6.2分。最後の窓の向き修正後、R1の実歩行・昼夕夜・丘から海を追加で1件成功。配布HTMLをPythonの通常HTTPサーバーでも開き、新規入居→町へ出る→実歩行を確認し、ページ例外0・外部リクエスト0。詳細と実画面・動画は[TESTING.md](TESTING.md)。
 
-**配布**：`releases/japan-life-autumn-preview.zip`。単一HTML、あそびかた、Three.js MIT、素材条件を同梱。解凍先で`python3 -m http.server 4182 --bind 127.0.0.1`（Windowsは`py -3`）、手元のブラウザで`http://localhost:4182`。Node.js不要。HTML直接起動は管理ブラウザのfile URL禁止で未確認。ZIPのCRC・HTML一致は確認済み。最後のGitHub取得照合はpush後に記録する。従来のgh-pagesのZIPと公開ページは旧v0.2.0なので混同しない。
+**配布**：[最新版ZIP](https://raw.githubusercontent.com/ryoujijyouji19941223-lang/language-learning-games/e3de39e4882536614082effa29d6dd4d0145e053/games/japan-life/releases/japan-life-autumn-preview.zip)（`releases/japan-life-autumn-preview.zip`）。単一HTML、あそびかた、Three.js MIT、素材条件を同梱。解凍先で`python3 -m http.server 4182 --bind 127.0.0.1`（Windowsは`py -3`）、手元のブラウザで`http://localhost:4182`。Node.js不要。HTML直接起動は管理ブラウザのfile URL禁止で未確認。ZIPのCRC・HTML一致は確認済み。GitHubのコミット固定URLからHTTP200・4,188,458 bytesで再取得し、ローカルZIPとのバイト一致・CRC・HTML一致を確認済み。従来のgh-pagesのZIPと公開ページは旧v0.2.0なので混同しない。
 
 **素材と品質**：[ART_DIRECTION.md](ART_DIRECTION.md)に生成ソースとCC0-1.0の対象を記録。外部の完成モデル・画像の転載なし。[ART_REVIEW.md](ART_REVIEW.md)に実画像での不足を記録。Farthest Frontierと同じ仕上がりには達していない。ソフトウェア描画の屋外は約1〜2fpsで、通常GPUの品質・快適性能を確認した証拠ではない。
 
