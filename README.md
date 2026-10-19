@@ -17,6 +17,7 @@
 | 内容 | 場所 |
 |---|---|
 | 制作担当への指示 | [AGENTS.md](AGENTS.md) |
+| 次の国の調査：日本版の教訓・必要資料・制作へ渡す方法 | [docs/NEXT_COUNTRY_RESEARCH.md](docs/NEXT_COUNTRY_RESEARCH.md) |
 | 作品一覧・候補 | [docs/GAMES.md](docs/GAMES.md) |
 | 調査資料の参照 | [docs/RESEARCH.md](docs/RESEARCH.md) |
 | 地域の生活ゲーム：賃貸・暮らし・会話・季節の設計 | [docs/REGIONAL_LIFE_SIM_DESIGN.md](docs/REGIONAL_LIFE_SIM_DESIGN.md) |
@@ -39,3 +40,5 @@
 2026-10-18追記：最初の生活ゲームは本人が検証できる日本に決定。[日本版](games/japan-life/README.md)のSPEC・初期内容・文化資料・Codexへの依頼文を用意。現在の対象と手順は[制作入口](docs/START_HERE.md)を参照。日本版のゲーム本体・配布物は未実装。架空の港町・地域・技術・数値は変更可能な初期案。
 
 2026-10-18追記：本人の決定で、現代ギリシャの生活ゲーム[ギリシャ版](games/greece-life/README.md)を日本版と並行して作る。制作担当はClaude Code（日本版はCodex）。ゲーム内はギリシャ語、解説は英語、ギリシャ語を音声で読み上げる。仕様・内容計画・依頼文を用意。ゲーム本体は未実装。
+
+2026-10-20：本人の希望で日本・ギリシャ以外の作品の調査準備を開始。[教訓と調査手順](docs/NEXT_COUNTRY_RESEARCH.md)を保存。次の国・言語・地域は未選定。確認時、日本版は試作v0.2.0と改修仕様v0.5、ギリシャ版は作業ブランチの[実装PR #1](https://github.com/ryoujijyouji19941223-lang/language-learning-games/pull/1)が未マージ。以前の未実装表記は当時の履歴で、各作品のブランチ・進捗・配布物の状態を確認する。仕様を作ったことや自動テストの成功を、本人の見た目の受入や学習効果の確認とは扱わない。
