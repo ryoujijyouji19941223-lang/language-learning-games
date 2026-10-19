@@ -133,8 +133,10 @@ test("実際に歩き、三室内見→買い物→勤務→二件配達→部�
   await page.locator('[data-action="wait-hour"]').click();
   await close(page);
   await walk(page, 0, -4.4);
-  await walk(page, 0, 39.2);
-  await walk(page, -7, 39.2);
+  // Use the wide seafront promenade, with clearance from the café corner.
+  await walk(page, 0, 43);
+  await walk(page, -7, 43);
+  await walk(page, -7, 39.8);
   await shop(page, "market_cafe");
   await page.locator('#overlay [data-action="cafe"]').click();
   await page.locator('[data-action="start-cafe"]').click();
@@ -147,7 +149,8 @@ test("実際に歩き、三室内見→買い物→勤務→二件配達→部�
   for (const id of ["d01", "d02"])
     await page.locator(`[data-action="accept"][data-id="${id}"]`).click();
   await close(page);
-  await walk(page, 0, 39.2);
+  await walk(page, -7, 43);
+  await walk(page, 0, 43);
   await walk(page, 0, -4.4);
   await walk(page, 17, -4.4);
   await shop(page, "market_grocery");
