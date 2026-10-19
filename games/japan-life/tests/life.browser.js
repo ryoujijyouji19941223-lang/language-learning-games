@@ -340,8 +340,9 @@ test("公園まで実歩行し、NPC会話と音声なし、会話中の移動�
   s.settings.shadows = false;
   await fixture(page, s);
   await walk(page, 0, -55.5);
-  await walk(page, 45, -55.5);
-  await walk(page, 45, -51);
+  await walk(page, 41, -55.5);
+  await walk(page, 41, -50);
+  await walk(page, 45, -50);
   await page.screenshot({ path: "evidence/11-station-park.png" });
   // 入力中は歩かず、音声のない状態も文字で返答できる。
   await page.locator('.tools [data-action="map"]').click();

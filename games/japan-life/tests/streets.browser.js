@@ -53,7 +53,7 @@ test('海岸の左右の柵と歩行者道の終端で止まり、砂浜の開�
   await restore(page,fixture(63.5,-20));await page.keyboard.down('d');await page.waitForTimeout(1700);await page.keyboard.up('d');expect((await read(page)).pos.x).toBeLessThan(64.7);
   await page.screenshot({path:out+'/pedestrian-end.png'});
   const old=fixture(-45,47.6);old.worldVersion=3;await restore(page,old);
-  const current=await read(page);expect(current.worldVersion).toBe(4);expect(current.pos).not.toEqual(old.pos);
+  const current=await read(page);expect(current.worldVersion).toBe(5);expect(current.pos).not.toEqual(old.pos);
   for(const k of ['money','home','furniture','jobs','clock'])expect(current[k]).toEqual(old[k]);
   expect(errors).toEqual([]);
 });

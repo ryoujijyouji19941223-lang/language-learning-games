@@ -1,3 +1,5 @@
+import {freshOutdoors,validOutdoors,vendingDrinks,containerNames} from './outdoor-data.js';
+import {vendingMachines,recyclingBins,frontOf} from './art/amenity-plan.js';
 import {
   homes,
   homeById,
@@ -62,7 +64,8 @@ export function fresh(date = new Date()) {
     money: 20000,
     debt: 0,
     rentThrough: month,
-    worldVersion: 4,
+    worldVersion: 5,
+    outdoors: freshOutdoors(),
     home: null,
     scene: "preview:home01",
     pos: { x: 1.75, z: 3.25 },
@@ -199,6 +202,33 @@ export function buy(s, id, qty) {
   s.stats.bought++;
   advanceTime(s, 2);
   note(s, `${p.name}を${qty}個買いました。`);
+}
+function nearFacility(s,facility){
+  requireThat(s.home&&s.scene==='town'&&facility,'町の設備に近づいて調べてください。');
+  const p=frontOf(facility);
+  requireThat(Math.hypot(s.pos.x-p.x,s.pos.z-p.z)<=2.25,'設備の正面に近づいてください。');
+}
+export function buyVendingDrink(s,machineId,id){
+  nearFacility(s,vendingMachines.find(m=>m.id===machineId));
+  const drink=vendingDrinks.find(d=>d.id===id);
+  requireThat(drink,'飲み物を選んでください。');
+  requireThat(s.money>=drink.price,'お金が足りません。');
+  requireThat(s.outdoors.drinks[id]<99999,'持ちものがいっぱいです。');
+  s.money-=drink.price;s.outdoors.drinks[id]++;s.stats.bought++;
+  advanceTime(s,1);note(s,`${drink.temperature}${drink.name}を1本買いました。`);
+}
+export function drinkVendingDrink(s,id){
+  const drink=vendingDrinks.find(d=>d.id===id);
+  requireThat(s.home&&drink&&s.outdoors.drinks[id]>0,'飲み物を持っていません。');
+  requireThat(s.outdoors.empties[drink.container]<99999,'先に空き容器を回収箱へ戻してください。');
+  s.outdoors.drinks[id]--;s.outdoors.empties[drink.container]++;
+  advanceTime(s,3);note(s,`${drink.name}を飲んでひと休み。${containerNames[drink.container]}は持ち帰ります。`);
+}
+export function recycleContainer(s,binId,kind){
+  nearFacility(s,recyclingBins.find(b=>b.id===binId));
+  requireThat(['can','pet'].includes(kind)&&s.outdoors.empties[kind]>0,'回収箱へ戻せる空き容器がありません。');
+  s.outdoors.empties[kind]--;advanceTime(s,1);
+  note(s,`${containerNames[kind]}を専用の回収箱へ戻しました。`);
 }
 export function ownsRadio(s) {
   return s.furniture.some((i) => i.kind === "f25");
@@ -970,6 +1000,7 @@ export function validate(s) {
       int(s.settings.autoDelay, 4, 15),
     "文字と会話の設定が壊れています。",
   );
+  requireThat(validOutdoors(s.outdoors),"飲み物と空き容器の記録が壊れています。");
   return s;
 }
 export function parse(raw) {
@@ -981,7 +1012,7 @@ export function parse(raw) {
   // 公開済みv0.1.0の保存へ追加項目だけを補完し、他の不正データは受け入れない。
   if (s?.game === "japan-life" && s.version === 1) {
     if(s.cafe&&!s.cafe.done&&!s.cafe.work)ensureWork(s);
-    if (s.worldVersion === undefined || s.worldVersion === 2 || s.worldVersion === 3) {
+    if (s.worldVersion === undefined || s.worldVersion === 2 || s.worldVersion === 3 || s.worldVersion === 4) {
       if (
         s.scene === "town" &&
         s.pos &&
@@ -989,8 +1020,9 @@ export function parse(raw) {
         Number.isFinite(s.pos.z)
       )
         s.pos = safeTownPosition(s.pos);
-      s.worldVersion = 4;
+      s.worldVersion = 5;
     }
+    if (s.outdoors === undefined) s.outdoors=freshOutdoors();
     if (s.music === undefined)
       s.music = { homeTrack: "jp_home_default", homeStopped: false };
     if (s.settings && typeof s.settings === "object") {

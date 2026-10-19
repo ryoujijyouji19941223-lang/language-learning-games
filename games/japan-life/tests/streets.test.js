@@ -31,7 +31,7 @@ test('海岸柵の連続範囲を固体にして砂浜への中央開口を残�
 test('旧v0.3.1の海岸柵・待合所に重なる位置を復旧し、日付・住居・家財・仕事を維持する',()=>{
   for(const [x,z] of [[-45,47.6],[43,35.4],[42.4,36.1],[65,-20]]){
     const old=E.fresh(new Date(2026,3,1));E.preview(old,'home02');E.chooseHome(old,'home02');old.worldVersion=3;old.scene='town';old.pos={x,z};
-    const restored=E.parse(JSON.stringify(old));assert.equal(restored.worldVersion,4);assert.notDeepEqual(restored.pos,old.pos);
+    const restored=E.parse(JSON.stringify(old));assert.equal(restored.worldVersion,5);assert.notDeepEqual(restored.pos,old.pos);
     for(const key of ['clock','money','debt','home','furniture','wear','jobs','rentThrough','music','history'])assert.deepEqual(restored[key],old[key],key);
     assert.deepEqual(E.parse(JSON.stringify(restored)),restored); // migration is idempotent
   }

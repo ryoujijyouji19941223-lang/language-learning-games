@@ -1,3 +1,4 @@
+import {neighborhoodAmenities} from './amenities.js';
 import { townDressing } from './town-dressing.js';
 import * as THREE from "three";
 import { places, residents, destinations } from "../data.js";
@@ -280,7 +281,7 @@ export function buildDistrict(world, state, optimize) {
     [-28, 17, 1],
     [-39, 5, 1.1],
     [47, -46, 1.3],
-    [52, -55, 1.1],
+    [32.2, -44.5, .95],
     [38, -60, 1.2],
     [-67, -59, 1.2],
     [23, 25, 1],
@@ -465,6 +466,7 @@ export function buildDistrict(world, state, optimize) {
     }
   }
   townDressing(g,world,parcels,road,season);
+  neighborhoodAmenities(g,world,road);
   world.root.add(optimize(g));
   for (const [i, p] of residents.entries()) {
     const outfit =

@@ -1,3 +1,5 @@
+import {vendingDrinks,containerNames} from './outdoor-data.js';
+import {vendingMachines,recyclingBins,parkUtilities,frontOf} from './art/amenity-plan.js';
 import { townMap } from './town-map.js';
 import "./style.css";
 import { conversationFor, speakerLabel } from "./dialogue.js";
@@ -354,6 +356,19 @@ function wardrobe() {
     )
     .join("")}`;
 }
+function outdoorInventory(){
+  const o=state.outdoors;
+  return `<h2>飲み物</h2>${vendingDrinks.map(d=>`<div class="list-row"><span>${esc(d.name)} · ${esc(d.temperature)} × ${o.drinks[d.id]}</span>${o.drinks[d.id]?b('drink-vending','飲む',d.id):''}</div>`).join('')}<h2>持ち帰る空き容器</h2><p>${Object.entries(containerNames).map(([k,label])=>`${label} × ${o.empties[k]}`).join(' ／ ')}</p><p class="small">飲み終わった容器は、自販機横の専用回収箱へ。</p>`;
+}
+function vendingPanel(){
+  const machine=vendingMachines.find(m=>m.id===detail);
+  return `${title(machine.name,'のみものを、ひとつ。')}<p>何を飲もうかな。</p>${vendingDrinks.map(d=>`<div class="list-row"><span><strong>${esc(d.name)}</strong><small>${esc(d.temperature)} · ${yen(d.price)}</small></span>${b('buy-vending','1本買う',d.id)}</div>`).join('')}${outdoorInventory()}`;
+}
+function recoveryPanel(){
+  const bin=recyclingBins.find(b=>b.id===detail),o=state.outdoors;
+  return `${title(bin.name,'缶・ペットボトル専用')}<p>飲み終わった容器を、分けて戻します。家庭ごみや中身のある飲み物は入れないでください。</p>${Object.entries(containerNames).map(([kind,label])=>`<div class="list-row"><span>${label} × ${o.empties[kind]}</span>${o.empties[kind]?b('recycle-container','1個戻す',kind):''}</div>`).join('')}${!o.empties.can&&!o.empties.pet?'<p>戻す空き容器はありません。</p>':''}`;
+}
+function amenityPanel(){const p=parkUtilities.find(p=>p.id===detail);return `${title(p.name,'公園の設備')}<p>${esc(p.text)}</p>`;}
 function journal() {
   const stats = state.stats;
   return `${title("今日は、あなたのペースで。")}<p>何もしない散歩の日があっても大丈夫。これは暮らしを試すための手帳で、語学の習得判定ではありません。</p><div class="journal-grid">${[
@@ -382,7 +397,7 @@ function journal() {
     )
     .join(
       "",
-    )}<h2>作った料理を食べる</h2>${meals()}<h2>残した話題</h2>${state.notes.map((id) => `<p>${esc(residents.find((p) => p.id === id)?.line || id)}</p>`).join("") || "<p>会話からお気に入りを残せます。</p>"}<h2>最近の暮らし</h2>${state.events
+    )}${outdoorInventory()}<h2>作った料理を食べる</h2>${meals()}<h2>残した話題</h2>${state.notes.map((id) => `<p>${esc(residents.find((p) => p.id === id)?.line || id)}</p>`).join("") || "<p>会話からお気に入りを残せます。</p>"}<h2>最近の暮らし</h2>${state.events
     .slice(-10)
     .reverse()
     .map(
@@ -439,7 +454,7 @@ function renderPanel() {
   }
   overlay.className = `visible ${panel === "welcome" ? "welcome" : panel === "npc" ? "dialogue" : ""}`;
   let content =
-    panel === "welcome"
+    panel === "vending" ? vendingPanel() : panel === "recycle" ? recoveryPanel() : panel === "amenity" ? amenityPanel() : panel === "welcome"
       ? `<div class="welcome-mark">汐</div><span class="eyebrow">SHIOMACHI · A LITTLE LIFE IN JAPAN</span><h1>海風の町で、<br>暮らしをひとつずつ。</h1><p>お店へ寄って、人と話して。<br>働いた日も、ただ歩いた日も、あなたの一日。</p><div class="welcome-actions">${b("begin", state.home ? "暮らしの続きを歩く" : "窓のある部屋を探す", null, "primary wide")}${b("settings", "設定・記録を読み込む", null, "wide")}</div><p class="small">架空の港町・M1/M2初期試作<br>簡易モデルとDRAFT会話。外部AI・APIキー不要。</p>`
       : panel === "housing"
         ? housing()
@@ -535,6 +550,7 @@ function interact() {
       else {persist();toast(message);}
       return;
     }
+    if (["vending","recycle","amenity"].includes(target.type)) open(target.type,target.id);
     if (target.type === "npc") open("npc", target.id);
     if (target.type === "shop") open("shop", target.id);
     if (target.type === "board") open("phone");
@@ -702,6 +718,10 @@ function runAction(action, id, button) {
     feedback = "配達を完了しました。報酬は一度だけ受け取っています。";
   }
   if (action === "cancel-job") E.cancelJob(state, id);
+  if(action==='buy-vending') { E.buyVendingDrink(state,detail,id);feedback='飲み物を買いました。'; }
+  if(action==='drink-vending') { E.drinkVendingDrink(state,id);feedback='ひと休み。空き容器は持ち帰ります。'; }
+  if(action==='recycle-container') { E.recycleContainer(state,detail,id);feedback='空き容器を専用の回収箱へ戻しました。'; }
+  if(action==='route-vending') {const p=vendingMachines.find(m=>m.id===id);route({id,name:p.name,...frontOf(p)});return;}
   if (action === "route-place") {
     const p = placeById[id];
     route({ id, name: p.name, x: p.x, z: p.z + (p.d ? p.d / 2 + 0.8 : 0) });
