@@ -2,15 +2,15 @@
 
 日本を最初の舞台にする、独立した3D生活ゲーム。日本語で暮らし・料理・短い会話の自然さを本人が検証する。
 
-2026-10-19：**v0.3.0 秋の街区プレビュー**。海岸から坂と丘の住宅へ歩ける一街区を作り直し、材質・建具・店先・植生・秋服・関節の歩行・光と影を追加しました。聞いて進む会話と、カップ／器具／別添え容器／ふた／トレーを実際に扱う喫茶店も接続しています。
+2026-10-19：**v0.3.1 秋の町と店プレビュー（検証中）**。日本版の配色と田舎らしい余白を残し、塀・門・駐車区画・静止車・魚屋の軽トラ、二階建ての商店、歩行者用の道、松と刈り跡の田を追加。店内の球だけの仮商品を、魚・たこ・米袋・卵・瓶・衣服等へ置き換えました。時計・メニュー・地図の読みやすさを改修しています。
 
-対象はSPEC v0.5／[PLAYTEST_REDESIGN](PLAYTEST_REDESIGN.md)のR1とR2・R3の基礎。**Farthest Frontierと同等の完成美術には達していません。** 住民の連続した帰宅、役場からの新しい導入、路面電車・寺社、四季の完成景観と催しは残件です。最新の到達点・次の作業は[PROGRESS](PROGRESS.md)、実画面・動画と確認の限界は[TESTING](TESTING.md)、新規素材の出所・利用条件は[ART_DIRECTION](ART_DIRECTION.md)、実画面から見た具体的な不足は[ART_REVIEW](ART_REVIEW.md)。
+対象はSPEC v0.6／[PLAYTEST_REDESIGN](PLAYTEST_REDESIGN.md) v0.4。本人は両作品ともまだ散歩した段階で、生活の中身が受入済みという意味ではありません。店舗二階の賃貸は後続候補です。松・車・田畑は簡略モデル。Farthest Frontier相当の完成美術、役場からの新導入、連続した帰宅、路面電車・寺社・四季の完成景観は未達です。最新の進捗・検証は[PROGRESS](PROGRESS.md)／[TESTING](TESTING.md)、素材条件は[ART_DIRECTION](ART_DIRECTION.md)。
 
 作業ブランチは`codex/japan-life-autumn-art`。mainと従来の`gh-pages`の配布物は旧版のままです。このフォルダの最新版プレビューを使ってください。
 
 ## 手元で起動する
 
-[**秋の街区プレビューZIPをダウンロード**](https://raw.githubusercontent.com/ryoujijyouji19941223-lang/language-learning-games/codex/japan-life-autumn-art/games/japan-life/releases/japan-life-autumn-preview.zip)
+[**秋の町と店プレビューZIPをダウンロード**](https://raw.githubusercontent.com/ryoujijyouji19941223-lang/language-learning-games/codex/japan-life-autumn-art/games/japan-life/releases/japan-life-rural-preview.zip)
 
 最新版の作業ブランチ内に配布ZIPを置いています。[従来のv0.2.0 ZIP](https://raw.githubusercontent.com/ryoujijyouji19941223-lang/language-learning-games/gh-pages/japan-life/japan-life.zip)とは内容が違います。
 
@@ -98,3 +98,9 @@ v0.2.0で、追加された[SPEC §16](SPEC.md)・[初期曲の計画](CONTENT_P
 
 初期5曲は同梱した独自の仮ループです。完成曲の監修・音楽性・実際の聞こえ方は未確認。素材と制作方法は[ASSETS.md](ASSETS.md)を参照してください。
 
+
+## 追加された画面と操作
+
+大きい時計と季節を左上、アイコン付きの暮らしメニューを右上に表示。`M`は道路・建物・現在地と番号付きの行き先がある地図、`P`はスマホ・配達、`J`は手帳・持ち物。地図の番号か行き先を選ぶと町へ案内の印がつきます。地図から瞬間移動しません。
+
+旧セーブの月日はそのまま保ちます。以前の4月の記録なら春の桜が表示されます。秋へ合わせたい場合は、設定の「開始日と季節」を使います（財産・期限の残りを保持）。秋の桜は赤褐色の葉、松は常緑です。新しい塀や停車車両に重なる旧位置だけ公道へ移します。住居ID・部屋寸法・家具は維持します。

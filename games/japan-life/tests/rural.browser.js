@@ -10,10 +10,10 @@ function fixture(x,z){const s=E.fresh(new Date(2026,9,19));E.chooseHome(s,'home0
 test('追加した住宅の塀・駐車車両は実際に衝突し、門から既存の自宅と配達先へ歩いて近づける',async({page})=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto('/');
-  await restore(page,fixture(-50.5,-29.1));
+  await restore(page,fixture(-36.4,-26.5));
   const canvas=page.locator('#world canvas');
-  await page.keyboard.down('d');await page.waitForTimeout(2000);await page.keyboard.up('d');
-  const wall=await read(page);expect(wall.pos.x).toBeLessThan(-48.9);expect(wall.pos.x).toBeGreaterThan(-50.5);
+  await page.keyboard.down('a');await page.waitForTimeout(2000);await page.keyboard.up('a');
+  const wall=await read(page);expect(wall.pos.x).toBeGreaterThan(-37.2);expect(wall.pos.x).toBeLessThan(-36.4);
   await restore(page,fixture(-32,37.3));
   await page.keyboard.down('w');await page.waitForTimeout(2000);await page.keyboard.up('w');
   expect((await read(page)).pos.z).toBeGreaterThan(36);
