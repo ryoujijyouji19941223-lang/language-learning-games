@@ -26,3 +26,7 @@ test('桜の花は春だけ。秋の桜は赤褐色の葉、冬は裸枝。他�
   assert.equal(treeAppearance('冬','cherry').kind,'bare');assert.equal(treeAppearance('春','maple').kind,'leaf');
   assert.ok(treeAppearance('秋','cherry').colors.every(c=>parseInt(c.slice(1,3),16)>parseInt(c.slice(3,5),16)));
 });
+
+test('西の住宅前の公道と余裕を塀で狭めず、旧配達の横移動も通れる',()=>{
+  for(let x=-64;x<=-50;x+=.2)for(let z=-4.1;z<=-2.7;z+=.2)assert.ok(!blocked(x,z),`public lane ${x},${z}`);
+});

@@ -4,6 +4,7 @@ export const townWays=[
   {a:[0,-63],b:[0,44],width:6.4,kind:'road'},
   ...[-55,7,29].map(z=>({a:[-70,z],b:[70,z],width:6.4,kind:'road'})),
   {a:[-70,-20],b:[7,-20],width:5.2,kind:'road'},
+  {a:[-70,-4],b:[0,-4],width:3.2,kind:'lane'},
   {a:[8,-20],b:[65,-20],width:8,kind:'pedestrian'},
   {a:[8,-1.5],b:[65,-1.5],width:5,kind:'pedestrian'},
   ...[-55,-34,10,57].map(x=>({a:[x,-60],b:[x,41],width:2.1,kind:'lane'})),
@@ -31,7 +32,7 @@ export function fenceSegments(parcels){
         const lx=ax+(bx-ax)*(i+.5)/n,lz=az+(bz-az)*(i+.5)/n;
         const x=p.x+lx*c+lz*s,z=p.z-lx*s+lz*c;
         // Keep established public walking routes and the approach to every doorway open.
-        if(walkingLoop.slice(1).some((b,k)=>segmentDistance(x,z,walkingLoop[k],b)<1.6))continue;
+        if(walkingLoop.slice(1).some((b,k)=>segmentDistance(x,z,walkingLoop[k],b)<1.6)||townWays.some(r=>segmentDistance(x,z,r.a,r.b)<r.width/2+.6))continue;
         const localW=Math.abs(bx-ax)/n||.16,localD=Math.abs(bz-az)/n||.16;
         all.push({x,z,w:Math.abs(c)*localW+Math.abs(s)*localD,d:Math.abs(s)*localW+Math.abs(c)*localD,owner:p.id});
       }
