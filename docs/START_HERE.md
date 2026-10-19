@@ -4,16 +4,17 @@
 
 ## 日本・ギリシャ以外の調査（2026-10-20）
 
-本人は新しい国の作品も始めたいと希望。最初に[日本版からの教訓と次国の調査手順](NEXT_COUNTRY_RESEARCH.md)を読む。言語・国・地域はまだ未選定。候補比較→地形・暮らし・音と言葉の調査→一街区と一仕事の実装画面での確認→展開、の順で各作品を準備する。日本版の完成まで調査を待つ必要はない。ギリシャ版には[実装PR #1](https://github.com/ryoujijyouji19941223-lang/language-learning-games/pull/1)があり、mainの未実装表記だけで状態を判断しない。
+本人は新しい国の作品も始めたいと希望。最初に[日本版からの教訓と次国の調査手順](NEXT_COUNTRY_RESEARCH.md)を読む。その後、本人がフィンランド語・フィンランドを選定。[フィンランド版の調査入口](../games/finland-life/README.md)を作成。町・実装担当等は未確定で、本体は未制作。候補比較→地形・暮らし・音と言葉の調査→一街区と一仕事の実装画面での確認→展開、の順で各作品を準備する。日本版の完成まで調査を待つ必要はない。ギリシャ版には[実装PR #1](https://github.com/ryoujijyouji19941223-lang/language-learning-games/pull/1)があり、mainの未実装表記だけで状態を判断しない。
 
 ## 日本版の現在の改修対象
 
 - 対象フォルダ：[games/japan-life/](../games/japan-life/README.md)
 - 作品：日本の暮らし（仮）
 - 本人の選択：日本を最初に作り、暮らし・日本語を本人が検証する。料理は国と地域の特色を生かす。
-- 状態：試作v0.2.0と配布ZIPあり。本人の初回プレイで体験の不足を確認し、SPEC v0.5・PLAYTEST_REDESIGNへ改修条件を保存。改修コードは未実装。
+- 状態：試作v0.2.0と配布ZIPあり。本人の初回プレイで体験の不足を確認し、SPEC v0.6・PLAYTEST_REDESIGNへ改修条件を保存。改修コードは未実装。
 - [制作仕様](../games/japan-life/SPEC.md)
 - [食材・料理・家具・住民の初期内容](../games/japan-life/CONTENT_PLAN.md)
+- [動物・人物画・昔話の季節イベント](../games/japan-life/LIVING_STORIES.md)
 - [出典と残る不足](../games/japan-life/RESEARCH.md)
 - [Codexへ貼る依頼文・制作順と完成条件](../games/japan-life/CODEX_TASKS.md)
 
