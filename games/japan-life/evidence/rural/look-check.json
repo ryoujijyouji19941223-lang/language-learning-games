@@ -1,5 +1,17 @@
 {
   "errors": [],
   "scenes": 9,
-  "method": "UI save import for separate views; map route selection and keyboard menu; no continuous town circuit in this script"
+  "method": "UI save import for separate views; map route selection and keyboard menu; no continuous town circuit in this script",
+  "version": "0.3.1",
+  "source_commit": "170cf50ed8d23f5076cc9eb8c0cfedf20cade1f8",
+  "viewport": {
+    "desktop": [
+      1280,
+      800
+    ],
+    "mobile": [
+      390,
+      844
+    ]
+  }
 }

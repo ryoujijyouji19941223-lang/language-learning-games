@@ -6,6 +6,8 @@
 
 対象はSPEC v0.6／[PLAYTEST_REDESIGN](PLAYTEST_REDESIGN.md) v0.4。本人は両作品ともまだ散歩した段階で、生活の中身が受入済みという意味ではありません。店舗二階の賃貸は後続候補です。松・車・田畑は簡略モデル。Farthest Frontier相当の完成美術、役場からの新導入、連続した帰宅、路面電車・寺社・四季の完成景観は未達です。最新の進捗・検証は[PROGRESS](PROGRESS.md)／[TESTING](TESTING.md)、素材条件は[ART_DIRECTION](ART_DIRECTION.md)。
 
+実際の画面：[地図](evidence/rural/map.png)・[魚屋](evidence/rural/fish.png)・[食料品店](evidence/rural/grocery.png)・[敷地と駐車](evidence/rural/fence.png)・[海沿いの松](evidence/rural/pine.png)。
+
 作業ブランチは`codex/japan-life-autumn-art`。mainと従来の`gh-pages`の配布物は旧版のままです。このフォルダの最新版プレビューを使ってください。
 
 ## 手元で起動する
