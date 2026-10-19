@@ -14,6 +14,8 @@ export const townWays=[
 ];
 export const vehicleWays=townWays.filter(r=>['road','lane'].includes(r.kind));
 export const crossings=[
+  {road:'west-link',x:-5,z:-18.5,width:2.4},
+  {road:'lane-link',x:-5,z:1,width:2.4},
   {road:'hill-road',x:2.1,z:-45,width:2.4},
   {road:'hill-road',x:2.1,z:-22.6,width:2.4},
   {road:'hill-road',x:2.1,z:-3.1,width:2.4},

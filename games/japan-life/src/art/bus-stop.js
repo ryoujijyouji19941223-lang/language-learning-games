@@ -49,8 +49,10 @@ export function busShelter(g, world, road) {
   const sx=x+4.1,sz=38.25,sy=groundHeight(sx,sz);
   block(g,sx,sy+.1,sz,.5,.2,.5,surface('concrete','#b5b4a4'));
   rod(g,[sx,sy,sz],[sx,sy+2.6,sz],.045,tin);
-  mesh(g,new THREE.CircleGeometry(.43,24),surface('sign','#a16345'),sx,sy+2.35,sz+.015);
-  placard(g,'バス',sx,sy+2.36,sz+.04,.7,'#e7ddbb');
+  mesh(g,new THREE.CircleGeometry(.43,24),surface('sign','#42685e'),sx,sy+2.35,sz+.015);
+  mesh(g,new THREE.CircleGeometry(.37,24),surface('sign','#e0d4ae'),sx,sy+2.35,sz+.025);
+  const busName=placard(g,'バス',sx,sy+2.36,sz+.04,.65,'#e0d4ae');
+  busName.scale.y=2.4;
   placard(g,name,sx,sy+1.65,sz+.04,1.05,'#d2d7c5');
   world.targets.push({type:'bench',id:busStop.id,name:'バス停の長椅子で休む',x:seatX,z:z+.7});
 }
