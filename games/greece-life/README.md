@@ -1,29 +1,59 @@
-# ギリシャの暮らし（仮）／greece-life
+# ギリシャの暮らし（仮）／greece-life — Ασπρόγιαλος
 
-現代ギリシャの架空の島の港町で暮らす、独立した3D生活ゲーム。ゲーム内の文字・会話・看板はすべてギリシャ語、解説と訳は英語。ギリシャ語はPCの音声で読み上げる。
+現代ギリシャの架空の島の港町「Ασπρόγιαλος（アスプロヤロス）」で暮らす、独立した3D生活ゲーム。ゲーム内の文字・会話・看板はギリシャ語、解説と訳は英語。ギリシャ語はPCの音声で読み上げる。
 
-2026-10-18：制作仕様・内容計画・Claude Codeへの依頼文を準備済み。**ゲーム本体はまだ実装していません。起動できる配布物も未作成です。**
+状態（2026-10-19）：**M1・M2 を実装し、ブラウザで一巡を自動テスト済み**。ギリシャ語はネイティブ未確認、3Dは仮の素材、Windows実機の音声は未確認（[TESTING.md](TESTING.md)、[PROGRESS.md](PROGRESS.md)）。
 
-## 担当
+## 遊び方（日本語）
 
-- 制作担当：**Claude Code**（Anthropic）。日本版 games/japan-life/ は別担当（Codex）で並行制作中。
-- 本人の決定：舞台は現代ギリシャ。ゲーム内はギリシャ語、解説は英語。PCブラウザで遊び、ギリシャ語を読み上げる。同じリポジトリに置く。規模は日本版より大きくしてよい（住民60人・部屋3・家具24・服12・料理6を下回らない）。まず遊べるところまで作る。
-- 町名・地域・数値・技術は制作担当が決めた変更可能な初期案。
+起動方法は次の3つです。
 
-## 制作担当が読むもの
+1. **`dist/greece-life.html` をダブルクリック**（いちばん簡単。サーバー不要、インターネット不要）。Microsoft Edge か Google Chrome で開きます。
+2. **`start-greece.cmd` をダブルクリック**（Node.js が必要。初回は部品を自動で入れ、ブラウザが開きます。遊んでいる間は黒い窓を閉じない）。
+3. このフォルダで **`npm start`**（2 と同じ。ポート 4175）。
 
-1. [SPEC.md](SPEC.md)：町・住居・家具・時計・仕事・料理・会話・音声・保存の規則。
-2. [CONTENT_PLAN.md](CONTENT_PLAN.md)：店、食材32品、料理13品、家具40種、服20点、部屋4室、住民72人の名簿と最初の一言。
-3. [RESEARCH.md](RESEARCH.md)：ギリシャ語音声・文化・価格・技術の出典、確認済みと未確認。
-4. [CLAUDE_TASKS.md](CLAUDE_TASKS.md)：最初に貼る依頼文、M1～M4の制作順と合格条件。
-5. [CLAUDE.md](CLAUDE.md)：作業中に毎回守る短い規則。
+操作：WASD／矢印キーで歩く、Shift で走る、右ドラッグで視点、ホイールで寄る・引く、E／Enter で話す・調べる・使う、Esc で戻る・メニュー、M 地図、Tab 持ち物、P スマホ（配達・暦・休む）、L 図鑑。文字入力中は移動キーが効きません。
 
-## 変更しない場所
+一日の流れの例：4つの部屋を内見して1つ借りる → 商店通りで食材を買う（Καλημέρα → Θα ήθελα… → Πόσο κάνει; → Ορίστε → Ευχαριστώ）→ 喫茶店・パン屋・タベルナで働く → スマホで配達を受ける → 家具を買って並べる → 台所で料理 → 食べる → ベッドで眠る（自動保存）。
 
-- games/japan-life/（Codex担当の日本版）
-- games/english-errands/（既存の英語試作）
-- AGENTS.md と、日本版向けのdocs記述
+- 食事：一度食べると、次の昼夜の切り替わり（06:00／18:00）まで満腹で食べられません。飲み物はいつでも可。空腹の罰はありません。
+- 天気：ナクソス島の観測値（月ごとの雨の日数・日照時間）を参考に、夏は晴れが多く、冬は雨と曇りが多くなります。夏は μελτέμι（強い北風）が数日続くことがあり、浜のカンティーナが早じまいします。
+- 町は港から丘を登る段々の町で、旧市街は丘の上、風車は西の崖の上にあります（キクラデスの島の町を参考にした架空の町。特定の島の再現ではありません）。
+- 住民の家は外から見るだけです（表札・郵便受け・小物で誰の家か分かります。中には入れません）。
+- ギリシャ語の声：Edge なら追加設定なしで使える見込み。Chrome では Windows の設定 › 時刻と言語 › 音声 › 音声を追加 で Greek（Ελληνικά）を入れ、ブラウザを再起動。声がなくても文字で遊べます（その場合「聞き取り」は記録しません）。
+- 保存：ブラウザの保存領域（キー `greece-life:v1`）に自動保存。設定から手動保存、JSON の書き出し・読み込み、新しく始める、ができます。
 
-## 残る不足
+## How to play (English)
 
-ギリシャ語ネイティブによる会話・看板の確認、完成用の3D素材、全会話の状況差分、行事の日付の確認、Windows実機での音声確認は未実施。仕様を準備した段階であり、完成品・完成教材ではない。
+Three ways to start:
+
+1. **Double-click `dist/greece-life.html`** (simplest; no server, works offline). Use Microsoft Edge or Google Chrome.
+2. **Double-click `start-greece.cmd`** (needs Node.js; installs parts on first run and opens the browser; keep the black window open while playing).
+3. Run **`npm start`** in this folder (same as 2, port 4175).
+
+Keys: WASD/arrows walk, Shift run, right-drag camera, wheel zoom, E/Enter talk/use, Esc back/menu, M map, Tab bag, P phone (deliveries, calendar, rest), L dictionary. Typing in a text box never moves the player.
+
+Meals fill you up until the next day/night switch (06:00 / 18:00); drinks are always fine; there is no hunger penalty. Weather follows real Cycladic monthly figures. Residents' houses are outside-only. With no Greek voice installed the game stays playable with text.
+
+## 開発者向け
+
+| コマンド | 内容 |
+|---|---|
+| `npm test` | 単体テスト（vitest） |
+| `npm run test:e2e` | ブラウザの通しテスト（Playwright、`npx playwright install chromium` が初回に必要） |
+| `npm run build:standalone` | `dist/greece-life.html` を作る（スクリプト・CSS・フォントを内蔵した約0.9MBの1ファイル） |
+| `npm run typecheck` | 型チェック |
+
+配布に必要なファイル：`dist/greece-life.html` の1つだけ。ソースから動かす場合はこのフォルダ全体（`node_modules` は不要、初回に自動導入）。
+
+構成：`src/data/`（教材・店・住民・家具などのデータ、NFC）、`src/core/`（時計・取引・住居・料理・仕事・配達・天気・保存の純粋な処理）、`src/world/`（three.js の町・室内・人物）、`src/ui/`（HTMLの画面）、`tests/`（unit／e2e、画面証拠は `tests/artifacts/`）。
+
+## 素材と条件
+
+- フォント：Noto Sans（latin＋greek、400/700）、SIL Open Font License 1.1（`assets/fonts/OFL.txt`）。@fontsource/noto-sans 5.2.10 から取り出して同梱。
+- 3Dモデル・看板・絵・環境音：すべて three.js の基本形状・Canvas・Web Audio で作った仮素材。外部の画像・モデル・音声ファイルは使っていない。
+- 外部サービス・APIキー・生成AIは使っていない。音声はブラウザ標準の Web Speech API。
+
+## 担当と変更しない場所
+
+制作は Claude Code。games/japan-life/（Codex担当）、games/english-errands/、AGENTS.md、ルートの設定は変更しない。仕様は [SPEC.md](SPEC.md)・[CONTENT_PLAN.md](CONTENT_PLAN.md)、制作順は [CLAUDE_TASKS.md](CLAUDE_TASKS.md)、出典は [RESEARCH.md](RESEARCH.md)。

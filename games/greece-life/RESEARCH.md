@@ -88,7 +88,30 @@ export function speakGreek(text, { rate = 1.0 } = {}) {
 | X03 | Noto Sans 本体がギリシャ文字を含む。Google Fonts に「Noto Sans Greek」という別ファミリーはない | [Noto docs：Use](https://notofonts.github.io/noto-docs/website/use/) |
 | X04 | Claude Code の進め方（検証手段を渡す、調べる→計画→実装、CLAUDE.md を短く） | [Anthropic：Claude Code best practices](https://www.anthropic.com/engineering/claude-code-best-practices) |
 
-## 4. 残る不足
+## 4. 天気（2026-10-19 追加、制作担当が確認）
+
+| ID | 内容 | 出典 | 状態 |
+|---|---|---|---|
+| W01 | ナクソス島（Chora観測所）の月別の雨の日数（2010–2020平均：1月10.2、2月7.4、3月6.5、4月2.0、5月1.5、6月0.8、7月0.2、8月0.0、9月0.1、10月2.4、11月4.0、12月6.0）と月別日照時間（1955–1993：1月4h/日 … 6・7月13h/日 … 12月3h/日） | [azalas.de：The climate data of Naxos](https://azalas.de/en/naxos-climate-data/) | 2026-10-19 にページを開いて数値を確認。個人サイトの観測値転載で、公式統計の原典は未確認 |
+| W02 | メルテミは5月末～10月末、7・8月が最も強い。1回2～4日続くことが多い。日中に強く、日没後に弱まる | [aegeanislands.gr：climate](https://www.aegeanislands.gr/aegean-place/climate/)（検索結果の要約） | 月あたりの日数は見つからず。ゲームでは「3日単位で吹く確率」を7・8月40%、6・9月15%と推定値で置いた |
+
+ゲームでの使い方：雨の確率＝雨の日数÷その月の日数。曇りは「日照時間÷昼の長さ」で足りない分から割り振る。冬（12～2月）の強風の頻度も推定値。実際の天気予報や特定の年の再現ではない。
+
+## 5. 地形と町の高低差（2026-10-19 追加、本人の依頼で調査）
+
+| ID | 内容 | 出典 | 状態 |
+|---|---|---|---|
+| L01 | キクラデスの Χώρα（島の中心の町）は海賊を避けるため、港から離れた丘や岩の斜面に、すり鉢状に段々と建てられたものが多い。頂上に城（Κάστρο）がある例が多い | [Serifos architecture](https://serifos-en.e-serifos.com/serifos-information/serifos-architecture.php)、[Antiparos Kastro](https://kalispera.se/greece/antiparos/kastro-in-chora-on-antiparos-in-the-cyclades.html)、[Sikinos Kastro](https://www.kalispera.se/greece/sikinos/kastro.html) | 検索結果の要約で確認 |
+| L02 | フォレガンドロス島の Χώρα は高さ約200 m の崖の縁にある | [Wikipedia: Folegandros](https://en.wikipedia.org/wiki/Folegandros)、[Visit Greece](https://www.visitgreece.gr/islands/cyclades/folegandros) | 同上 |
+| L03 | アモルゴス島の Χώρα は港カタポラの上、標高約350 m | [To Vima: Amorgos](https://www.tovima.gr/2021/06/28/international/amorgos-steeped-in-the-azure-of-the-waves-and-the-froth-of-the-sea/amp/) | 同上 |
+| L04 | イオス島の Χώρα は港オルモスの上の丘に、すり鉢状に建つ | [Greeka: Ios villages](https://greeka.com/cyclades/ios/villages)、[aegeanislands.gr: Chora of Ios](https://www.aegeanislands.gr/?p=128753) | 同上（標高の数値なし） |
+| L05 | サントリーニ島：カルデラ側は高さ約250～300 m の崖、外側（東）は海へなだらかに下る。最高点は南東のプロフィティス・イリアス（約540～567 m、出典で差あり）。フィラはカルデラの縁、海から約200 m | [Wikipedia: Santorini caldera](https://simple.wikipedia.com/wiki/Santorini_caldera)、[pointurier.org: Profitis Ilias](https://pointurier.org/travel/greece/thira/mountprofitisilias)、[pointurier.org: Fira](https://www.pointurier.org/travel/greece/thira/fira/) | 同上 |
+| L06 | イドラ島の町は港を囲む円形劇場のように斜面を登り、急な石段の路地をロバが荷を運ぶ（サロニコス湾の島。参考） | [Olympic Holidays: Hydra](https://www.olympicholidays.com/resort-guide/hydra/hydra-resorts/)、[Ontheluce: Hydra](https://www.ontheluce.com/best-things-to-do-in-hydra-greece/) | 同上 |
+| L07 | シロス島エルムポリは港から斜面にすり鉢状、背後の丘の上に古い町アノ・シロス | [Wikipedia: Syros](https://en.wikipedia.org/wiki/Syros) | 同上 |
+
+ゲームでの使い方（混合型）：港（約1 m）から商店通りが段々に上り（約15 m）、旧市街の広場が約29 m（イオス・セリフォス・イドラ型）。町の背後（北）は島の内陸で約45 m まで上がる。西側は風車の尾根（約52 m）が海へ落ちる崖で終わる（フォレガンドロス・サントリーニ型）。実際の Χώρα の標高（100～350 m）より低いのは、歩く時間（端から端まで4～6分）を保つためのゲーム用の縮尺。特定の島の再現ではない。
+
+## 6. 残る不足
 
 - ギリシャ語の会話・看板・品名のネイティブ確認（全部未確認）。
 - 行事（8月15日の πανηγύρι、10月28日、クリスマス・新年、Καθαρά Δευτέρα、Πάσχα）の出典確認と説明文。
