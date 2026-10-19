@@ -40,6 +40,15 @@ test('自販機・回収箱・公園の遊具と夜の表示を実描画し、�
   await expect(page.locator('[data-action="buy-vending"][data-id="tea"]')).toBeVisible();
   const box=await page.locator('.panel').boundingBox();expect(box.x).toBeGreaterThanOrEqual(0);expect(box.x+box.width).toBeLessThanOrEqual(390);
   await page.screenshot({path:out+'/vending-mobile.png'});
+  const item=page.locator('.panel[aria-label="vending"] .list-row > span').first();
+  expect(await item.evaluate(el=>parseFloat(getComputedStyle(el).fontSize))).toBeGreaterThanOrEqual(16);
+  expect(await page.locator('#toast').isVisible()).toBe(false);
+  await page.keyboard.press('Escape');await page.locator('.tools [data-action="settings"]').click();
+  await page.locator('#textScale').selectOption('150');await page.locator('[data-action="close"]').first().click();
+  await page.keyboard.press('e');
+  expect(await item.evaluate(el=>parseFloat(getComputedStyle(el).fontSize))).toBeGreaterThanOrEqual(24);
+  expect(await page.locator('.panel').evaluate(el=>el.scrollWidth-el.clientWidth)).toBeLessThanOrEqual(1);
+  await page.screenshot({path:out+'/vending-mobile-large.png'});
   expect(errors).toEqual([]);await writeFile(out+'/view-check.json' ,JSON.stringify({errors,method:'Separate legitimate save-import views for appearance, followed by actual M and route selection. No teleport during a walking route.'},null,2));
 });
 test('自販機で二種を買い、飲み物と空き容器を再開し、実際に歩いて缶とPETを回収箱へ戻す',async({page})=>{

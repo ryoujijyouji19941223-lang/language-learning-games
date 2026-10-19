@@ -339,8 +339,8 @@ test("公園まで実歩行し、NPC会話と音声なし、会話中の移動�
   s.clock = 291 * 1440 + 17.1 * 60;
   s.settings.shadows = false;
   await fixture(page, s);
-  await walk(page, 0, -55.5);
-  await walk(page, 41, -55.5);
+  await walk(page, 0, -56.75);
+  await walk(page, 41, -56.75);
   await walk(page, 41, -49.5);
   await walk(page, 45, -49.5);
   await page.screenshot({ path: "evidence/11-station-park.png" });
