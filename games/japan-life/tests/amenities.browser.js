@@ -29,13 +29,18 @@ async function walk(p,x,z){
 }
 test('自販機・回収箱・公園の遊具と夜の表示を実描画し、地図から自販機を案内できる',async({page})=>{
   await mkdir(out,{recursive:true});const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/');
-  for(const [name,x,z,yaw] of [['coast-vending',37.9,40.2,0],['park-entry',41,-56,Math.PI],['playground',43,-39,0],['park-bins',51.4,-50.5,0]]){
+  for(const [name,x,z,yaw] of [['coast-vending',37.9,40.2,0],['park-entry',41,-52,Math.PI],['playground',45,-40,0],['park-bins',51.4,-50.5,0]]){
     const s=fixture(x,z,yaw);s.settings.shadows=true;await restore(page,s);await page.waitForTimeout(1200);await page.screenshot({path:out+'/'+name+'.png'});
   }
   const night=fixture(37.9,40.2);night.clock=291*1440+20*60;await restore(page,night);await page.waitForTimeout(1000);await page.screenshot({path:out+'/vending-night.png'});
   const before=await read(page);await page.keyboard.press('m');await expect(page.locator('.map-legend')).toContainText('自販機');await page.screenshot({path:out+'/map.png'});
   await page.locator('[data-action="route-vending"][data-id="park-vending"]').click();await expect(page.locator('.route')).toContainText('公園の自動販売機');expect((await read(page)).pos).toEqual(before.pos);
-  expect(errors).toEqual([]);await writeFile(out+'/view-check.json',JSON.stringify({errors,method:'Separate legitimate save-import views for appearance, followed by actual M and route selection. No teleport during a walking route.'},null,2));
+  await restore(page,fixture(37.9,38.8));await page.setViewportSize({width:390,height:844});
+  await expect(page.locator('#context')).toContainText('自動販売機');await page.keyboard.press('e');
+  await expect(page.locator('[data-action="buy-vending"][data-id="tea"]')).toBeVisible();
+  const box=await page.locator('.panel').boundingBox();expect(box.x).toBeGreaterThanOrEqual(0);expect(box.x+box.width).toBeLessThanOrEqual(390);
+  await page.screenshot({path:out+'/vending-mobile.png'});
+  expect(errors).toEqual([]);await writeFile(out+'/view-check.json' ,JSON.stringify({errors,method:'Separate legitimate save-import views for appearance, followed by actual M and route selection. No teleport during a walking route.'},null,2));
 });
 test('自販機で二種を買い、飲み物と空き容器を再開し、実際に歩いて缶とPETを回収箱へ戻す',async({page})=>{
   await mkdir(out,{recursive:true});const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/');
@@ -63,9 +68,9 @@ test('海辺から小公園へ連続して歩き、ベンチで休み、遊具�
   const stop=await recordBrowser(page,resolve(out,'walk-to-park.mp4'));
   await walk(page,6,-50);await walk(page,41,-50);await walk(page,41,-55.5);await walk(page,41,-50);await walk(page,45,-50);
   await expect(page.locator('#context')).toContainText('ベンチ');await page.keyboard.press('e');await expect(page.locator('#overlay [role="dialog"]')).toHaveAttribute('aria-label','rest');await page.keyboard.press('Escape');
-  await walk(page,41,-50);await walk(page,41,-40);await walk(page,35.7,-40);await walk(page,35.7,-42.8);
+  await walk(page,41,-50);await walk(page,41,-40);await walk(page,38.7,-40);await walk(page,38.7,-42.8);await walk(page,35.7,-42.8);
   await page.keyboard.down('w');await page.keyboard.down('Shift');await page.waitForTimeout(1500);await page.keyboard.up('w');await page.keyboard.up('Shift');expect((await read(page)).pos.z).toBeGreaterThan(-43.3);
-  await walk(page,35.7,-40);await walk(page,49.6,-40);await walk(page,49.6,-41.2);
+  await walk(page,38.7,-42.8);await walk(page,38.7,-40);await walk(page,49.6,-40);await walk(page,49.6,-41.2);
   await page.keyboard.down('w');await page.keyboard.down('Shift');await page.waitForTimeout(1500);await page.keyboard.up('w');await page.keyboard.up('Shift');expect((await read(page)).pos.z).toBeGreaterThan(-42.0);
   await page.screenshot({path:out+'/slide-collision.png'});
   await walk(page,49.6,-40);await walk(page,29.7,-40);await walk(page,29.7,-47);

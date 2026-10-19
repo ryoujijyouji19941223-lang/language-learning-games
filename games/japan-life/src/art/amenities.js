@@ -31,7 +31,7 @@ function vending(g,p){
     }
     placard(group,`${vendingDrinks[row].temperature} ${vendingDrinks[row].price}円`,-.1,yy-.235,face+.062,.78,row?'#9ab5b7':'#d29d78');
   }
-  placard(group,'汐待ののみもの',0,1.8,face+.026,.98,'#355f54','#eee6cc');
+  placard(group,'汐待ドリンク',0,1.8,face+.026,.98,'#355f54','#eee6cc');
   // Coin slot, return lever, contactless reader and a recessed collection flap.
   block(group,.45,1.43,face+.045,.14,.11,.025,dark);
   block(group,.45,1.59,face+.045,.08,.014,.025,dark);
@@ -141,5 +141,8 @@ export function neighborhoodAmenities(g,world,road){
   }
   const signY=groundHeight(36.6,-55);
   for(const x of [35.2,38])rod(g,[x,groundHeight(x,-54.9),-54.9],[x,signY+1.4,-54.9],.045,surface('wood','#7e7056'));
-  placard(g,'駅前公園',36.6,signY+1.3,-54.85,2.8,'#c8cba9');
+  block(g,36.6,signY+1.3,-54.92,2.86,.74,.12,surface('wood','#6d7258'));
+  const inside=placard(g,'駅前公園',36.6,signY+1.3,-54.85,2.8,'#c8cba9');
+  const outside=placard(g,'駅前公園',36.6,signY+1.3,-54.99,2.8,'#c8cba9');outside.rotation.y=Math.PI;
+  for(const face of [inside,outside]){face.material=face.material.clone();face.material.side=THREE.FrontSide;}
 }

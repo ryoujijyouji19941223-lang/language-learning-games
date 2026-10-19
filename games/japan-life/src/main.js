@@ -1,5 +1,5 @@
 import {vendingDrinks,containerNames} from './outdoor-data.js';
-import {vendingMachines,recyclingBins,parkUtilities,frontOf} from './art/amenity-plan.js';
+import {vendingMachines,recyclingBins,parkUtilities,frontOf,park} from './art/amenity-plan.js';
 import { townMap } from './town-map.js';
 import "./style.css";
 import { conversationFor, speakerLabel } from "./dialogue.js";
@@ -168,7 +168,9 @@ function renderHud() {
     home = state.home ? homeById[state.home].name : "部屋を内見中";
   const scene =
     state.scene === "town"
-      ? state.pos.z > 25
+      ? state.pos.x>=park.minX&&state.pos.x<=park.maxX&&state.pos.z>=park.minZ&&state.pos.z<=park.maxZ
+        ? "駅前公園"
+        : state.pos.z > 25
         ? "港と海岸"
         : state.pos.x < -13
           ? "住宅地"
@@ -358,15 +360,15 @@ function wardrobe() {
 }
 function outdoorInventory(){
   const o=state.outdoors;
-  return `<h2>飲み物</h2>${vendingDrinks.map(d=>`<div class="list-row"><span>${esc(d.name)} · ${esc(d.temperature)} × ${o.drinks[d.id]}</span>${o.drinks[d.id]?b('drink-vending','飲む',d.id):''}</div>`).join('')}<h2>持ち帰る空き容器</h2><p>${Object.entries(containerNames).map(([k,label])=>`${label} × ${o.empties[k]}`).join(' ／ ')}</p><p class="small">飲み終わった容器は、自販機横の専用回収箱へ。</p>`;
+  return `<h2>飲み物</h2>${vendingDrinks.map(d=>`<div class="list-row"><span>${esc(d.name)} · ${esc(d.temperature)} × ${o.drinks[d.id]}</span>${o.drinks[d.id]?b('drink-vending','飲む · 3分',d.id):''}</div>`).join('')}<h2>持ち帰る空き容器</h2><p>${Object.entries(containerNames).map(([k,label])=>`${label} × ${o.empties[k]}`).join(' ／ ')}</p><p class="small">飲み終わった容器は、自販機横の専用回収箱へ。</p>`;
 }
 function vendingPanel(){
   const machine=vendingMachines.find(m=>m.id===detail);
-  return `${title(machine.name,'のみものを、ひとつ。')}<p>何を飲もうかな。</p>${vendingDrinks.map(d=>`<div class="list-row"><span><strong>${esc(d.name)}</strong><small>${esc(d.temperature)} · ${yen(d.price)}</small></span>${b('buy-vending','1本買う',d.id)}</div>`).join('')}${outdoorInventory()}`;
+  return `${title(machine.name,'のみものを、ひとつ。')}<p>何を飲もうかな。</p>${vendingDrinks.map(d=>`<div class="list-row"><span><strong>${esc(d.name)}</strong><small>${esc(d.temperature)} · ${yen(d.price)}</small></span>${b('buy-vending','1本買う · 1分',d.id)}</div>`).join('')}${outdoorInventory()}`;
 }
 function recoveryPanel(){
   const bin=recyclingBins.find(b=>b.id===detail),o=state.outdoors;
-  return `${title(bin.name,'缶・ペットボトル専用')}<p>飲み終わった容器を、分けて戻します。家庭ごみや中身のある飲み物は入れないでください。</p>${Object.entries(containerNames).map(([kind,label])=>`<div class="list-row"><span>${label} × ${o.empties[kind]}</span>${o.empties[kind]?b('recycle-container','1個戻す',kind):''}</div>`).join('')}${!o.empties.can&&!o.empties.pet?'<p>戻す空き容器はありません。</p>':''}`;
+  return `${title(bin.name,'缶・ペットボトル専用')}<p>飲み終わった容器を、分けて戻します。家庭ごみや中身のある飲み物は入れないでください。</p>${Object.entries(containerNames).map(([kind,label])=>`<div class="list-row"><span>${label} × ${o.empties[kind]}</span>${o.empties[kind]?b('recycle-container','1個戻す · 1分',kind):''}</div>`).join('')}${!o.empties.can&&!o.empties.pet?'<p>戻す空き容器はありません。</p>':''}`;
 }
 function amenityPanel(){const p=parkUtilities.find(p=>p.id===detail);return `${title(p.name,'公園の設備')}<p>${esc(p.text)}</p>`;}
 function journal() {
